@@ -1,6 +1,5 @@
 # Ambient Noise
-A mobile application built using React Native (tentatively).
-Further details will be made as soon as they are available.
+A mobile app built in React Native which aims to measure noise pollution in real estate.
 
 Interested in contributing?
 * https://code.visualstudio.com/Download
