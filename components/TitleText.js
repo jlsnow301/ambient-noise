@@ -7,7 +7,7 @@ const TitleText = (props) => (
 
 const styles = StyleSheet.create({
   body: {
-    fontFamily: "open-sans-bold",
+    fontFamily: "arial-bold",
     fontSize: 18,
   },
 });
