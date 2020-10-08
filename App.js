@@ -12,7 +12,7 @@ export default function App() {
   const [dataLoaded, setDataLoaded] = useState(false);
 
   // Logic here
-  let content = <BodyText>WIP!</BodyText>;
+  let content = <LoginScreen />;
 
   // Return
   return (
