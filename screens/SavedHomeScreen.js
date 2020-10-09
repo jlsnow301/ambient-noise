@@ -42,6 +42,11 @@ function SavedHomeScreen(props) {
 }
 
 const styles = StyleSheet.create({
+  button: {
+    color: "#0066FF",
+    fontSize: 15,
+    fontWeight: "bold",
+  },
   container: {
     flex: 1,
   },
@@ -64,11 +69,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 0,
     flexDirection: "row",
-  },
-  button: {
-    color: "#0066FF",
-    fontSize: 15,
-    fontWeight: "bold",
   },
   navTitle: {
     fontSize: 24,
