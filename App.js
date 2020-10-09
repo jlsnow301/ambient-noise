@@ -6,6 +6,7 @@ import * as Font from "expo-font";
 import Header from "./components/Header";
 import BodyText from "./components/BodyText";
 import LoginScreen from "./screens/LoginScreen";
+import SavedHomeScreen from "./screens/SavedHomeScreen";
 
 export default function App() {
   // State here
@@ -18,7 +19,8 @@ export default function App() {
   return (
     <View style={styles.screen}>
       <Header title="Ambient Noise" />
-      {content}
+      {/* {content} */}
+      <SavedHomeScreen />
     </View>
   );
 }
