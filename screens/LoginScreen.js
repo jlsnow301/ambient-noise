@@ -28,7 +28,7 @@ const LoginScreen = () => {
     setEnteredPassword("");
   };
 
-  const confirmInputHandler = () => {
+  const loginHandler = () => {
     const email = enteredEmail.toString();
     if (email === "" || email.length < 5) {
       Alert.alert(
@@ -85,12 +85,13 @@ const LoginScreen = () => {
             onChangeText={passwordInputHandler}
             value={enteredPassword}
           />
-            <Button
-              title="Confirm"
-              onPress={confirmInputHandler}
+          <View style={styles.buttonContainer}>
+          <Button
+              title="Login"
+              onPress={loginHandler}
               color={Colors.primary}
             />
-
+            </View>
         </Card>
       </View>
     </TouchableWithoutFeedback>
@@ -113,16 +114,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonContainer: {
-    flexDirection: "row",
     width: "100%",
-    justifyContent: "space-between",
-    paddingHorizontal: 15,
+    alignItems: "center",
+    marginTop: 15,
   },
   button: {
     width: 100,
   },
   input: {
-    width: 50,
+    width: "90%",
     textAlign: "center",
   },
 });
