@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 function NewScreen(props) {
   return (
-
+    
     <View style={styles.container}>
       {/* Top bar */}
       <View style={styles.navBar}>
