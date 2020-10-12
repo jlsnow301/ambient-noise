@@ -15,7 +15,8 @@ export default function App() {
   return (
     <View style={styles.screen}>
       <Header title="Ambient Noise" />
-      {content}
+      {/* {content} */}
+      <SavedHomeScreen />
     </View>
   );
 }
