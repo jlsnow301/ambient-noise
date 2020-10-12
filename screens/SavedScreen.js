@@ -1,8 +1,8 @@
-import React from "react";
-import { StyleSheet, View, Text } from "react-native";
-import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import React from 'react';
+import { StyleSheet, View, Text } from 'react-native';
+import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
-function SavedHomeScreen(props) {
+function SavedScreen(props) {
   return (
     <View style={styles.container}>
       {/* Top bar */}
@@ -43,9 +43,9 @@ function SavedHomeScreen(props) {
 
 const styles = StyleSheet.create({
   button: {
-    color: "#0066FF",
+    color: '#0066FF',
     fontSize: 15,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   container: {
     flex: 1,
@@ -53,43 +53,43 @@ const styles = StyleSheet.create({
   content: {
     height: 70,
     flex: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#ffffff",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
   },
   navBar: {
-    flexDirection: "row",
+    flexDirection: 'row',
     height: 60,
     elevation: 8,
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
   },
   navButton: {
     flex: 1.3,
-    justifyContent: "space-around",
-    alignItems: "center",
+    justifyContent: 'space-around',
+    alignItems: 'center',
     padding: 0,
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   navTitle: {
     fontSize: 24,
-    fontWeight: "600",
+    fontWeight: '600',
   },
   navTitleButton: {
-    justifyContent: "center",
-    alignItems: "flex-start",
+    justifyContent: 'center',
+    alignItems: 'flex-start',
     flex: 3,
     padding: 10,
   },
   tabBar: {
-    flexDirection: "row",
+    flexDirection: 'row',
     height: 50,
-    backgroundColor: "#f2f2f2",
+    backgroundColor: '#f2f2f2',
   },
   tabBarButton: {
     flex: 1,
-    justifyContent: "space-around",
-    alignItems: "center",
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
 });
 
-export default SavedHomeScreen;
+export default SavedScreen;
