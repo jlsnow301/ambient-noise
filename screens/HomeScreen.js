@@ -20,6 +20,10 @@ const HomeScreen = ({ navigation }) => {
         title="Go to Saved Screen"
         onPress={() => navigation.navigate('Saved')}
         />
+        <Button
+        title="Go to Login Screen"
+        onPress={() => navigation.navigate('Login')}
+        />
     </View>
   );
 };
