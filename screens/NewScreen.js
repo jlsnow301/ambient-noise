@@ -1,13 +1,13 @@
 
-import React, { Component } from 'react';
-import { StyleSheet, View, Text } from "react-native";
+import React, { useState, Component } from 'react';
+import { StyleSheet, View, Text, TextInput } from "react-native";
 import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { createStackNavigator } from '@react-navigation/stack';
 
 
-
 function NewScreen(props) {
   return (
+    
     <View style={styles.container}>
       {/* Top bar */}
       <View style={styles.navBar}>
@@ -19,10 +19,18 @@ function NewScreen(props) {
           <Text style={styles.button}>Map</Text>
         </View>
       </View>
-      {/* Content */}
+      <Text style={styles.label}></Text>
+          <Feather name="search" size={25} color="blue" />
+              <TextInput
+                style={styles.text_input}
+                returnKeyType="done"
+                placeholder="Front Squat"
+                length={5}
+                padding ={10}
+              />
       <View style={styles.content}>
-        <Text>wip</Text>
       </View>
+
       {/* Bottom nav */}
       <View style={styles.tabBar}>
         <View style={styles.tabBarButton}>
