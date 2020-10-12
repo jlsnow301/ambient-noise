@@ -20,13 +20,13 @@ function App() {
   return (
     <View style={styles.screen}>
       <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name = "Home" component = {HomeScreen} />
-        <Stack.Screen name = "Login" component = {LoginScreen} />
-        <Stack.Screen name = "Newest" component = {NewScreen} />
-        <Stack.Screen name = "Saved" component = {SavedScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name = "Home" component = {HomeScreen} />
+          <Stack.Screen name = "Login" component = {LoginScreen} />
+          <Stack.Screen name = "Newest" component = {NewScreen} />
+          <Stack.Screen name = "Saved" component = {SavedScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </View>
   );
 }

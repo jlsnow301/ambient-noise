@@ -107,4 +107,4 @@ const styles = StyleSheet.create({
 
 const Stack = createStackNavigator();
 
-export default NewScreen 
+export default NewScreen
