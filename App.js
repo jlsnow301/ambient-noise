@@ -1,11 +1,8 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import * as Font from "expo-font";
-// import { AppLoading } from "expo";
+import { StyleSheet, View } from "react-native";
 
 import Header from "./components/Header";
 import BodyText from "./components/BodyText";
-import LoginScreen from "./screens/LoginScreen";
 
 export default function App() {
   // State here
