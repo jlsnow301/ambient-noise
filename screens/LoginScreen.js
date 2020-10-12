@@ -1,13 +1,11 @@
 import React, {useState} from "react";
-import { StyleSheet, Button, TouchableWithoutFeedback, Alert, Keyboard, View } from "react-native";
+import { StyleSheet, Button, TouchableWithoutFeedback, Alert, Keyboard, View, Divider } from "react-native";
 
 import Card from "../components/Card";
 import Input from "../components/Input";
-import BodyText from "../components/BodyText";
-import TitleText from "../components/TitleText"
-import MainButton from "../components/MainButton";
-import DefaultStyles from "../constants/default-styles";
-import Colors from "../constants/colors"
+import TitleText from "../components/TitleText";
+import LinkButton from "../components/LinkButton";
+import Colors from "../constants/colors";
 
 const LoginScreen = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -53,7 +51,7 @@ const LoginScreen = () => {
             );
             return;
     }
-    setUserInput({})
+    setUserInput("")
     setEnteredPassword("");
     Keyboard.dismiss();
   }
@@ -85,14 +83,18 @@ const LoginScreen = () => {
             onChangeText={passwordInputHandler}
             value={enteredPassword}
           />
-          <View style={styles.buttonContainer}>
           <Button
-              title="Login"
+              title="Continue"
               onPress={loginHandler}
               color={Colors.primary}
             />
-            </View>
         </Card>
+        <View style={styles.lineStyle}/>
+        <View style={styles.buttonContainer}>
+          <LinkButton >Connect With Apple</LinkButton>
+          <LinkButton >Connect With Google</LinkButton>
+          <LinkButton >Connect With Facebook</LinkButton>
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -106,17 +108,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    marginVertical: 10,
+    marginTop: 90,
+    marginBottom: 20,
   },
   inputContainer: {
     width: 300,
     maxWidth: "80%",
     alignItems: "center",
-  },
-  buttonContainer: {
-    width: "100%",
-    alignItems: "center",
-    marginTop: 15,
   },
   button: {
     width: 100,
@@ -124,6 +122,21 @@ const styles = StyleSheet.create({
   input: {
     width: "90%",
     textAlign: "center",
+  },
+  lineStyle: {
+    width: "90%",
+    borderWidth: 1,
+    borderColor: "#808080",
+    margin: 10,
+    marginTop: 30,
+  },
+  buttonContainer: {
+    height: 250,
+    width: 300,
+    alignItems: "stretch",
+    marginTop: 20,
+    justifyContent: "space-evenly"
+
   },
 });
 
