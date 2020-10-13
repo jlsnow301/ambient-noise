@@ -4,7 +4,7 @@ import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { createStackNavigator } from '@react-navigation/stack';
 
 
-function NewScreen(props) {
+function RecentlyAddedScreen(props) {
   return (
     
     <View style={styles.container}>
@@ -107,4 +107,4 @@ const styles = StyleSheet.create({
 
 const Stack = createStackNavigator();
 
-export default NewScreen
+export default RecentlyAddedScreen
