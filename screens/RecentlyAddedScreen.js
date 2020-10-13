@@ -4,7 +4,7 @@ import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { createStackNavigator } from '@react-navigation/stack';
 
 
-function RecentlyAddedScreen(props) {
+const RecentlyAddedScreen = (props) => {
   return (
     
     <View style={styles.container}>
