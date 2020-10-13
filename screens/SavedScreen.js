@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
-function SavedScreen(props) {
+const SavedScreen = () => {
   return (
     <View style={styles.container}>
       {/* Top bar */}
