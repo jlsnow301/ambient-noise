@@ -20,7 +20,6 @@ const Stack = createStackNavigator();
 function App() {
   return (
     <View style={styles.screen}>
-      <LoadScreen/>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Home" component={HomeScreen} />
