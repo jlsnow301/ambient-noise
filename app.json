@@ -17,7 +17,15 @@
       "**/*"
     ],
     "ios": {
+      "config": {
+        "googleMapsApiKey": "AIzaSyAstUaycjfdYFeRhaSYrjEMBmJX9gUBS00"
+      },
       "supportsTablet": true
+    },
+    "android": {
+      "config": {
+        "googleMapsApiKey": "AIzaSyBoEjvy7FDdVOD8PazNeAeHav1uC3KABD4"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
