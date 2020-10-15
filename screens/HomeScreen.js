@@ -8,6 +8,9 @@ import {
 } from "react-native";
 import { SearchBar } from "react-native-elements";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import PlayButton from "../components/PlayButton";
+import RecordButton from "../components/RecordButton";
+
 
 function HomeScreen() {
   const [enteredValue, setEnteredValue] = useState("");
@@ -43,11 +46,11 @@ function HomeScreen() {
           }}
         />
         <View style={styles.geobar}>
-          <SearchBar 
+          <SearchBar
             round
-            containerStyle={{ 
-              backgroundColor: 'transparent', 
-              borderBottomColor: 'transparent', 
+            containerStyle={{
+              backgroundColor: 'transparent',
+              borderBottomColor: 'transparent',
               borderTopColor: 'transparent'
             }}
             placeholder="Type here..."
@@ -57,6 +60,19 @@ function HomeScreen() {
             onSubmitEditing={submitSearchHandler}
           />
         </View>
+
+        <View style={styles.twobtcontainers}>
+          <View style={styles.buttoncontainers}>
+            <PlayButton title="play the sound"
+              onPress={() => navigation.navigate('')}
+            />
+          </View>
+          <View style={styles.buttoncontainers}>
+            <RecordButton title="go to modal screen"
+              onPress={() => navigation.navigate('MyModal')}
+            />
+          </View>
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -65,6 +81,12 @@ function HomeScreen() {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
+  twobtcontainers: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   mapView: {
     position: "absolute",
     top: 0,
@@ -89,8 +111,8 @@ const styles = StyleSheet.create({
     marginTop: "10%",
     width: "80%",
   },
-  containerStyle:{
-    backgroundColor:"#FBFBFB",
+  containerStyle: {
+    backgroundColor: "#FBFBFB",
     borderBottomColor: 'transparent',
     borderTopColor: 'transparent'
   }
