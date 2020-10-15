@@ -72,6 +72,13 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
+  containers: {
+    flexDirection: "row",
+    flex: 1,
+    marginHorizontal: 20,
+    marginTop: 5,
+
+  },
   screen: {
     flex: 1,
     alignItems: "center",
