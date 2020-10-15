@@ -54,6 +54,13 @@ function HomeScreen() {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
+  containers: {
+    flexDirection: "row",
+    flex: 1,
+    marginHorizontal: 20,
+    marginTop: 5,
+
+  },
   screen: {
     flex: 1,
     alignItems: "center",
