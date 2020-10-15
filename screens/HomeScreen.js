@@ -9,8 +9,6 @@ import {
 
 import { SearchBar } from "react-native-elements";
 import RecordButton from "../components/RecordButton";
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import PlayButton from "../components/PlayButton";
 
 
@@ -53,12 +51,16 @@ function HomeScreen({ navigation }) {
           {/* props.search will be the user's submitted search.. I think... */}
 
           <View style={styles.twobtcontainers}>
+            <View style={styles.buttoncontainers}>
             <PlayButton title="play the sound"
               onPress={() => navigation.navigate('')}
             />
+            </View>
+            <View style={styles.buttoncontainers}>
             <RecordButton title="go to modal screen"
               onPress={() => navigation.navigate('MyModal')}
             />
+            </View>
           </View>
 
         </View>
@@ -76,11 +78,12 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   twobtcontainers: {
     flex: 1,
+    padding: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  
+
   buttonContainers: {
     flex: 1,
   },
