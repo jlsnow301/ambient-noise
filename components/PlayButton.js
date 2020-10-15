@@ -1,4 +1,4 @@
-import { FontAwesome } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, TouchableHighlight, TouchableOpacity, TouchableNativeFeedback, TouchableWithoutFeedback, View } from 'react-native';
 
@@ -7,7 +7,7 @@ const PlayButton = (props) => {
         <View style={styles.container}>
             <TouchableOpacity activeOpacity={0.8} onPress={props.onPress}>
                 <View style={styles.button}>
-                    <FontAwesome name="play-circle" size={50} color="primary" />
+                    <AntDesign name="sound" size={40} color="#006AFF" />
                 </View>
             </TouchableOpacity>
         </View>
@@ -17,13 +17,14 @@ const PlayButton = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#ecf0f1',
     },
     button: {
+        padding:10,
+        margin: 5,
+        width:60,
         backgroundColor: 'white',
-        paddingLeft: 5,
-        paddingRight: 5,
-        borderRadius: 50,
+        borderRadius:50,
+        alignItems: "center",
     },
 });
 

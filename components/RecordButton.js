@@ -7,7 +7,7 @@ const RecordButton = (props) => {
         <View style={styles.container}>
             <TouchableOpacity activeOpacity={0.8} onPress={props.onPress}>
                 <View style={styles.button}>
-                    <FontAwesome5 name="microphone" size={40} color="primary" />
+                    <FontAwesome5 name="microphone" size={40} color='#006AFF' />
                 </View>
             </TouchableOpacity>
         </View>
@@ -17,16 +17,15 @@ const RecordButton = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#ecf0f1',
-      },
-      button: {
+    },
+    button: {
+        padding:10,
+        margin: 5,
+        width:60,
         backgroundColor: 'white',
-        paddingLeft:5,
-        paddingRight:5,
-        paddingBottom:5,
-        paddingTop:5,
-        borderRadius: 50,
-      },
+        borderRadius:50,
+        alignItems: "center",
+    },
 });
 
 export default RecordButton;
