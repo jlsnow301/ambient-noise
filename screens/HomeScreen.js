@@ -3,11 +3,13 @@ import { Button, StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { SearchBar } from 'react-native-elements'
+import { Foundation, Entypo, Ionicons } from '@expo/vector-icons'
 
 import Card from "../components/Card";
 import MainButton from "../components/MainButton";
 import BodyText from "../components/BodyText";
 import DefaultStyles from "../constants/default-styles";
+
 
 const HomeScreen = ({ navigation }) => {
   return (
@@ -23,26 +25,46 @@ const HomeScreen = ({ navigation }) => {
 
 
       <View style={styles.navbar}>
-        <Button style={styles.btnIcon}
+        <Foundation 
+          name="magnifying-glass" 
+          size={40} 
+          color="black"
+          style={styles.btnIcon}
           title="Search"
           onPress={() => navigation.navigate('Search')}
-          />
-        <Button style={styles.btnIcon}
+        />
+        <Entypo 
+          name="new" 
+          size={40} 
+          color="black"
+          style={styles.btnIcon}
           title="Recent"
           onPress={() => navigation.navigate('Recent')}
           />
-        <Button style={styles.btnIcon}
+        <Entypo 
+          name="heart" 
+          size={40} 
+          color="black"
+          style={styles.btnIcon}
           title="Saved"
           onPress={() => navigation.navigate('Saved')}
           />
-        <Button style={styles.btnIcon}
+        <Ionicons 
+          name="md-person" 
+          size={40} 
+          color="black"
+          style={styles.btnIcon}
           title="Profile"
           onPress={() => navigation.navigate('Profile')}
           />
-          <Button style={styles.btnIcon}
+        <Ionicons 
+          name="ios-more" 
+          size={45} 
+          color="black"
+          style={styles.btnIcon}
           title="More"
           onPress={() => navigation.navigate('More')}
-          />
+        />
       </View>
     </View>
   );
@@ -54,23 +76,25 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     padding: 10,
-    alignItems: "center",
+    alignItems: 'center',
   },
   navbar: {
     padding: 5,
     backgroundColor: "#d8ebff",
     borderWidth: 1,
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     position: 'absolute',
-    bottom: 15,
-    width: '100%'
+    bottom: 0,
+    width: '100%',
+    padding: 20,
+    alignContent: 'center',
+    flex: 1,
     
   },
   btnIcon: {
-    height: 25,
-    width: 25,
-    flex: 1,
+    height: 45,
+    width: 45,
+    marginHorizontal: 20
   }
 });
