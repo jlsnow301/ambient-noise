@@ -28,7 +28,7 @@ const HomeScreen = ({ navigation }) => {
         <Foundation 
           name="magnifying-glass" 
           size={40} 
-          color="black"
+          color="#5a5a5a"
           style={styles.btnIcon}
           title="Search"
           onPress={() => navigation.navigate('Search')}
@@ -36,7 +36,7 @@ const HomeScreen = ({ navigation }) => {
         <Entypo 
           name="new" 
           size={40} 
-          color="black"
+          color="#5a5a5a"
           style={styles.btnIcon}
           title="Recent"
           onPress={() => navigation.navigate('Recent')}
@@ -44,7 +44,7 @@ const HomeScreen = ({ navigation }) => {
         <Entypo 
           name="heart" 
           size={40} 
-          color="black"
+          color="#5a5a5a"
           style={styles.btnIcon}
           title="Saved"
           onPress={() => navigation.navigate('Saved')}
@@ -52,7 +52,7 @@ const HomeScreen = ({ navigation }) => {
         <Ionicons 
           name="md-person" 
           size={40} 
-          color="black"
+          color="#5a5a5a"
           style={styles.btnIcon}
           title="Profile"
           onPress={() => navigation.navigate('Profile')}
@@ -60,7 +60,7 @@ const HomeScreen = ({ navigation }) => {
         <Ionicons 
           name="ios-more" 
           size={45} 
-          color="black"
+          color="#5a5a5a"
           style={styles.btnIcon}
           title="More"
           onPress={() => navigation.navigate('More')}
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   },
   navbar: {
     padding: 5,
-    backgroundColor: "#d8ebff",
+    backgroundColor: "#e6e6e6",
     borderWidth: 1,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
