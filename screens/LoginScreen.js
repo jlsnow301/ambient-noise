@@ -1,5 +1,12 @@
-import React, {useState} from "react";
-import { StyleSheet, Button, TouchableWithoutFeedback, Alert, Keyboard, View, Divider } from "react-native";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Button,
+  TouchableWithoutFeedback,
+  Alert,
+  Keyboard,
+  View,
+} from "react-native";
 
 import Card from "../components/Card";
 import Input from "../components/Input";
@@ -7,19 +14,19 @@ import TitleText from "../components/TitleText";
 import LinkButton from "../components/LinkButton";
 import Colors from "../constants/colors";
 
-const LoginScreen = () => {
+function LoginScreen() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
-  const [userInput, setUserInput] = ("");
+  const [userInput, setUserInput] = "";
 
   const emailInputHandler = (value) => {
     setEnteredEmail(value);
-  }
+  };
 
   const passwordInputHandler = (value) => {
     setEnteredPassword(value);
-  }
+  };
 
   const resetInputHandler = () => {
     setEnteredEmail("");
@@ -29,32 +36,30 @@ const LoginScreen = () => {
   const loginHandler = () => {
     const email = enteredEmail.toString();
     if (email === "" || email.length < 5) {
-      Alert.alert(
-        "Invalid Email!",
-        "You must type in an email address.",
-        [{text: "Okay", style: "destructive", onPress: resetInputHandler}]
-      )
+      Alert.alert("Invalid Email!", "You must type in an email address.", [
+        { text: "Okay", style: "destructive", onPress: resetInputHandler },
+      ]);
       return;
     }
     const password = enteredPassword.toString();
     if (password === "" || password.length < 5) {
-            Alert.alert(
-              "Invalid Password!",
-              "You must type in a password. Minimum 5 characters.",
-              [
-                {
-                  text: "Okay",
-                  style: "destructive",
-                  onPress: resetInputHandler,
-                },
-              ]
-            );
-            return;
+      Alert.alert(
+        "Invalid Password!",
+        "You must type in a password. Minimum 5 characters.",
+        [
+          {
+            text: "Okay",
+            style: "destructive",
+            onPress: resetInputHandler,
+          },
+        ]
+      );
+      return;
     }
-    setUserInput("")
+    setUserInput("");
     setEnteredPassword("");
     Keyboard.dismiss();
-  }
+  };
 
   return (
     <TouchableWithoutFeedback
@@ -84,21 +89,21 @@ const LoginScreen = () => {
             value={enteredPassword}
           />
           <Button
-              title="Continue"
-              onPress={loginHandler}
-              color={Colors.primary}
-            />
+            title="Continue"
+            onPress={loginHandler}
+            color={Colors.primary}
+          />
         </Card>
-        <View style={styles.lineStyle}/>
+        <View style={styles.lineStyle} />
         <View style={styles.buttonContainer}>
-          <LinkButton >Connect With Apple</LinkButton>
-          <LinkButton >Connect With Google</LinkButton>
-          <LinkButton >Connect With Facebook</LinkButton>
+          <LinkButton>Connect With Apple</LinkButton>
+          <LinkButton>Connect With Google</LinkButton>
+          <LinkButton>Connect With Facebook</LinkButton>
         </View>
       </View>
     </TouchableWithoutFeedback>
   );
-};
+}
 
 const styles = StyleSheet.create({
   screen: {
@@ -135,8 +140,7 @@ const styles = StyleSheet.create({
     width: 300,
     alignItems: "stretch",
     marginTop: 20,
-    justifyContent: "space-evenly"
-
+    justifyContent: "space-evenly",
   },
 });
 
