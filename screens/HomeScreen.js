@@ -1,100 +1,65 @@
-import * as React from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { SearchBar } from 'react-native-elements'
-import { Foundation, Entypo, Ionicons } from '@expo/vector-icons'
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  View,
+  TouchableWithoutFeedback,
+  Alert,
+  Keyboard,
+} from "react-native";
 
-import Card from "../components/Card";
-import MainButton from "../components/MainButton";
-import BodyText from "../components/BodyText";
-import DefaultStyles from "../constants/default-styles";
+import { SearchBar } from "react-native-elements";
 
+function HomeScreen() {
+  const [enteredValue, setEnteredValue] = useState("");
+  const [confirmedSearch, setConfirmedSearch] = useState("");
 
-const HomeScreen = ({ navigation }) => {
+  const searchInputHandler = (value) => {
+    setEnteredValue(value);
+  };
+
+  const clearSearchHandler = () => {
+    setEnteredValue("");
+  };
+
+  const submitSearchHandler = () => {
+    setConfirmedSearch(enteredValue);
+  };
+
   return (
-    <View style={{ flex: 1}}>
-
-      <View style={styles.geobar}>
-        <SearchBar placeholder="Type here..."/>
-        {/* https://reactnativeelements.com/docs/searchbar/ */}
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+      }}
+    >
+      <View style={styles.screen}>
+        <View style={styles.geobar}>
+          <SearchBar
+            placeholder="Type here..."
+            onChangeText={searchInputHandler}
+            onClear={clearSearchHandler}
+            value={enteredValue}
+            onSubmitEditing={submitSearchHandler}
+          />
+        </View>
+        <View>
+          {/* MAP GOES HERE. JUST MAKE IT A COMPONENT*/}
+          {/* <MapOverlay search={enteredValue}/> */}
+          {/* props.search will be the user's submitted search.. I think... */}
+        </View>
       </View>
-
-
-
-
-
-      <View style={styles.navbar}>
-        <Foundation 
-          name="magnifying-glass" 
-          size={40} 
-          color="#5a5a5a"
-          style={styles.btnIcon}
-          title="Search"
-          onPress={() => navigation.navigate('Search')}
-        />
-        <Entypo 
-          name="new" 
-          size={40} 
-          color="#5a5a5a"
-          style={styles.btnIcon}
-          title="Recent"
-          onPress={() => navigation.navigate('Recent')}
-          />
-        <Entypo 
-          name="heart" 
-          size={40} 
-          color="#5a5a5a"
-          style={styles.btnIcon}
-          title="Saved"
-          onPress={() => navigation.navigate('Saved')}
-          />
-        <Ionicons 
-          name="md-person" 
-          size={40} 
-          color="#5a5a5a"
-          style={styles.btnIcon}
-          title="Profile"
-          onPress={() => navigation.navigate('Profile')}
-          />
-        <Ionicons 
-          name="ios-more" 
-          size={45} 
-          color="#5a5a5a"
-          style={styles.btnIcon}
-          title="More"
-          onPress={() => navigation.navigate('More')}
-        />
-      </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
-};
+}
 
 export default HomeScreen;
 
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    padding: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
-  navbar: {
-    padding: 5,
-    backgroundColor: "#e6e6e6",
-    borderWidth: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    padding: 20,
-    alignContent: 'center',
-    flex: 1,
-    
+  geobar: {
+    marginTop: "10%",
+    width: "80%",
   },
-  btnIcon: {
-    height: 45,
-    width: 45,
-    marginHorizontal: 20
-  }
 });

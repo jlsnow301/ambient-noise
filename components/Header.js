@@ -15,8 +15,8 @@ const Header = (props) => {
 const styles = StyleSheet.create({
   header: {
     width: "100%",
-    height: 90,
-    paddingTop: 36,
+    paddingTop: 3,
+    height: "3%",
     backgroundColor: Colors.primary,
     alignItems: "center",
   },

@@ -1,41 +1,17 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import * as Font from 'expo-font';
-// import { AppLoading } from "expo";
-import { enableScreens } from 'react-native-screens';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import LoadScreen from './screens/LoadScreen';
-enableScreens();
+import React from "react";
+import { StyleSheet } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
 
-import Header from './components/Header';
-import BodyText from './components/BodyText';
-import LoginScreen from './screens/LoginScreen';
-import SavedScreen from './screens/SavedScreen';
-import RecentlyAddedScreen from './screens/RecentlyAddedScreen';
-import HomeScreen from './screens/HomeScreen';
-
-const Stack = createStackNavigator();
+import NavBar from "./components/NavBar";
 
 function App() {
   return (
-    <View style={styles.screen}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Newest" component={RecentlyAddedScreen} />
-          <Stack.Screen name="Saved" component={SavedScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </View>
+    <NavigationContainer>
+      <NavBar />
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-  },
-});
+const styles = StyleSheet.create({});
 
 export default App;

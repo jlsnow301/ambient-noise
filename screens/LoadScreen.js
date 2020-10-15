@@ -1,19 +1,21 @@
-import React from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
+import React from "react";
+import { StyleSheet, Text, View, Image } from "react-native";
 
-
-
-const LoadScreen = () => {
+function LoadScreen() {
   return (
     <View style={styles.screen}>
       <View style={styles.imageContainer}>
-      <Image source={require("../assets/logo.png")} style={styles.image} resizeMode="cover" />
+        <Image
+          source={require("../assets/logo.png")}
+          style={styles.image}
+          resizeMode="cover"
+        />
       </View>
     </View>
-  )
+  );
 }
 
-export default LoadScreen
+export default LoadScreen;
 
 const styles = StyleSheet.create({
   screen: {
@@ -34,6 +36,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
-})
+});
 
 // rnfes

@@ -1,12 +1,10 @@
-import React, { useState, Component } from 'react';
+import React from "react";
 import { StyleSheet, View, Text, TextInput } from "react-native";
 import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator } from "@react-navigation/stack";
 
-
-const RecentlyAddedScreen = (props) => {
+function RecentlyAddedScreen(props) {
   return (
-    
     <View style={styles.container}>
       {/* Top bar */}
       <View style={styles.navBar}>
@@ -19,18 +17,17 @@ const RecentlyAddedScreen = (props) => {
         </View>
       </View>
       <Text style={styles.label}></Text>
-          <Feather name="search" size={25} color="blue" />
-              <TextInput
-                style={styles.text_input}
-                returnKeyType="done"
-                placeholder="Front Squat"
-                length={5}
-                padding ={10}
-              />
-      <View style={styles.content}>
-      </View>
+      <Feather name="search" size={25} color="blue" />
+      <TextInput
+        style={styles.text_input}
+        returnKeyType="done"
+        placeholder="Front Squat"
+        length={5}
+        padding={10}
+      />
+      <View style={styles.content}></View>
 
-      {/* Bottom nav */}
+      {/* Bottom nav
       <View style={styles.tabBar}>
         <View style={styles.tabBarButton}>
           <Feather name="search" size={30} color="black" />
@@ -47,12 +44,11 @@ const RecentlyAddedScreen = (props) => {
         <View style={styles.tabBarButton}>
           <Feather name="more-vertical" size={30} color="black" />
         </View>
-      </View>
+      </View> */}
     </View>
   );
 }
-
-
+export default RecentlyAddedScreen;
 
 const styles = StyleSheet.create({
   button: {
@@ -104,7 +100,3 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-
-const Stack = createStackNavigator();
-
-export default RecentlyAddedScreen
