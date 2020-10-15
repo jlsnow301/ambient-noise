@@ -54,11 +54,13 @@ function HomeScreen() {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
+  buttonContainers: {
+    flex: 1,
+  },
   containers: {
     flexDirection: "row",
     flex: 1,
-    marginHorizontal: 20,
-    marginTop: 5,
+    justifyContent: 'center',
 
   },
   screen: {
