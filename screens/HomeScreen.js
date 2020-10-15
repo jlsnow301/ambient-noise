@@ -72,11 +72,13 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
+  buttonContainers: {
+    flex: 1,
+  },
   containers: {
     flexDirection: "row",
     flex: 1,
-    marginHorizontal: 20,
-    marginTop: 5,
+    justifyContent: 'center',
 
   },
   screen: {

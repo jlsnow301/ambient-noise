@@ -5,9 +5,9 @@ import { Platform, StyleSheet, Text, TouchableHighlight, TouchableOpacity, Touch
 const RecordButton = (props) => {
     return (
         <View style={styles.container}>
-            <TouchableOpacity activeOpacity={0.6} onPress={props.onPress}>
+            <TouchableOpacity activeOpacity={0.8} onPress={props.onPress}>
                 <View style={styles.button}>
-                    <FontAwesome5 name="microphone" size={40} color="#0277bd" />
+                    <FontAwesome5 name="microphone" size={40} color="primary" />
                 </View>
             </TouchableOpacity>
         </View>
