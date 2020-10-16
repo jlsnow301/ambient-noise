@@ -7,7 +7,7 @@ import {
   Keyboard,
 } from "react-native";
 import { SearchBar } from "react-native-elements";
-import  MapView, {PROVIDER_GOOGLE}  from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 
 function HomeScreen() {
   const [enteredValue, setEnteredValue] = useState("");
@@ -39,7 +39,7 @@ function HomeScreen() {
             latitude: 47.608013,
             longitude: -122.335167,
             latitudeDelta: 0.07,
-            longitudeDelta: 0.07
+            longitudeDelta: 0.07,
           }}
         />
         <View style={styles.geobar}>
@@ -51,11 +51,6 @@ function HomeScreen() {
             onSubmitEditing={submitSearchHandler}
           />
         </View>
-        <View>
-          {/* MAP GOES HERE. JUST MAKE IT A COMPONENT*/}
-          {/* <MapOverlay search={enteredValue}/> */}
-          {/* props.search will be the user's submitted search.. I think... */}
-        </View>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -65,7 +60,7 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   mapView: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     bottom: 0,
     left: 0,
@@ -78,5 +73,5 @@ const styles = StyleSheet.create({
   geobar: {
     marginTop: "10%",
     width: "80%",
-  }
+  },
 });
