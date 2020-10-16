@@ -1,6 +1,6 @@
 import { AntDesign } from '@expo/vector-icons';
-import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, TouchableHighlight, TouchableOpacity, TouchableNativeFeedback, TouchableWithoutFeedback, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, TouchableOpacity,  View } from 'react-native';
 
 const PlayButton = (props) => {
     return (
