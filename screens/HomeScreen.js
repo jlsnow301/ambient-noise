@@ -43,7 +43,13 @@ function HomeScreen() {
           }}
         />
         <View style={styles.geobar}>
-          <SearchBar
+          <SearchBar 
+            round
+            containerStyle={{ 
+              backgroundColor: 'transparent', 
+              borderBottomColor: 'transparent', 
+              borderTopColor: 'transparent'
+            }}
             placeholder="Type here..."
             onChangeText={searchInputHandler}
             onClear={clearSearchHandler}
@@ -74,4 +80,9 @@ const styles = StyleSheet.create({
     marginTop: "10%",
     width: "80%",
   },
+  containerStyle:{
+    backgroundColor:"#FBFBFB",
+    borderBottomColor: 'transparent',
+    borderTopColor: 'transparent'
+  }
 });
