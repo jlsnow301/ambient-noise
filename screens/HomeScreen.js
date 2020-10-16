@@ -8,8 +8,6 @@ import {
 } from "react-native";
 import { SearchBar } from "react-native-elements";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-import PlayButton from "../components/PlayButton";
-import RecordButton from "../components/RecordButton";
 
 
 function HomeScreen() {
@@ -81,15 +79,6 @@ function HomeScreen() {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  twobtcontainers: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    alignContent: 'space-between',
-    bottom:0,
-  },
   mapView: {
     position: "absolute",
     top: 0,
