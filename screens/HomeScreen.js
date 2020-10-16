@@ -58,19 +58,6 @@ function HomeScreen() {
             onSubmitEditing={submitSearchHandler}
           />
         </View>
-
-        <View style={styles.twobtcontainers}>
-          <View style={styles.buttoncontainers}>
-            <PlayButton title="play the sound"
-              onPress={() => navigation.navigate('')}
-            />
-          </View>
-          <View style={styles.buttoncontainers}>
-            <RecordButton title="go to modal screen"
-              onPress={() => navigation.navigate('MyModal')}
-            />
-          </View>
-        </View>
       </View>
     </TouchableWithoutFeedback>
   );
