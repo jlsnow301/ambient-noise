@@ -86,6 +86,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    position: 'absolute',
+    alignContent: 'space-between',
+    bottom:0,
   },
   mapView: {
     position: "absolute",
