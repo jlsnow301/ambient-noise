@@ -13,3 +13,4 @@ web-build/
 .DS_Store
 node_modules
 $APPDATA/npm
+$APPDATA
