@@ -9,6 +9,7 @@ import {
 import { SearchBar } from "react-native-elements";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 
+
 function HomeScreen() {
   const [enteredValue, setEnteredValue] = useState("");
   const [confirmedSearch, setConfirmedSearch] = useState("");
@@ -43,11 +44,11 @@ function HomeScreen() {
           }}
         />
         <View style={styles.geobar}>
-          <SearchBar 
+          <SearchBar
             round
-            containerStyle={{ 
-              backgroundColor: 'transparent', 
-              borderBottomColor: 'transparent', 
+            containerStyle={{
+              backgroundColor: 'transparent',
+              borderBottomColor: 'transparent',
               borderTopColor: 'transparent'
             }}
             placeholder="Type here..."
@@ -72,6 +73,15 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
+  buttonContainers: {
+    flex: 1,
+  },
+  containers: {
+    flexDirection: "row",
+    flex: 1,
+    justifyContent: 'center',
+
+  },
   screen: {
     flex: 1,
     alignItems: "center",
@@ -80,8 +90,8 @@ const styles = StyleSheet.create({
     marginTop: "10%",
     width: "80%",
   },
-  containerStyle:{
-    backgroundColor:"#FBFBFB",
+  containerStyle: {
+    backgroundColor: "#FBFBFB",
     borderBottomColor: 'transparent',
     borderTopColor: 'transparent'
   }
