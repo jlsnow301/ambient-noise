@@ -1,6 +1,11 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 
+/* Creates a square card component.
+   Usage: <Card style={styles.override}>Content</Card>
+   Where styles.override: You can change the style here. Ex:
+   <Card style={{borderColor: "red"}}>Content</Card> */
+
 const Card = (props) => {
   return (
     <View style={{ ...styles.card, ...props.style }}>{props.children}</View>

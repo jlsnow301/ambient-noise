@@ -1,94 +1,114 @@
-import React from "react";
-import { StyleSheet, View, Text } from "react-native";
-import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  View,
+  TouchableWithoutFeedback,
+  Keyboard,
+  FlatList,
+  Text,
+  TouchableOpacity,
+} from "react-native";
+import { Entypo } from "@expo/vector-icons";
 
-function SavedScreen() {
+import Header from "../components/Header";
+import PlaceItem from "../components/PlaceItem";
+import DetailsModal from "../components/DetailsModal";
+
+function SavedScreen(props) {
+  const [savedPlaces, setSavedPlaces] = useState([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalContent, setModalContent] = useState();
+
+  // User chooses to delete one of their saved entries.
+  // This must be passed into the modal content.
+  // Currently unused.
+  const removeSavedHandler = (placeId) => {
+    console.log(`TO BE DELETED: ${placeId}`);
+    console.log(savedPlaces);
+    setCourseGoals((currentSaved) => {
+      return currentSaved.filter((place) => place.id !== placeId);
+    });
+  };
+
+  // User clicks on one of the items for details.
+  // Opens a modal window.
+  const showDetailsHandler = (place) => {
+    Keyboard.dismiss();
+    setModalContent(
+      <View style={{ alignItems: "center" }}>
+        <Text>{place.item.title}</Text>
+        <Text>Added On: {place.item.date}</Text>
+      </View>
+    );
+    setModalIsOpen(true);
+  };
+
+  // User hits the x on the modal.
+  const onCloseHandler = () => {
+    setModalIsOpen(false);
+  };
+
+  // Initially retrieves the database. Currently
+  // Going nowhere.
+  useEffect(() => {
+    const getSavedPlaces = () => {
+      console.log("Retrieving saved places...");
+      const savedData = "server call";
+      return savedData;
+    };
+    setSavedPlaces((currentList) => [
+      ...currentList,
+      {
+        //This is a test place. It adds in every render.
+        id: Math.random().toString(),
+        title: "8801 Aurora Ave",
+        date: "10/18/2020",
+      },
+    ]);
+  }, []);
+
   return (
-    <View style={styles.container}>
-      {/* Top bar */}
-      <View style={styles.navBar}>
-        <View style={styles.navTitleButton}>
-          <Text style={styles.navTitle}>Saved homes</Text>
-        </View>
-        <View style={styles.navButton}>
-          <Text style={styles.button}>Sharing</Text>
-          <Text style={styles.button}>Map</Text>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+      }}
+    >
+      <View style={styles.screen}>
+        <Header>Saved Places</Header>
+        <View style={styles.content}>
+          <DetailsModal visible={modalIsOpen} onClose={onCloseHandler}>
+            {modalContent}
+          </DetailsModal>
+          <FlatList
+            keyExtractor={(item) => item.id}
+            data={savedPlaces}
+            renderItem={(placeData) => (
+              <TouchableOpacity onPress={() => showDetailsHandler(placeData)}>
+                <PlaceItem
+                  id={placeData.item.id}
+                  title={placeData.item.title}
+                  date={placeData.item.date}
+                  icon={<Entypo name="heart" size={22} />}
+                />
+              </TouchableOpacity>
+            )}
+          />
         </View>
       </View>
-      {/* Content */}
-      <View style={styles.content}>
-        <Text>wip</Text>
-      </View>
-      {/* Bottom nav
-      <View style={styles.tabBar}>
-        <View style={styles.tabBarButton}>
-          <Feather name="search" size={30} color="black" />
-        </View>
-        <View style={styles.tabBarButton}>
-          <MaterialCommunityIcons name="new-box" size={30} color="black" />
-        </View>
-        <View style={styles.tabBarButton}>
-          <Ionicons name="ios-heart-empty" size={30} color="black" />
-        </View>
-        <View style={styles.tabBarButton}>
-          <Feather name="home" size={30} color="black" />
-        </View>
-        <View style={styles.tabBarButton}>
-          <Feather name="more-vertical" size={30} color="black" />
-        </View>
-      </View> */}
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
-  button: {
-    color: "#0066FF",
-    fontSize: 15,
-    fontWeight: "bold",
-  },
-  container: {
+  screen: {
     flex: 1,
   },
   content: {
-    height: 70,
-    flex: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#ffffff",
-  },
-  navBar: {
-    flexDirection: "row",
-    height: 60,
-    elevation: 8,
-    backgroundColor: "#ffffff",
-  },
-  navButton: {
-    flex: 1.3,
-    justifyContent: "space-around",
-    alignItems: "center",
-    padding: 0,
-    flexDirection: "row",
-  },
-  navTitle: {
-    fontSize: 24,
-    fontWeight: "600",
-  },
-  navTitleButton: {
-    justifyContent: "center",
-    alignItems: "flex-start",
-    flex: 3,
-    padding: 10,
-  },
-  tabBar: {
-    flexDirection: "row",
-    height: 50,
-    backgroundColor: "#f2f2f2",
-  },
-  tabBarButton: {
-    flex: 1,
-    justifyContent: "space-around",
-    alignItems: "center",
+    marginTop: 10,
+    paddingHorizontal: 20,
+    maxHeight: "85%",
+    minWidth: 400,
+    maxWidth: "95%",
   },
 });
 

@@ -7,6 +7,7 @@ import NavBar from "./components/NavBar";
 function App() {
   return (
     <NavigationContainer>
+      {/*This ensures that the navbar is loaded on every screen. */}
       <NavBar />
     </NavigationContainer>
   );

@@ -1,6 +1,9 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 
+/* This could be displayed as the app first loads up or is paused. 
+   This screen is effectively on hold for now */
+
 function LoadScreen() {
   return (
     <View style={styles.screen}>
