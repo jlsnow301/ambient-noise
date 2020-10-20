@@ -1,24 +1,40 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 
 import Colors from "../constants/colors";
+import AccentButton from "../components/AccentButton";
 import TitleText from "../components/TitleText";
 
 const Header = (props) => {
   return (
     <View style={styles.header}>
-      <TitleText>{props.title}</TitleText>
+      <View style={styles.items}>
+        <TitleText>{props.children}</TitleText>
+        <View style={{ flex: 1 }} />
+        <View style={styles.buttonContainer}>
+          <AccentButton>Sharing</AccentButton>
+          <AccentButton>Map</AccentButton>
+        </View>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   header: {
-    width: "100%",
-    paddingTop: 3,
-    height: "3%",
+    elevation: 8,
     backgroundColor: Colors.primary,
-    alignItems: "center",
+  },
+  items: {
+    margin: 10,
+    marginTop: 25,
+    flexDirection: "row",
+  },
+  buttonContainer: {
+    width: "40%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: 5,
   },
 });
 

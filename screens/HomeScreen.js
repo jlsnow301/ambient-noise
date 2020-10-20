@@ -3,16 +3,15 @@ import {
   StyleSheet,
   View,
   TouchableWithoutFeedback,
-  Alert,
   Keyboard,
 } from "react-native";
 import { SearchBar } from "react-native-elements";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 
+import MapOverlay from "../components/MapOverlay";
 
-function HomeScreen() {
+function HomeScreen(props) {
   const [enteredValue, setEnteredValue] = useState("");
-  const [confirmedSearch, setConfirmedSearch] = useState("");
+  const [searchRegion, setSearchRegion] = useState("");
 
   const searchInputHandler = (value) => {
     setEnteredValue(value);
@@ -23,7 +22,7 @@ function HomeScreen() {
   };
 
   const submitSearchHandler = () => {
-    setConfirmedSearch(enteredValue);
+    setSearchRegion(enteredValue);
   };
 
   return (
@@ -33,23 +32,14 @@ function HomeScreen() {
       }}
     >
       <View style={styles.screen}>
-        <MapView
-          style={styles.mapView}
-          provider={PROVIDER_GOOGLE}
-          initialRegion={{
-            latitude: 47.608013,
-            longitude: -122.335167,
-            latitudeDelta: 0.07,
-            longitudeDelta: 0.07,
-          }}
-        />
+        <MapOverlay query={searchRegion} />
         <View style={styles.geobar}>
           <SearchBar
             round
             containerStyle={{
-              backgroundColor: 'transparent',
-              borderBottomColor: 'transparent',
-              borderTopColor: 'transparent'
+              backgroundColor: "transparent",
+              borderBottomColor: "transparent",
+              borderTopColor: "transparent",
             }}
             placeholder="Type here..."
             onChangeText={searchInputHandler}
@@ -66,33 +56,13 @@ function HomeScreen() {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  mapView: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-  buttonContainers: {
-    flex: 1,
-  },
-  containers: {
-    flexDirection: "row",
-    flex: 1,
-    justifyContent: 'center',
-
-  },
   screen: {
     flex: 1,
     alignItems: "center",
   },
   geobar: {
+    position: "absolute",
     marginTop: "10%",
     width: "80%",
   },
-  containerStyle: {
-    backgroundColor: "#FBFBFB",
-    borderBottomColor: 'transparent',
-    borderTopColor: 'transparent'
-  }
 });

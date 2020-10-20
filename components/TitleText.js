@@ -6,9 +6,9 @@ const TitleText = (props) => (
 );
 
 const styles = StyleSheet.create({
-  body: {
-    fontFamily: "arial-bold",
-    fontSize: 18,
+  title: {
+    fontSize: 26,
+    color: "white",
   },
 });
 

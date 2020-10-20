@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: 90,
     marginBottom: 20,
+    color: "black",
   },
   inputContainer: {
     width: 300,
