@@ -5,6 +5,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   FlatList,
+  Text,
   TouchableOpacity,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
@@ -16,6 +17,7 @@ import DetailsModal from "../components/DetailsModal";
 function RecentlyAddedScreen(props) {
   const [recentlyAdded, setRecentlyAdded] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalContent, setModalContent] = useState();
 
   let icon;
   let day = new Date();
@@ -26,10 +28,17 @@ function RecentlyAddedScreen(props) {
     icon = <Entypo name="new" size={22} />;
   }
   const showDetailsHandler = (place) => {
+    Keyboard.dismiss();
+    setModalContent(
+      <View style={{ alignItems: "center" }}>
+        <Text>{place.item.title}</Text>
+        <Text>Added On: {place.item.date}</Text>
+      </View>
+    );
     setModalIsOpen(true);
-    <DetailsModal visible={modalIsOpen} data={place}>
-      Hello
-    </DetailsModal>;
+  };
+  const onCloseHandler = () => {
+    setModalIsOpen(false);
   };
 
   useEffect(() => {
@@ -58,11 +67,14 @@ function RecentlyAddedScreen(props) {
       <View style={styles.screen}>
         <Header>Recently Added</Header>
         <View style={styles.content}>
+          <DetailsModal visible={modalIsOpen} onClose={onCloseHandler}>
+            {modalContent}
+          </DetailsModal>
           <FlatList
             keyExtractor={(item) => item.id}
             data={recentlyAdded}
             renderItem={(placeData) => (
-              <TouchableOpacity onPress={showDetailsHandler(placeData)}>
+              <TouchableOpacity onPress={() => showDetailsHandler(placeData)}>
                 <PlaceItem
                   id={placeData.item.id}
                   title={placeData.item.title}

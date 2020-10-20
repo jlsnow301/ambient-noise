@@ -5,6 +5,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   FlatList,
+  Text,
   TouchableOpacity,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
@@ -16,6 +17,7 @@ import DetailsModal from "../components/DetailsModal";
 function SavedScreen(props) {
   const [savedPlaces, setSavedPlaces] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalContent, setModalContent] = useState();
 
   const removeSavedHandler = (placeId) => {
     console.log(`TO BE DELETED: ${placeId}`);
@@ -26,8 +28,17 @@ function SavedScreen(props) {
   };
 
   const showDetailsHandler = (place) => {
-    setModalIsOpen((currentVisibility) => !currentVisibility);
-    <DetailsModal visible={modalIsOpen} data={place} />;
+    Keyboard.dismiss();
+    setModalContent(
+      <View style={{ alignItems: "center" }}>
+        <Text>{place.item.title}</Text>
+        <Text>Added On: {place.item.date}</Text>
+      </View>
+    );
+    setModalIsOpen(true);
+  };
+  const onCloseHandler = () => {
+    setModalIsOpen(false);
   };
 
   //Testing
@@ -57,11 +68,14 @@ function SavedScreen(props) {
       <View style={styles.screen}>
         <Header>Saved Places</Header>
         <View style={styles.content}>
+          <DetailsModal visible={modalIsOpen} onClose={onCloseHandler}>
+            {modalContent}
+          </DetailsModal>
           <FlatList
             keyExtractor={(item) => item.id}
             data={savedPlaces}
             renderItem={(placeData) => (
-              <TouchableOpacity onPress={showDetailsHandler(placeData)}>
+              <TouchableOpacity onPress={() => showDetailsHandler(placeData)}>
                 <PlaceItem
                   id={placeData.item.id}
                   title={placeData.item.title}
