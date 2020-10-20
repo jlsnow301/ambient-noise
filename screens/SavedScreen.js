@@ -19,6 +19,9 @@ function SavedScreen(props) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState();
 
+  // User chooses to delete one of their saved entries.
+  // This must be passed into the modal content.
+  // Currently unused.
   const removeSavedHandler = (placeId) => {
     console.log(`TO BE DELETED: ${placeId}`);
     console.log(savedPlaces);
@@ -27,6 +30,8 @@ function SavedScreen(props) {
     });
   };
 
+  // User clicks on one of the items for details.
+  // Opens a modal window.
   const showDetailsHandler = (place) => {
     Keyboard.dismiss();
     setModalContent(
@@ -37,21 +42,24 @@ function SavedScreen(props) {
     );
     setModalIsOpen(true);
   };
+
+  // User hits the x on the modal.
   const onCloseHandler = () => {
     setModalIsOpen(false);
   };
 
-  //Testing
+  // Initially retrieves the database. Currently
+  // Going nowhere.
   useEffect(() => {
     const getSavedPlaces = () => {
       console.log("Retrieving saved places...");
       const savedData = "server call";
       return savedData;
     };
-    // testing
     setSavedPlaces((currentList) => [
       ...currentList,
       {
+        //This is a test place. It adds in every render.
         id: Math.random().toString(),
         title: "8801 Aurora Ave",
         date: "10/18/2020",
@@ -80,7 +88,6 @@ function SavedScreen(props) {
                   id={placeData.item.id}
                   title={placeData.item.title}
                   date={placeData.item.date}
-                  onDelete={removeSavedHandler}
                   icon={<Entypo name="heart" size={22} />}
                 />
               </TouchableOpacity>

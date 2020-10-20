@@ -12,6 +12,12 @@ import RecentlyAddedScreen from "../screens/RecentlyAddedScreen";
 
 import Colors from "../constants/colors";
 
+/* Bottom navigator component. Note that all linked screens must be
+   in function WhateverScreen() {} format.
+   This will not render functional component ie const WhateverScreen = () => {}
+   To create new links, add a <Tab.Screen/>
+   */
+
 const Tab = createBottomTabNavigator();
 
 function NavBar() {

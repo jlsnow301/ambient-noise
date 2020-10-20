@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import Geocode from "react-geocode";
+
+/* A component which renders a map using Google API.
+   Usage: <MapOverlay style={styles.map} coordinates={coordinates}/>
+   The coordinates prop accepts only latitude and longitude, currently,
+   which can be retrieved from the google API at response.results[0].geometry.location.
+   Note that this does not return deltas, which is required for the MapView component,
+   but they can be manually calculated or entered. */
 
 const MapOverlay = (props) => {
   const [currentRegion, setCurrentRegion] = useState({
@@ -11,6 +18,8 @@ const MapOverlay = (props) => {
     longitudeDelta: 0.07,
   });
 
+  // I am using my own here because the other does not have geolocation activated.
+  // Please activate these in the developer console @ google maps api
   Geocode.setApiKey("AIzaSyBcvyw8T_imdM9Iy33MuiGtcNUcqAOqeIE");
 
   useEffect(() => {

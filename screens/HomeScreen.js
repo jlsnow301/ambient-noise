@@ -16,14 +16,17 @@ function HomeScreen(props) {
   const [enteredValue, setEnteredValue] = useState("");
   const [coordinates, setCoordinates] = useState("");
 
+  // Changes what is displayed as the user types
   const searchInputHandler = (value) => {
     setEnteredValue(value);
   };
 
+  // Clears the value when the user hits x
   const clearSearchHandler = () => {
     setEnteredValue("");
   };
 
+  // Searches coordinates when the user hits the SUBMIT key on the keyboard.
   const submitSearchHandler = () => {
     console.log(`Searching for ${enteredValue}`);
     setIsLoading(true);
@@ -48,6 +51,7 @@ function HomeScreen(props) {
       }}
     >
       <View style={styles.screen}>
+        {/*While searching for coordinates, display a spinner screen */}
         {isLoading ? (
           <ActivityIndicator size={"large"} />
         ) : (

@@ -20,19 +20,24 @@ function LoginScreen() {
   const [enteredPassword, setEnteredPassword] = useState("");
   const [userInput, setUserInput] = "";
 
+  // Changes what is displayed as the user types
   const emailInputHandler = (value) => {
     setEnteredEmail(value);
   };
 
+  // Changes what is displayed as the user types
   const passwordInputHandler = (value) => {
     setEnteredPassword(value);
   };
 
+  // Clears the displayed values
   const resetInputHandler = () => {
     setEnteredEmail("");
     setEnteredPassword("");
   };
 
+  // User hits submit. Validated, then entered.
+  // Currently leading to nowhere.
   const loginHandler = () => {
     const email = enteredEmail.toString();
     if (email === "" || email.length < 5) {

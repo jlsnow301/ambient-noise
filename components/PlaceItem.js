@@ -1,5 +1,10 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Modal } from "react-native";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+
+/* A squared card to display places in the Saved and Recent Flatlists.
+   Usage: <PlaceItem OPTIONAL PROPS title={title} date={date} icon={icon}/>
+   Where OPTIONAL PROPS: You can add in anything else you'd like to pass on.
+   */
 
 const PlaceItem = (props) => {
   return (

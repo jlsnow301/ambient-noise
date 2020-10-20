@@ -3,6 +3,10 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 import Colors from "../constants/colors";
 
+/* Creates a small rounded button using the accent colors.
+ Usage: <AccentButton onPress={onPressHandler}>Text</AccentButton>
+ You must make the onPress function outside this component */
+
 const AccentButton = (props) => {
   return (
     <TouchableOpacity activeOpacity={0.6} onPress={props.onPress}>
