@@ -48,8 +48,8 @@ const MapOverlay = (props) => {
           latitude: props.coordinates.latitude,
           longitude: props.coordinates.longitude,
         }}
-        title={marker.title}
-        description={marker.description}
+        title={"here"}
+        description={"location"}
       />
     </MapView>
   );
