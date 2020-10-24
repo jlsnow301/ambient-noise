@@ -42,7 +42,16 @@ const MapOverlay = (props) => {
       style={styles.mapView}
       provider={PROVIDER_GOOGLE}
       region={currentRegion}
-    />
+    >
+      <MapView.Marker
+        coordinate={{
+          latitude: props.coordinates.latitude,
+          longitude: props.coordinates.longitude,
+        }}
+        title={"here"}
+        description={"location"}
+      />
+    </MapView>
   );
 };
 
