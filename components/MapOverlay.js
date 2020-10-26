@@ -35,8 +35,6 @@ const MapOverlay = (props) => {
     }
   }, [props.coordinates]);
 
-  // <ActivityIndicator style={styles.loadingSpinner} size={"large"} />
-
   return (
     <MapView
       style={styles.mapView}
@@ -45,8 +43,8 @@ const MapOverlay = (props) => {
     >
       <MapView.Marker
         coordinate={{
-          latitude: props.coordinates.latitude,
-          longitude: props.coordinates.longitude,
+          latitude: currentRegion.latitude,
+          longitude: currentRegion.longitude,
         }}
         title={"here"}
         description={"location"}
