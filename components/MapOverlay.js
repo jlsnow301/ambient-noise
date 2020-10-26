@@ -35,8 +35,6 @@ const MapOverlay = (props) => {
     }
   }, [props.coordinates]);
 
-  // <ActivityIndicator style={styles.loadingSpinner} size={"large"} />
-
   return (
     <MapView
       style={styles.mapView}
