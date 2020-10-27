@@ -1,23 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
   TouchableWithoutFeedback,
   Keyboard,
-  FlatList,
-  TouchableOpacity,
 } from "react-native";
 
 import Header from "../components/Header";
-import PlaceItem from "../components/PlaceItem";
-import RecentIcon from "../components/RecentIcon";
+import PlaceList from "../components/PlaceList";
 import DetailsModal from "../components/DetailsModal";
 
-// Testing only
-import DUMMY_SAVES from "../constants/dummy-saves";
-
 const RecentlyAddedScreen = (props) => {
-  const [recentlyAdded, setRecentlyAdded] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
 
@@ -34,15 +27,6 @@ const RecentlyAddedScreen = (props) => {
     setModalIsOpen(false);
   };
 
-  // Initially retrieves the database. Currently grabbing dummy data.
-  useEffect(() => {
-    const getRecentPlaces = () => {
-      const recentData = DUMMY_SAVES;
-      return recentData;
-    };
-    setRecentlyAdded(getRecentPlaces);
-  }, []);
-
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -58,20 +42,7 @@ const RecentlyAddedScreen = (props) => {
             onClose={onCloseHandler}
             navigate={props.navigation.navigate}
           />
-          <FlatList
-            keyExtractor={(item) => item.id}
-            data={recentlyAdded}
-            renderItem={(placeData) => (
-              <TouchableOpacity onPress={() => showDetailsHandler(placeData)}>
-                <PlaceItem
-                  id={placeData.item.id}
-                  title={placeData.item.title}
-                  date={placeData.item.date}
-                  icon={<RecentIcon date={placeData.item.date} />}
-                />
-              </TouchableOpacity>
-            )}
-          />
+          <PlaceList listmode={"recent"} />
         </View>
       </View>
     </TouchableWithoutFeedback>

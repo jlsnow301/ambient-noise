@@ -1,36 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
   TouchableWithoutFeedback,
   Keyboard,
-  FlatList,
-  TouchableOpacity,
 } from "react-native";
-import { Entypo } from "@expo/vector-icons";
 
 import Header from "../components/Header";
-import PlaceItem from "../components/PlaceItem";
+import PlaceList from "../components/PlaceList";
 import DetailsModal from "../components/DetailsModal";
 
-// Testing only
-import DUMMY_SAVES from "../constants/dummy-saves";
-
 const SavedScreen = (props) => {
-  const [savedPlaces, setSavedPlaces] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
-
-  // User chooses to delete one of their saved entries.
-  // This must be passed into the modal content.
-  // Currently unused.
-  const removeSavedHandler = (placeId) => {
-    console.log(`TO BE DELETED: ${placeId}`);
-    console.log(savedPlaces);
-    setSavedPlaces((currentSaved) => {
-      return currentSaved.filter((place) => place.id !== placeId);
-    });
-  };
 
   // User clicks on one of the items for details.
   // Opens a modal window.
@@ -44,15 +26,6 @@ const SavedScreen = (props) => {
   const onCloseHandler = () => {
     setModalIsOpen(false);
   };
-
-  // Initially retrieves the database. Currently grabbing dummy data.
-  useEffect(() => {
-    const getSavedPlaces = () => {
-      const savedData = DUMMY_SAVES;
-      return savedData;
-    };
-    setSavedPlaces(getSavedPlaces);
-  }, []);
 
   return (
     <TouchableWithoutFeedback
@@ -69,20 +42,7 @@ const SavedScreen = (props) => {
             onClose={onCloseHandler}
             navigate={props.navigation.navigate}
           />
-          <FlatList
-            keyExtractor={(item) => item.id}
-            data={savedPlaces}
-            renderItem={(placeData) => (
-              <TouchableOpacity onPress={() => showDetailsHandler(placeData)}>
-                <PlaceItem
-                  id={placeData.item.id}
-                  title={placeData.item.title}
-                  date={placeData.item.date}
-                  icon={<Entypo name="heart" size={22} />}
-                />
-              </TouchableOpacity>
-            )}
-          />
+          <PlaceList listmode={"recent"} />
         </View>
       </View>
     </TouchableWithoutFeedback>
