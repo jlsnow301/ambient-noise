@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Foundation, Entypo, Ionicons } from "@expo/vector-icons";
 
@@ -10,6 +10,9 @@ import SavedScreen from "../screens/SavedScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import RecentlyAddedScreen from "../screens/RecentlyAddedScreen";
 
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+
 import Colors from "../constants/colors";
 
 /* Bottom navigator component. Note that all linked screens must be
@@ -18,19 +21,27 @@ import Colors from "../constants/colors";
    To create new links, add a <Tab.Screen/>
    */
 
-const Tab = createBottomTabNavigator();
-
+// const Tab = createBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
+const size = 24
 function NavBar() {
   const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
+  const activeTintLabelColor = Colors.primary;
 
   return (
-    <Tab.Navigator>
+    <Tab.Navigator 
+      initialRouteName="Home"
+      shifting={true}
+      activeColor="#006AFF"
+      inactiveColor="#5A5A5A"
+      barStyle={{ backgroundColor: '#ffff' }}
+    >
       <Tab.Screen
         name="Home"
         options={{
-          tabBarLabel: "Search",
+          tabBarLabel: <Text style={{ fontSize: 9}}> Search </Text>,
           tabBarIcon: ({ color, size }) => (
-            <Foundation name="magnifying-glass" size={size} color={color} />
+            <Foundation name="magnifying-glass" size={24} color={color} />
           ),
         }}
         component={HomeScreen}
@@ -38,19 +49,19 @@ function NavBar() {
       <Tab.Screen
         name="Recent"
         options={{
-          tabBarLabel: "Recently Added",
+          tabBarLabel: <Text style={{ fontSize: 9 }}> Recently Added </Text>,
           tabBarIcon: ({ color, size }) => (
-            <Entypo name="new" size={size} color={color} />
+            <Entypo name="new" size={24} color={color} />
           ),
         }}
         component={RecentlyAddedScreen}
       />
       <Tab.Screen
-        name="Saved"
+        name="Saved"      
         options={{
-          tabBarLabel: "Saved Places",
+          tabBarLabel: <Text style={{ fontSize: 9 }}> Saved Places </Text>,
           tabBarIcon: ({ color, size }) => (
-            <Entypo name="heart" size={size} color={color} />
+            <Entypo name="heart" size={24} color={color} />
           ),
         }}
         component={SavedScreen}
@@ -59,9 +70,9 @@ function NavBar() {
         <Tab.Screen
           name="Profile"
           options={{
-            tabBarLabel: "Profile Management",
+            tabBarLabel: <Text style={{ fontSize: 9 }}> Profile </Text>,
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="md-person" size={size} color={color} />
+              <Ionicons name="md-person" size={24} color={color} />
             ),
           }}
           component={ProfileScreen}
@@ -70,9 +81,9 @@ function NavBar() {
         <Tab.Screen
           name="Login"
           options={{
-            tabBarLabel: "Login",
+            tabBarLabel: <Text style={{ fontSize: 9 }}> Login </Text>,
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="md-person" size={size} color={color} />
+              <Ionicons name="md-person" size={24} color={color} />
             ),
           }}
           component={LoginScreen}
@@ -81,9 +92,9 @@ function NavBar() {
       <Tab.Screen
         name="More"
         options={{
-          tabBarLabel: "Other Settings",
+          tabBarLabel: <Text style={{ fontSize: 9 }}> More </Text>,
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="ios-more" size={size} color={color} />
+            <Ionicons name="ios-more" size={24} color={color} />
           ),
         }}
         component={MoreScreen}
