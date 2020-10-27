@@ -5,6 +5,7 @@ import Geocode from "react-geocode";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 
+import GOOGLE_KEY from "../constants/api-keys";
 import DUMMY_MARKERS from "../constants/dummy-markers";
 
 /* A component which renders a map using Google API.
@@ -22,9 +23,7 @@ const MapOverlay = (props) => {
     longitudeDelta: 0.07,
   });
 
-  // I am using my own here because the other does not have geolocation activated.
-  // Please activate these in the developer console @ google maps api
-  Geocode.setApiKey("AIzaSyBcvyw8T_imdM9Iy33MuiGtcNUcqAOqeIE");
+  Geocode.setApiKey(GOOGLE_KEY);
 
   // Fire once props.coordinates are changed
   useEffect(() => {
