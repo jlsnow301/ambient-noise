@@ -42,7 +42,7 @@ const RecentlyAddedScreen = (props) => {
             onClose={onCloseHandler}
             navigate={props.navigation.navigate}
           />
-          <PlaceList listmode={"recent"} />
+          <PlaceList listMode={"recent"} />
         </View>
       </View>
     </TouchableWithoutFeedback>

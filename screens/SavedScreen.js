@@ -42,7 +42,7 @@ const SavedScreen = (props) => {
             onClose={onCloseHandler}
             navigate={props.navigation.navigate}
           />
-          <PlaceList listmode={"recent"} />
+          <PlaceList listMode={"saved"} />
         </View>
       </View>
     </TouchableWithoutFeedback>

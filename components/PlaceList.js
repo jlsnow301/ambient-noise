@@ -10,13 +10,11 @@ import DUMMY_SAVES from "../constants/dummy-saves";
 const PlaceList = (props) => {
   const [placeData, setPlaceData] = useState({});
   // Sets what icons display and what database is grabbed.
-  const [listMode, setListMode] = useState("recent");
 
   // Initially retrieves the database. Currently grabbing dummy data.
   useEffect(() => {
-    setListMode(props.listMode);
     const getPlaceData = () => {
-      if (listMode === "saved") {
+      if (props.listMode === "saved") {
         const savedData = DUMMY_SAVES;
         return savedData;
       } else {
@@ -36,7 +34,9 @@ const PlaceList = (props) => {
           id={placeData.item.id}
           title={placeData.item.title}
           date={placeData.item.date}
-          icon={<PlaceIcon listMode={listMode} date={placeData.item.date} />}
+          icon={
+            <PlaceIcon listMode={props.listMode} date={placeData.item.date} />
+          }
         />
       )}
     />
