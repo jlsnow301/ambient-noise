@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 
 const PlaceIcon = (props) => {
-  console.log(props.listMode);
   // Is this for the saved list?
   if (props.listMode === "saved") {
     return <Entypo name="heart" size={22} />;
