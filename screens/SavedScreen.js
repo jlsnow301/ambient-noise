@@ -10,6 +10,8 @@ import Header from "../components/Header";
 import PlaceList from "../components/PlaceList";
 import DetailsModal from "../components/DetailsModal";
 
+/* I am itching to merge this component with RecentScreen to make one screen with variable text. However,
+the saved screen should have some method of deleting your saves. This might be possible to still merge. */
 const SavedScreen = (props) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
