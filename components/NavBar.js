@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text } from "react-native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Foundation, Entypo, Ionicons } from "@expo/vector-icons";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 
 import HomeScreen from "../screens/HomeScreen";
 import MoreScreen from "../screens/MoreScreen";
@@ -9,9 +9,6 @@ import LoginScreen from "../screens/LoginScreen";
 import SavedScreen from "../screens/SavedScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import RecentlyAddedScreen from "../screens/RecentlyAddedScreen";
-
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
 import Colors from "../constants/colors";
 
@@ -23,25 +20,26 @@ import Colors from "../constants/colors";
 
 // const Tab = createBottomTabNavigator();
 const Tab = createMaterialBottomTabNavigator();
-const size = 24
-function NavBar() {
+
+const NavBar = () => {
   const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
-  const activeTintLabelColor = Colors.primary;
 
   return (
-    <Tab.Navigator 
+    <Tab.Navigator
       initialRouteName="Home"
       shifting={true}
-      activeColor="#006AFF"
+      activeColor={Colors.accent}
       inactiveColor="#5A5A5A"
-      barStyle={{ backgroundColor: '#ffff' }}
+      barStyle={{ backgroundColor: Colors.primary }}
     >
       <Tab.Screen
         name="Home"
         options={{
-          tabBarLabel: <Text style={{ fontSize: 9}}> Search </Text>,
+          tabBarLabel: (
+            <Text style={{ fontSize: 13, color: "white" }}> Search </Text>
+          ),
           tabBarIcon: ({ color, size }) => (
-            <Foundation name="magnifying-glass" size={24} color={color} />
+            <Foundation name="magnifying-glass" size={25} color={color} />
           ),
         }}
         component={HomeScreen}
@@ -49,19 +47,23 @@ function NavBar() {
       <Tab.Screen
         name="Recent"
         options={{
-          tabBarLabel: <Text style={{ fontSize: 9 }}> Recently Added </Text>,
+          tabBarLabel: (
+            <Text style={{ fontSize: 13, color: "white" }}> Recent </Text>
+          ),
           tabBarIcon: ({ color, size }) => (
-            <Entypo name="new" size={24} color={color} />
+            <Entypo name="new" size={25} color={color} />
           ),
         }}
         component={RecentlyAddedScreen}
       />
       <Tab.Screen
-        name="Saved"      
+        name="Saved"
         options={{
-          tabBarLabel: <Text style={{ fontSize: 9 }}> Saved Places </Text>,
+          tabBarLabel: (
+            <Text style={{ fontSize: 13, color: "white" }}> Saved </Text>
+          ),
           tabBarIcon: ({ color, size }) => (
-            <Entypo name="heart" size={24} color={color} />
+            <Entypo name="heart" size={25} color={color} />
           ),
         }}
         component={SavedScreen}
@@ -70,9 +72,11 @@ function NavBar() {
         <Tab.Screen
           name="Profile"
           options={{
-            tabBarLabel: <Text style={{ fontSize: 9 }}> Profile </Text>,
+            tabBarLabel: (
+              <Text style={{ fontSize: 13, color: "white" }}> Profile </Text>
+            ),
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="md-person" size={24} color={color} />
+              <Ionicons name="md-person" size={25} color={color} />
             ),
           }}
           component={ProfileScreen}
@@ -81,9 +85,11 @@ function NavBar() {
         <Tab.Screen
           name="Login"
           options={{
-            tabBarLabel: <Text style={{ fontSize: 9 }}> Login </Text>,
+            tabBarLabel: (
+              <Text style={{ fontSize: 13, color: "white" }}> Login </Text>
+            ),
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="md-person" size={24} color={color} />
+              <Ionicons name="md-person" size={25} color={color} />
             ),
           }}
           component={LoginScreen}
@@ -92,16 +98,18 @@ function NavBar() {
       <Tab.Screen
         name="More"
         options={{
-          tabBarLabel: <Text style={{ fontSize: 9 }}> More </Text>,
+          tabBarLabel: (
+            <Text style={{ fontSize: 13, color: "white" }}> More </Text>
+          ),
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="ios-more" size={24} color={color} />
+            <Ionicons name="ios-more" size={25} color={color} />
           ),
         }}
         component={MoreScreen}
       />
     </Tab.Navigator>
   );
-}
+};
 
 export default NavBar;
 

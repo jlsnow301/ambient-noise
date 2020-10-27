@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   placeText: {
-    fontSize: 18,
+    fontSize: 16,
   },
   dateText: {
     paddingTop: 3,

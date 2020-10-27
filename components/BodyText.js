@@ -12,7 +12,8 @@ const BodyText = (props) => (
 
 const styles = StyleSheet.create({
   body: {
-    fontSize: 16,
+    fontSize: 22,
+    fontFamily: "open-sans",
   },
 });
 

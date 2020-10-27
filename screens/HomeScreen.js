@@ -11,7 +11,7 @@ import Geocode from "react-geocode";
 
 import MapOverlay from "../components/MapOverlay";
 
-function HomeScreen(props) {
+const HomeScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [enteredValue, setEnteredValue] = useState("");
   const [coordinates, setCoordinates] = useState("");
@@ -44,6 +44,8 @@ function HomeScreen(props) {
     setIsLoading(false);
   };
 
+  // Get
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -75,7 +77,7 @@ function HomeScreen(props) {
       </View>
     </TouchableWithoutFeedback>
   );
-}
+};
 
 export default HomeScreen;
 

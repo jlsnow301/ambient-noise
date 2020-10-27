@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import Geocode from "react-geocode";
+import * as Location from "expo-location";
+import * as Permissions from "expo-permissions";
+
+import DUMMY_MARKERS from "../constants/dummy-markers";
 
 /* A component which renders a map using Google API.
    Usage: <MapOverlay style={styles.map} coordinates={coordinates}/>
@@ -22,9 +26,9 @@ const MapOverlay = (props) => {
   // Please activate these in the developer console @ google maps api
   Geocode.setApiKey("AIzaSyBcvyw8T_imdM9Iy33MuiGtcNUcqAOqeIE");
 
+  // Fire once props.coordinates are changed
   useEffect(() => {
     if (props.coordinates !== "") {
-      console.log(props.coordinates);
       setCurrentRegion((prevState) => ({
         ...prevState,
         latitude: props.coordinates.latitude,
@@ -41,14 +45,17 @@ const MapOverlay = (props) => {
       provider={PROVIDER_GOOGLE}
       region={currentRegion}
     >
-      <MapView.Marker
-        coordinate={{
-          latitude: currentRegion.latitude,
-          longitude: currentRegion.longitude,
-        }}
-        title={"here"}
-        description={"location"}
-      />
+      {DUMMY_MARKERS.map((location) => {
+        <MapView.Marker
+          key={location.id}
+          coordinate={{
+            latitude: location.latitude,
+            longitude: location.longitude,
+          }}
+          title={location.title}
+          description={location.description}
+        />;
+      })}
     </MapView>
   );
 };
