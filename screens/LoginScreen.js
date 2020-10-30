@@ -14,7 +14,7 @@ import TitleText from "../components/TitleText";
 import LinkButton from "../components/LinkButton";
 import Colors from "../constants/colors";
 
-function LoginScreen() {
+const LoginScreen = (props) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
@@ -108,7 +108,7 @@ function LoginScreen() {
       </View>
     </TouchableWithoutFeedback>
   );
-}
+};
 
 const styles = StyleSheet.create({
   screen: {

@@ -18,14 +18,14 @@
     ],
     "ios": {
       "config": {
-        "googleMapsApiKey": "AIzaSyAstUaycjfdYFeRhaSYrjEMBmJX9gUBS00"
+        "googleMapsApiKey": "./constants/api-keys.js"
       },
       "supportsTablet": true
     },
     "android": {
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyBoEjvy7FDdVOD8PazNeAeHav1uC3KABD4"
+          "apiKey": "./constants/api-keys.js"
         }
       }
     },

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 import Colors from "../constants/colors";
 import AccentButton from "../components/AccentButton";
@@ -14,11 +14,19 @@ const Header = (props) => {
   return (
     <View style={{ ...styles.header, ...props.style }}>
       <View style={styles.items}>
-        <TitleText>{props.children}</TitleText>
+        <View style={styles.titleText}>
+          <TitleText>{props.children}</TitleText>
+        </View>
         <View style={{ flex: 1 }} />
         <View style={styles.buttonContainer}>
           <AccentButton>Sharing</AccentButton>
-          <AccentButton>Map</AccentButton>
+          <AccentButton
+            onPress={() => {
+              props.navigate("Home");
+            }}
+          >
+            Map
+          </AccentButton>
         </View>
       </View>
     </View>
@@ -34,6 +42,9 @@ const styles = StyleSheet.create({
     margin: 10,
     marginTop: 25,
     flexDirection: "row",
+  },
+  titleText: {
+    marginTop: 5,
   },
   buttonContainer: {
     width: "40%",

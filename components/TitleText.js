@@ -12,8 +12,9 @@ const TitleText = (props) => (
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 26,
+    fontSize: 24,
     color: "white",
+    fontFamily: "open-sans-bold",
   },
 });
 
