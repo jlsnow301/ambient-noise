@@ -27,7 +27,11 @@ const PlaceList = (props) => {
 
   return (
     <FlatList
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item, index) => {
+        // to see what data is passed into the function
+        console.log('item', item);
+        return index.toString();
+      }}
       data={placeData}
       renderItem={(placeData) => (
         <PlaceItem
