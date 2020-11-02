@@ -17,4 +17,10 @@ export default [
     title: "House",
     description: "Someone actually lives here",
   },
+  {
+    latitude: 47.620422,
+    longitude: -122.349358,
+    title: "Space Needle",
+    description: "Iconic observation tower in Seattle",
+  },
 ];
