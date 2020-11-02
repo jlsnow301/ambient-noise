@@ -44,17 +44,17 @@ const MapOverlay = (props) => {
       provider={PROVIDER_GOOGLE}
       region={currentRegion}
     >
-      {DUMMY_MARKERS.map((location) => {
+      {DUMMY_MARKERS.map((location, index) => (
         <MapView.Marker
-          key={location.id}
+          key={index}
           coordinate={{
             latitude: location.latitude,
             longitude: location.longitude,
           }}
           title={location.title}
           description={location.description}
-        />;
-      })}
+        />
+      ))}
     </MapView>
   );
 };
