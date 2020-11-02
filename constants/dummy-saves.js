@@ -23,4 +23,12 @@ export default [
     title: "House",
     date: "2020-10-19",
   },
+  {
+    coordinates: {
+      latitude: 47.620422,
+      longitude: -122.349358,
+    },
+    title: "Space Needle",
+    date: "2020-11-01",
+  },
 ];
