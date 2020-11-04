@@ -8,7 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "@react-native-community/masked-view": "0.1.10",
+    "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/bottom-tabs": "^5.10.5",
     "@react-navigation/material-bottom-tabs": "^5.3.5",
     "@react-navigation/native": "^5.8.5",
@@ -25,12 +25,12 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.2.tar.gz",
     "react-native-elements": "^2.3.2",
     "react-native-geolocation-service": "^5.0.0",
-    "react-native-gesture-handler": "~1.7.0",
+    "react-native-gesture-handler": "^1.7.0",
     "react-native-maps": "0.27.1",
     "react-native-paper": "^4.3.0",
-    "react-native-reanimated": "~1.13.0",
-    "react-native-safe-area-context": "3.1.4",
-    "react-native-screens": "~2.10.1",
+    "react-native-reanimated": "^1.13.1",
+    "react-native-safe-area-context": "^3.1.4",
+    "react-native-screens": "^2.10.1",
     "react-native-vector-icons": "^7.1.0",
     "react-native-web": "^0.13.18",
     "react-navigation": "^4.4.3"

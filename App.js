@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import * as Font from "expo-font";
 
-import NavBar from "./components/NavBar";
+import TabNavigator from "./navigation/TabNavigator";
 
 const fetchFonts = () => {
   Font.loadAsync({
@@ -37,8 +37,7 @@ function App() {
 
   return (
     <NavigationContainer>
-      {/*This ensures that the navbar is loaded on every screen. */}
-      <NavBar />
+      <TabNavigator />
     </NavigationContainer>
   );
 }

@@ -17,7 +17,6 @@ const SavedScreen = (props) => {
       }}
     >
       <View style={styles.screen}>
-        <Header navigate={props.navigation.navigate}>Saved Places</Header>
         <View style={styles.content}>
           <PlaceList listMode={"saved"} />
         </View>
@@ -25,6 +24,8 @@ const SavedScreen = (props) => {
     </TouchableWithoutFeedback>
   );
 };
+
+export default SavedScreen;
 
 const styles = StyleSheet.create({
   screen: {
@@ -38,5 +39,3 @@ const styles = StyleSheet.create({
     maxWidth: "95%",
   },
 });
-
-export default SavedScreen;
