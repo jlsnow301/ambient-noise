@@ -6,7 +6,7 @@ import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 
 import GOOGLE_KEY from "../constants/api-keys";
-import DUMMY_MARKERS from "../constants/dummy-markers";
+import { LOCATIONS } from "../data/dummy-locations";
 
 /* A component which renders a map using Google API.
    Usage: <MapOverlay style={styles.map} coordinates={coordinates}/>
@@ -44,12 +44,12 @@ const MapOverlay = (props) => {
       provider={PROVIDER_GOOGLE}
       region={currentRegion}
     >
-      {DUMMY_MARKERS.map((location, index) => (
+      {LOCATIONS.map((location, index) => (
         <MapView.Marker
           key={index}
           coordinate={{
-            latitude: location.latitude,
-            longitude: location.longitude,
+            latitude: location.coordinates.latitude,
+            longitude: location.coordinates.longitude,
           }}
           title={location.title}
           description={location.description}

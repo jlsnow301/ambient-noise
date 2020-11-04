@@ -5,7 +5,7 @@ import PlaceItem from "./PlaceItem";
 import PlaceIcon from "./PlaceIcon";
 
 // Testing only
-import DUMMY_SAVES from "../constants/dummy-saves";
+import { LOCATIONS } from "../data/dummy-locations";
 
 const PlaceList = (props) => {
   const [placeData, setPlaceData] = useState({});
@@ -15,10 +15,10 @@ const PlaceList = (props) => {
   useEffect(() => {
     const getPlaceData = () => {
       if (props.listMode === "saved") {
-        const savedData = DUMMY_SAVES;
+        const savedData = LOCATIONS;
         return savedData;
       } else {
-        const recentData = DUMMY_SAVES;
+        const recentData = LOCATIONS;
         return recentData;
       }
     };
@@ -29,7 +29,7 @@ const PlaceList = (props) => {
     <FlatList
       keyExtractor={(item, index) => {
         // To see what data is passed into the function
-        console.log('item', item);
+        console.log("item", item);
         return index.toString();
       }}
       data={placeData}
