@@ -44,9 +44,9 @@ const MapOverlay = (props) => {
       provider={PROVIDER_GOOGLE}
       region={currentRegion}
     >
-      {LOCATIONS.map((location, index) => (
+      {LOCATIONS.map((location) => (
         <MapView.Marker
-          key={index}
+          key={location.id}
           coordinate={{
             latitude: location.coordinates.latitude,
             longitude: location.coordinates.longitude,
