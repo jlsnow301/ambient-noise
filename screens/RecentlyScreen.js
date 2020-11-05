@@ -9,7 +9,7 @@ import {
 import Header from "../components/Header";
 import PlaceList from "../components/PlaceList";
 
-const RecentlyAddedScreen = (props) => {
+const RecentScreen = (props) => {
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -17,7 +17,6 @@ const RecentlyAddedScreen = (props) => {
       }}
     >
       <View style={styles.screen}>
-        <Header navigate={props.navigation.navigate}>Recently Added</Header>
         <View style={styles.content}>
           <PlaceList listMode={"recent"} />
         </View>
@@ -25,7 +24,7 @@ const RecentlyAddedScreen = (props) => {
     </TouchableWithoutFeedback>
   );
 };
-export default RecentlyAddedScreen;
+export default RecentScreen;
 
 const styles = StyleSheet.create({
   screen: {

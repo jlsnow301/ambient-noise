@@ -110,6 +110,8 @@ const LoginScreen = (props) => {
   );
 };
 
+export default LoginScreen;
+
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
@@ -149,5 +151,3 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
 });
-
-export default LoginScreen;

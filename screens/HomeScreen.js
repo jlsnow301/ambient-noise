@@ -57,8 +57,9 @@ const HomeScreen = (props) => {
         {isLoading ? (
           <ActivityIndicator size={"large"} />
         ) : (
-          <MapOverlay style={styles.map} coordinates={coordinates} />
+          <MapOverlay coordinates={coordinates} />
         )}
+
         <View style={styles.geobar}>
           <SearchBar
             round
@@ -86,12 +87,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
-  map: {
+  content: {
     flex: 1,
+    width: "100%",
   },
   geobar: {
-    position: "absolute",
-    marginTop: "10%",
     width: "80%",
   },
 });
