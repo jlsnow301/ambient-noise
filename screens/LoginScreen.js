@@ -68,12 +68,7 @@ const LoginScreen = (props) => {
       return;
     }
     // We have no server so there's nothing giving us user info on login.
-    auth.login({
-      DUMMY_NAME,
-      DUMMY_IMAGE,
-      enteredEmail,
-      DUMMY_TOKEN,
-    });
+    auth.login(DUMMY_NAME, DUMMY_IMAGE, enteredEmail, DUMMY_TOKEN);
     Keyboard.dismiss();
   };
 

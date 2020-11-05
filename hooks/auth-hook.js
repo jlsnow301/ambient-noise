@@ -11,13 +11,12 @@ export const useAuth = () => {
   const [tokenExpirationDate, setTokenExpirationDate] = useState();
 
   const login = useCallback((name, image, userId, token, expirationDate) => {
-    console.log(name);
     setName(name);
     setImage(image);
     setToken(token);
     setUserId(userId);
     const tokenExpirationDate =
-      expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
+      expirationDate || new Date(new Date().getTime() + 1000 * 60);
     setTokenExpirationDate(tokenExpirationDate);
     SecureStore.setItemAsync("name", name);
     SecureStore.setItemAsync("image", image);
