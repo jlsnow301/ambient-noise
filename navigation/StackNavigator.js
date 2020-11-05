@@ -20,7 +20,6 @@ const ProfileStack = createStackNavigator();
 const defaultStyling = {
   headerTintColor: Colors.primary,
   headerTitleStyle: {
-    fontFamily: "open-sans-bold",
     fontSize: 28,
   },
 };

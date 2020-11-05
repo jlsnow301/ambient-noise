@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import * as Font from "expo-font";
 import { AppLoading } from "expo";
 import { StyleSheet, View, Text, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import * as Font from "expo-font";
 
+import { useAuth } from "./hooks/auth-hook";
 import TabNavigator from "./navigation/TabNavigator";
+import { AuthContext } from "./functions/auth-context";
 
 const fetchFonts = () => {
   Font.loadAsync({
@@ -15,6 +17,7 @@ const fetchFonts = () => {
 
 function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const { token, login, logout, userId, name, image } = useAuth();
 
   if (!fontsLoaded) {
     return (
@@ -36,9 +39,19 @@ function App() {
   }
 
   return (
-    <NavigationContainer>
-      <TabNavigator />
-    </NavigationContainer>
+    <AuthContext.Provider
+      value={{
+        isLoggedIn: !!token,
+        token: token,
+        userId: userId,
+        login: login,
+        logout: logout,
+      }}
+    >
+      <NavigationContainer>
+        <TabNavigator />
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 }
 

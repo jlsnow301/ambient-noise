@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   StyleSheet,
   Button,
@@ -10,15 +10,20 @@ import {
 
 import Card from "../components/Card";
 import Input from "../components/Input";
+import Colors from "../constants/colors";
 import TitleText from "../components/TitleText";
 import LinkButton from "../components/LinkButton";
-import Colors from "../constants/colors";
+import { AuthContext } from "../functions/auth-context";
+
+// Testing only
+let DUMMY_NAME = "Joe";
+let DUMMY_IMAGE = "../assets/logo.png";
+let DUMMY_TOKEN = "123456abcdef";
 
 const LoginScreen = (props) => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const auth = useContext(AuthContext);
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
-  const [userInput, setUserInput] = "";
 
   // Changes what is displayed as the user types
   const emailInputHandler = (value) => {
@@ -46,6 +51,7 @@ const LoginScreen = (props) => {
       ]);
       return;
     }
+    // So for now we're taking this and checking it here, not sending it anywhere
     const password = enteredPassword.toString();
     if (password === "" || password.length < 5) {
       Alert.alert(
@@ -61,8 +67,13 @@ const LoginScreen = (props) => {
       );
       return;
     }
-    setUserInput("");
-    setEnteredPassword("");
+    // We have no server so there's nothing giving us user info on login.
+    auth.login({
+      DUMMY_NAME,
+      DUMMY_IMAGE,
+      enteredEmail,
+      DUMMY_TOKEN,
+    });
     Keyboard.dismiss();
   };
 
@@ -120,7 +131,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    marginTop: 90,
+    marginTop: 70,
     marginBottom: 20,
     color: "black",
   },
