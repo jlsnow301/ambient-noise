@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Text } from "react-native";
+import React, { useContext } from "react";
 import { Foundation, Entypo, Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
@@ -12,12 +11,13 @@ import {
   MoreStackNavigator,
 } from "./StackNavigator";
 
+import { AuthContext } from "../functions/auth-context";
 import Colors from "../constants/colors";
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
-  const [userIsLoggedIn, setUserIsLoggedIn] = useState(false);
+  const auth = useContext(AuthContext);
 
   return (
     <Tab.Navigator
@@ -59,7 +59,7 @@ const TabNavigator = () => {
       <Tab.Screen name="Home" component={HomeStackNavigator} />
       <Tab.Screen name="Recent" component={RecentStackNavigator} />
       <Tab.Screen name="Saved" component={SavedStackNavigator} />
-      {userIsLoggedIn ? (
+      {auth.isLoggedIn ? (
         <Tab.Screen name="Profile" component={ProfileStackNavigator} />
       ) : (
         <Tab.Screen name="Login" component={LoginStackNavigator} />
