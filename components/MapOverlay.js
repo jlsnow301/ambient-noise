@@ -16,9 +16,15 @@ import { LOCATIONS } from "../data/dummy-locations";
    but they can be manually calculated or entered. */
 
 const MapOverlay = (props) => {
-  const [currentRegion, setCurrentRegion] = useState(null);
+  const [currentRegion, setCurrentRegion] = useState({
+    latitude: 47.608013,
+    latitudeDelta: 0.07,
+    longitude: -122.335167,
+    longitudeDelta: 0.07,
+  });
 
   Geocode.setApiKey(GOOGLE_KEY);
+  
   useEffect(() => {
     if (props.coordinates === null){
       (async () => {
