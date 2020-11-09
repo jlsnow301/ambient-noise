@@ -16,15 +16,21 @@ import { LOCATIONS } from "../data/dummy-locations";
    but they can be manually calculated or entered. */
 
 const MapOverlay = (props) => {
-  const [currentRegion, setCurrentRegion] = useState({
-    latitude: 47.608013,
-    latitudeDelta: 0.07,
-    longitude: -122.335167,
-    longitudeDelta: 0.07,
-  });
+  const [currentRegion, setCurrentRegion] = useState(null);
 
   Geocode.setApiKey(GOOGLE_KEY);
-
+  useEffect(() => {
+    if (props.coordinates === null){
+      (async () => {
+        let { status } = await Location.requestPermissionsAsync();
+        if (status !== "granted") {
+          setErrorMsg("Permission to access location was denied");
+        }
+        let location = await Location.getCurrentPositionAsync({});
+        setCurrentRegion(location);
+      })();
+    }
+  }, []);
   // Fire once props.coordinates are changed
   useEffect(() => {
     if (props.coordinates !== "") {
@@ -40,6 +46,9 @@ const MapOverlay = (props) => {
 
   return (
     <MapView
+      showsUserLocation={true}
+      showsMyLocationButton={true} 
+      zoomControlEnabled={true}
       style={styles.mapView}
       provider={PROVIDER_GOOGLE}
       region={currentRegion}
@@ -68,5 +77,5 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-  },
+  }, 
 });
