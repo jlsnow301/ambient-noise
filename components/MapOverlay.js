@@ -25,21 +25,44 @@ const MapOverlay = (props) => {
 
   Geocode.setApiKey(GOOGLE_KEY);
 
-  // Fire once props.coordinates are changed
+  // Run once on startup
+  useEffect(() => {
+    if (props.coordinates === "") {
+      (async () => {
+        let { status } = await Location.requestPermissionsAsync();
+        if (status !== "granted") {
+          setErrorMsg("Permission to access location was denied");
+        }
+        let location = await Location.getCurrentPositionAsync({});
+        console.log(location);
+        setCurrentRegion({
+          latitude: location.coords.latitude,
+          latitudeDelta: 0.07,
+          longitude: location.coords.longitude,
+          longitudeDelta: 0.07,
+        });
+        console.log(currentRegion);
+      })();
+    }
+  }, []);
+
+  // Run when props.coordinates is changed
   useEffect(() => {
     if (props.coordinates !== "") {
-      setCurrentRegion((prevState) => ({
-        ...prevState,
+      setCurrentRegion({
         latitude: props.coordinates.latitude,
-        latitudeDelta: prevState.latitudeDelta,
+        latitudeDelta: 0.07,
         longitude: props.coordinates.longitude,
-        longitudeDelta: prevState.longitudeDelta,
-      }));
+        longitudeDelta: 0.07,
+      });
     }
   }, [props.coordinates]);
 
   return (
     <MapView
+      showsUserLocation={true}
+      showsMyLocationButton={true}
+      zoomControlEnabled={true}
       style={styles.mapView}
       provider={PROVIDER_GOOGLE}
       region={currentRegion}

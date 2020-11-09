@@ -92,6 +92,6 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   geobar: {
-    width: "80%",
+    width: "75%",
   },
 });
