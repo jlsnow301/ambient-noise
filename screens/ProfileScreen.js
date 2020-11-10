@@ -6,17 +6,19 @@ import {
   Image,
   TouchableOpacity
 } from 'react-native';
+import { AuthContext } from "../functions/auth-context";
 
 import Colors from "../constants/colors";
 
 const ProfileScreen = () => {
+  const auth = useContext(AuthContext);
   return (
     <View style={styles.container}>
       <View style={styles.header}></View>
       <Image style={styles.avatar} source={{uri: 'https://bootdey.com/img/Content/avatar/avatar6.png'}}/>
       <View style={styles.body}>
         <View style={styles.bodyContent}>
-          <Text style={styles.name}>John Doe</Text>
+          <Text style={styles.name}>{auth.name}</Text>
           <Text style={styles.info}>UX Designer / Mobile developer</Text>
           <Text style={styles.description}>Lorem ipsum dolor sit amet, saepe sapientem eu nam. Qui ne assum electram expetendis, omittam deseruisse consequuntur ius an,</Text>
           
