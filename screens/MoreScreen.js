@@ -51,14 +51,14 @@ class MoreScreen extends React.Component {
         return (
             <View style={styles.container}>
                 <TouchableOpacity>
-                    <Text>Tab to record!</Text>
+                    <Text>Tap to record!</Text>
                     <RecordButton
                         onPress={() => { recordSound() }}
                     />
                 </TouchableOpacity>
 
                 <TouchableOpacity>
-                    <Text>Tab to play audio!</Text>
+                    <Text>Tap to play audio!</Text>
                     <PlayButton
                         onPress={this.playsound.bind(this)} 
                     />
