@@ -2,10 +2,12 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 
+import Colors from "../constants/colors";
+
 const PlaceIcon = (props) => {
   // Is this for the saved list?
   if (props.listMode === "saved") {
-    return <Entypo name="heart" size={22} />;
+    return <Entypo name="heart" size={22} color={Colors.heart} />;
   }
 
   // Okay so what's the creation date
@@ -17,7 +19,7 @@ const PlaceIcon = (props) => {
 
   // Is the place new?
   if (saveDate > threeDaysAgo) {
-    return <Entypo name="new" size={22} />;
+    return <Entypo name="new" size={22} color={Colors.primary} />;
   }
   return <Entypo name="dot-single" size={22} />;
 

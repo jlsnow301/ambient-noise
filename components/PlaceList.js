@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, FlatList } from "react-native";
+import { StyleSheet, FlatList, TouchableOpacity } from "react-native";
 
-import PlaceItem from "./PlaceItem";
 import PlaceIcon from "./PlaceIcon";
+import PlaceItem from "./PlaceItem";
 
 // Testing only
 import { LOCATIONS } from "../data/dummy-locations";
@@ -25,19 +25,26 @@ const PlaceList = (props) => {
     setPlaceData(getPlaceData);
   }, []);
 
+  const showDetailsHandler = (place) => {
+    props.navigation.navigate("DetailsStack", place);
+  };
+
   return (
     <FlatList
       keyExtractor={(item) => item.id}
       data={placeData}
       renderItem={(placeData) => (
-        <PlaceItem
-          id={placeData.item.id}
-          title={placeData.item.title}
-          date={placeData.item.date}
-          icon={
-            <PlaceIcon listMode={props.listMode} date={placeData.item.date} />
-          }
-        />
+        <TouchableOpacity onPress={() => showDetailsHandler(placeData.item)}>
+          <PlaceItem
+            id={placeData.item.id}
+            title={placeData.item.title}
+            date={placeData.item.date}
+            onPress={showDetailsHandler}
+            icon={
+              <PlaceIcon listMode={props.listMode} date={placeData.item.date} />
+            }
+          />
+        </TouchableOpacity>
       )}
     />
   );

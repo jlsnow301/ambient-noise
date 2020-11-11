@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -6,8 +6,8 @@ import {
   Keyboard,
   ActivityIndicator,
 } from "react-native";
-import { SearchBar } from "react-native-elements";
 import Geocode from "react-geocode";
+import { SearchBar } from "react-native-elements";
 
 import MapOverlay from "../components/MapOverlay";
 
@@ -44,7 +44,15 @@ const HomeScreen = (props) => {
     setIsLoading(false);
   };
 
-  // Get
+  // Did user navigate here? Set the region with params
+  useEffect(() => {
+    if (props.route.params !== undefined) {
+      setCoordinates({
+        latitude: props.route.params.latitude,
+        longitude: props.route.params.longitude,
+      });
+    }
+  }, [props.route.params]);
 
   return (
     <TouchableWithoutFeedback
@@ -57,7 +65,7 @@ const HomeScreen = (props) => {
         {isLoading ? (
           <ActivityIndicator size={"large"} />
         ) : (
-          <MapOverlay coordinates={coordinates} />
+          <MapOverlay coordinates={coordinates} navigation={props.navigation} />
         )}
 
         <View style={styles.geobar}>
