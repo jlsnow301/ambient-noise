@@ -1,141 +1,89 @@
-import React, { useState, useEffect, FadeInView } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ActivityIndicator } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
+import * as React from 'react';
+import { Text, View, StyleSheet, TouchableOpacity, FadeInView } from 'react-native';
+import Constants from 'expo-constants';
+import RecordButton from "../components/RecordButton";
 import { Audio } from 'expo-av';
-import * as Permissions from 'expo-permissions';
-import * as FileSystem from 'expo-file-system';
+import PlayButton from "../components/PlayButton"
+import { RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_DEFAULT } from 'expo-av/build/Audio';
 
-const recordingOptions = {
-    android: {
-        extension: '.m4a',
-        outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4,
-        audioEncoder: Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC,
-        sampleRate: 44100,
-        numberOfChannels: 2,
-        bitRate: 128000,
-    },
-    ios: {
-        extension: '.wav',
-        audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_HIGH,
-        sampleRate: 44100,
-        numberOfChannels: 1,
-        bitRate: 128000,
-        linearPCMBitDepth: 16,
-        linearPCMIsBigEndian: false,
-        linearPCMIsFloat: false,
-    },
-};
 
-const MoreScreen = () => {
-    const [recording, setRecording] = useState(null);
-    const [isFetching, setIsFetching] = useState(false);
-    const [isRecording, setIsRecording] = useState(false);
-    const [query, setQuery] = useState('');
-
-    useEffect(() => {
-        Permissions.askAsync(Permissions.AUDIO_RECORDING);
-    }, []);
-
-    const deleteRecordingFile = async () => {
-        try {
-            const info = await FileSystem.getInfoAsync(recording.getURI());
-            await FileSystem.deleteAsync(info.uri)
-        } catch(error) {
-            console.log("There was an error deleting recording file", error);
-        }
-    }
-
-    const startRecording = async () => {
-        const { status } = await Permissions.getAsync(Permissions.AUDIO_RECORDING);
-        if (status !== 'granted') return;
-
-        setIsRecording(true);
-        await Audio.setAudioModeAsync({
-            allowsRecordingIOS: true,
-            interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
-            playsInSilentModeIOS: true,
-            shouldDuckAndroid: true,
-            interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-            playThroughEarpieceAndroid: true,
-        });
+const recordSound = async () => {
+    try {
         const recording = new Audio.Recording();
 
-        try {
-            await recording.prepareToRecordAsync(recordingOptions);
-            await recording.startAsync();
-        } catch (error) {
-            console.log(error);
-            stopRecording();
-        }
+        let { canRecord, isDoneRecording } = await recording.getStatusAsync();
+        console.log({ canRecord, isDoneRecording });
 
-        setRecording(recording);
+        let ready = await recording
+            .prepareToRecordAsync
+            ();
+        console.log({ ready });
+    } catch (error) {
+        console.log(`Error while recording ${error}`);
+    }
+};
+
+class MoreScreen extends React.Component {
+    async componentDidMount() {
+        Audio.setAudioModeAsync({
+            allowsRecordingIOS: false,
+            interruptionModeIOS: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+            playsInSilentModeIOS: true,
+            interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
+            shouldDuckAndroid: true,
+            staysActiveInBackground: true,
+        });
+
+        this.sound = new Audio.Sound();
+
+        const status = {
+            shouldPlay: false
+        };
+
+        this.sound.loadAsync(require('../assets/sound/freeway-1.mp3'), status, false);
     }
 
-    const stopRecording = async () => {
-        setIsRecording(false);
-        try {
-            await recording.stopAndUnloadAsync();
-        } catch (error) {
-            // Do nothing -- we are already unloaded.
-        }
+    playsound() {
+        this.sound.playAsync();
     }
 
-    const resetRecording = () => {
-        deleteRecordingFile();
-        setRecording(null);
-    };
-
-    const handleOnPressIn = () => {
-        startRecording();
-    };
-
-    const handleOnPressOut = () => {
-        stopRecording();
-    };
-
-    const handleQueryChange = (query) => {
-        setQuery(query);
-    };
-
-    return (
-        <SafeAreaView style={{flex: 1}}>
+    render() {
+        return (
             <View style={styles.container}>
-                {isRecording &&
-                    <FadeInView>
-                        <FontAwesome name="microphone" size={32} color="#48C9B0" />
-                    </FadeInView>
-                }
-                {!isRecording &&
-                    <FontAwesome name="microphone" size={32} color="#48C9B0" />
-                }
-                <Text>Voice Search</Text>
-                <TouchableOpacity
-                    style={styles.button}
-                    onPressIn={handleOnPressIn}
-                    onPressOut={handleOnPressOut}
-                >
-                    {isFetching && <ActivityIndicator color="#ffffff" />}
-                    {!isFetching && <Text>Hold for Voice Search</Text>}
+                <TouchableOpacity>
+                    <Text>Tab to record!</Text>
+                    <RecordButton
+                        onPress={() => { recordSound() }}
+                    />
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                    <Text>Tab to play audio!</Text>
+                    <PlayButton
+                        onPress={this.playsound.bind(this)} 
+                    />
                 </TouchableOpacity>
             </View>
-        </SafeAreaView>
-    );
-};
+        );
+    }
+}
+
+export default MoreScreen;
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 40,
-        backgroundColor: '#fff',
-        alignItems: 'center',
+        flex: 1,
+        justifyContent: 'center',
+        paddingTop: Constants.statusBarHeight,
+        backgroundColor: '#ecf0f1',
+        padding: 8,
+        flexDirection: 'row',
+        justifyContent: 'center',
     },
-    button: {
-        backgroundColor: '#48C9B0',
-        paddingVertical: 20,
-        width: '90%',
-        alignItems: 'center',
-        borderRadius: 5,
-        marginTop: 20,
-    }
+    paragraph: {
+        margin: 24,
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
 });
-
-export default MoreScreen;

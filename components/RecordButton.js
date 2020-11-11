@@ -19,13 +19,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   button: {
-    padding: 10,
+    padding:15,
     margin: 5,
-    width: 60,
-    backgroundColor: "white",
-    borderRadius: 50,
+    width:80,
+    height:80,
+    backgroundColor: 'white',
+    borderRadius:50,
     alignItems: "center",
-  },
+    borderColor:'black',
+},
 });
 
 export default RecordButton;
