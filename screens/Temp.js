@@ -1,11 +1,25 @@
-import React, { useState, useEffect, FadeInView } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ActivityIndicator } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import FadeInView from './components/FadeInView';
 import { Audio } from 'expo-av';
 import * as Permissions from 'expo-permissions';
 import * as FileSystem from 'expo-file-system';
+import { InstantSearch } from 'react-instantsearch-native';
+import algoliasearch from 'algoliasearch/lite';
+
+import config from './config';
+import SearchBox from './components/SearchBox';
+import Hits from './components/Hits';
+
+const searchClient = algoliasearch(
+    config.ALGOLIA_APP_ID,
+    config.ALGOLIA_API_KEY,
+);
 
 const recordingOptions = {
+    // android not currently in use. Not getting results from speech to text with .m4a
+    // but parameters are required
     android: {
         extension: '.m4a',
         outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4,
@@ -26,7 +40,7 @@ const recordingOptions = {
     },
 };
 
-const MoreScreen = () => {
+const Temp = () => {
     const [recording, setRecording] = useState(null);
     const [isFetching, setIsFetching] = useState(false);
     const [isRecording, setIsRecording] = useState(false);
@@ -43,6 +57,33 @@ const MoreScreen = () => {
         } catch(error) {
             console.log("There was an error deleting recording file", error);
         }
+    }
+
+    const getTranscription = async () => {
+        setIsFetching(true);
+        try {
+            const info = await FileSystem.getInfoAsync(recording.getURI());
+            console.log(`FILE INFO: ${JSON.stringify(info)}`);
+            const uri = info.uri;
+            const formData = new FormData();
+            formData.append('file', {
+                uri,
+                type: 'audio/x-wav',
+                name: 'speech2text'
+            });
+            const response = await fetch(config.CLOUD_FUNCTION_URL, {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            console.log(data);
+            setQuery(data.transcript);
+        } catch(error) {
+            console.log('There was an error reading file', error);
+            stopRecording();
+            resetRecording();
+        }
+        setIsFetching(false);
     }
 
     const startRecording = async () => {
@@ -91,6 +132,7 @@ const MoreScreen = () => {
 
     const handleOnPressOut = () => {
         stopRecording();
+        getTranscription();
     };
 
     const handleQueryChange = (query) => {
@@ -118,6 +160,15 @@ const MoreScreen = () => {
                     {!isFetching && <Text>Hold for Voice Search</Text>}
                 </TouchableOpacity>
             </View>
+            <View style={{paddingHorizontal: 20}}>
+                <InstantSearch
+                    indexName={config.ALGOLIA_INDEX}
+                    searchClient={searchClient}
+                >
+                    <SearchBox query={query} onChange={handleQueryChange} />
+                    <Hits />
+                </InstantSearch>
+            </View>
         </SafeAreaView>
     );
 };
@@ -138,4 +189,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default MoreScreen;
+export default Temp;

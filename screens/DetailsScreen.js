@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { FontAwesome5, AntDesign } from "@expo/vector-icons";
-
+import { Audio } from 'expo-av';
 import Card from "../components/Card";
 import BodyText from "../components/BodyText";
 import TitleText from "../components/TitleText";
