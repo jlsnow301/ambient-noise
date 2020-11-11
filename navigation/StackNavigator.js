@@ -9,6 +9,7 @@ import RecentScreen from "../screens/RecentlyScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 
 import Colors from "../constants/colors";
+import DetailsScreen from "../screens/DetailsScreen";
 
 const HomeStack = createStackNavigator();
 const MoreStack = createStackNavigator();
@@ -17,20 +18,29 @@ const SavedStack = createStackNavigator();
 const RecentStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 
-const defaultStyling = {
-  headerTintColor: Colors.primary,
-  headerTitleStyle: {
-    fontSize: 28,
-  },
+const defaultStyling = (route) => {
+  return {
+    headerTintColor: Colors.primary,
+    headerTitleStyle: {
+      fontSize: 28,
+    },
+    // Wow it's kinda dumb to do this
+    title: route.name.split("Stack"),
+  };
 };
 
 export const HomeStackNavigator = () => {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
-        name="Home"
+        name="HomeStack"
         component={HomeScreen}
-        options={defaultStyling}
+        options={({ route }) => defaultStyling(route)}
+      />
+      <HomeStack.Screen
+        name="DetailsStack"
+        component={DetailsScreen}
+        options={({ route }) => defaultStyling(route)}
       />
     </HomeStack.Navigator>
   );
@@ -39,9 +49,9 @@ export const MoreStackNavigator = () => {
   return (
     <MoreStack.Navigator>
       <MoreStack.Screen
-        name="More"
+        name="MoreStack"
         component={MoreScreen}
-        options={defaultStyling}
+        options={({ route }) => defaultStyling(route)}
       />
     </MoreStack.Navigator>
   );
@@ -50,9 +60,9 @@ export const LoginStackNavigator = () => {
   return (
     <LoginStack.Navigator>
       <LoginStack.Screen
-        name="Login"
+        name="LoginStack"
         component={LoginScreen}
-        options={defaultStyling}
+        options={({ route }) => defaultStyling(route)}
       />
     </LoginStack.Navigator>
   );
@@ -61,9 +71,14 @@ export const SavedStackNavigator = () => {
   return (
     <SavedStack.Navigator>
       <SavedStack.Screen
-        name="Saved Places"
+        name="SavedStack"
         component={SavedScreen}
-        options={defaultStyling}
+        options={({ route }) => defaultStyling(route)}
+      />
+      <SavedStack.Screen
+        name="DetailsStack"
+        component={DetailsScreen}
+        options={({ route }) => defaultStyling(route)}
       />
     </SavedStack.Navigator>
   );
@@ -72,9 +87,14 @@ export const RecentStackNavigator = () => {
   return (
     <RecentStack.Navigator>
       <RecentStack.Screen
-        name="Recently Added"
+        name="RecentStack"
         component={RecentScreen}
-        options={defaultStyling}
+        options={({ route }) => defaultStyling(route)}
+      />
+      <RecentStack.Screen
+        name="DetailsStack"
+        component={DetailsScreen}
+        options={({ route }) => defaultStyling(route)}
       />
     </RecentStack.Navigator>
   );
@@ -83,9 +103,9 @@ export const ProfileStackNavigator = () => {
   return (
     <ProfileStack.Navigator>
       <ProfileStack.Screen
-        name="Profile"
+        name="ProfileStack"
         component={ProfileScreen}
-        options={defaultStyling}
+        options={({ route }) => defaultStyling(route)}
       />
     </ProfileStack.Navigator>
   );

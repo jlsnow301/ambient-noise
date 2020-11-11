@@ -6,7 +6,7 @@ export const LOCATIONS = [
     { latitude: 47.659229, longitude: -122.350251 },
     "Pecado Bueno - Fremont",
     "Mexican Restaurant",
-    "2020-10-26"
+    "2020-11-10"
   ),
 
   new Location(
@@ -14,20 +14,20 @@ export const LOCATIONS = [
     { latitude: 47.641316, longitude: -122.32578 },
     "Pecado Bueno - Eastlake",
     "Mexican Restaurant",
-    "2020-10-26"
+    "2020-11-09"
   ),
   new Location(
     "loc3",
     { latitude: 47.692788, longitude: -122.34508 },
     "House",
     "Someone actually lives here",
-    "2020-10-26"
+    "2020-11-07"
   ),
   new Location(
     "loc4",
     { latitude: 47.620422, longitude: -122.349358 },
     "Space Needle",
     "Iconic observation tower in Seattle",
-    "2020-10-26"
+    "2020-11-05"
   ),
 ];

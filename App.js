@@ -42,6 +42,8 @@ function App() {
     <AuthContext.Provider
       value={{
         isLoggedIn: !!token,
+        name: name,
+        image: image,
         token: token,
         userId: userId,
         login: login,
