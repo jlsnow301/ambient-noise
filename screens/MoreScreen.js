@@ -8,7 +8,6 @@ import { RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_DEFAULT } from 'expo-av/build/Au
 
 const recordSound = async () => {
     try {
-        Audio.Sound.createAsync(source, initialStatus = {}, onPlaybackStatusUpdate = null, downloadFirst = true)
         const recording = new Audio.Recording();
 
         let { canRecord, isDoneRecording } = await recording.getStatusAsync();
@@ -24,6 +23,7 @@ const recordSound = async () => {
 };
 
 const MoreScreen = (props) => {
+
     return (
         <View style={styles.container}>
             <TouchableOpacity>

@@ -12,19 +12,29 @@ const DetailsScreen = (props) => {
     try {
 
       const soundObject = new Audio.Sound();
-  
+
       const status = {
         shouldPlay: true
       };
       console.log(`Played track ${props.route.params.id}`);
-      soundObject.loadAsync(require('../assets/sound/freeway-1.mp3'), status, false);
-      soundObject.playAsync();
-      soundObject.unloadAsync();
+      function playSound(name, sound) {
+        Audio.Sound.createAsync(
+          sound,
+          { shouldPlay: true }
+        ).then((res) => {
+          res.sound.setOnPlaybackStatusUpdate((status) => {
+            if (!status.didJustFinish) return;
+            console.log('Unloading ' + name);
+            res.sound.unloadAsync().catch(() => { });
+          });
+        }).catch((error) => { });
+      }
+      const clickSound = require('../assets/sound/freeway-1.mp3');
+      playSound('click', clickSound);
     }
     catch (error) {
       console.log(`Error while playing ${error}`);
     }
-
   };
   const mapButtonHandler = () => {
     props.navigation.navigate("HomeStack", props.route.params.coordinates);
