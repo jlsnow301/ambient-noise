@@ -7,6 +7,7 @@ import LoginScreen from "../screens/LoginScreen";
 import SavedScreen from "../screens/SavedScreen";
 import RecentScreen from "../screens/RecentlyScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import SignupScreen from "../screens/SignupScreen"
 
 import Colors from "../constants/colors";
 
@@ -50,8 +51,13 @@ export const LoginStackNavigator = () => {
   return (
     <LoginStack.Navigator>
       <LoginStack.Screen
-        name="Login"
+        name="LoginStack"
         component={LoginScreen}
+        options={defaultStyling}
+      />
+        <LoginStack.Screen
+        name="SignupStack"
+        component={SignupScreen}
         options={defaultStyling}
       />
     </LoginStack.Navigator>

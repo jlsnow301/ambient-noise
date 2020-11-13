@@ -6,14 +6,23 @@ import {
   Alert,
   Keyboard,
   View,
+  TextInput,
+  Text,
+  TouchableOpacity,
 } from "react-native";
 
-import Card from "../components/Card";
+
 import Input from "../components/Input";
 import Colors from "../constants/colors";
 import TitleText from "../components/TitleText";
 import LinkButton from "../components/LinkButton";
 import { AuthContext } from "../functions/auth-context";
+import { LinearGradient } from 'expo-linear-gradient';
+import { NavigationActions, NavigationEvents, NavigationProvider, createStackNavigator } from "react-navigation";
+import SignupScreen from './SignupScreen';
+import * as firebase from 'firebase';
+//import navigation from '../navigation/StackNavigator';
+
 
 // Testing only
 let DUMMY_NAME = "Joe";
@@ -41,6 +50,10 @@ const LoginScreen = (props) => {
     setEnteredPassword("");
   };
 
+  const textPressHandler = () => {
+    
+  }
+
   // User hits submit. Validated, then entered.
   // Currently leading to nowhere.
   const loginHandler = () => {
@@ -51,6 +64,7 @@ const LoginScreen = (props) => {
       ]);
       return;
     }
+
     // So for now we're taking this and checking it here, not sending it anywhere
     const password = enteredPassword.toString();
     if (password === "" || password.length < 5) {
@@ -71,48 +85,75 @@ const LoginScreen = (props) => {
     auth.login(DUMMY_NAME, DUMMY_IMAGE, enteredEmail, DUMMY_TOKEN);
     Keyboard.dismiss();
   };
-
+ 
   return (
+    
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
       }}
     >
-      <View style={styles.screen}>
+     <LinearGradient
+        // Background Linear Gradient
+        colors={['#6DD5FA', '#FFFFFF']}
+        style={styles.LinearGradient}
+      >
+      
+      
         <TitleText style={styles.title}>Please Log In to Continue</TitleText>
-        <Card style={styles.inputContainer}>
-          <Input
+        
+        <View style={styles.inputContainer}>
+
+          
+          <TextInput
             style={styles.input}
             blurOnSubmit
             autoCapitalize="none"
             autoCorrect={false}
+            placeholder={'Enter Email address'}
+            placeholderTextColor= '#8e9eab'
             keyboardType="email-address"
             onChangeText={emailInputHandler}
             value={enteredEmail}
+            
           />
-          <Input
+          <TextInput
             style={styles.input}
             blurOnSubmit
+            placeholder={'password'}
+            placeholderTextColor= '#8e9eab'
             autoCapitalize="none"
             autoCorrect={false}
-            keyboardType="default"
+            keyboardType="password"
+            secureTextEntry={true}
             onChangeText={passwordInputHandler}
             value={enteredPassword}
+            
           />
           <Button
             title="Continue"
             onPress={loginHandler}
             color={Colors.primary}
           />
-        </Card>
-        <View style={styles.lineStyle} />
+          
+          <Text 
+          style={styles.SigupButton} 
+          onPress={ () => navigator.navigate('../LoginStack/SignupScreen')
+          }
+          >Don't have an account Sign Up</Text>
+         
+        
         <View style={styles.buttonContainer}>
           <LinkButton>Connect With Apple</LinkButton>
           <LinkButton>Connect With Google</LinkButton>
           <LinkButton>Connect With Facebook</LinkButton>
         </View>
+      
       </View>
+      </LinearGradient>
+      
     </TouchableWithoutFeedback>
+    
   );
 };
 
@@ -123,37 +164,58 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     alignItems: "center",
+    
   },
   title: {
     fontSize: 20,
     marginTop: 70,
     marginBottom: 20,
-    color: "black",
+    color: "#006AFF",
   },
   inputContainer: {
-    width: 300,
-    maxWidth: "80%",
+    width: 350,
+    maxWidth: "90%",
     alignItems: "center",
   },
   button: {
-    width: 100,
+    width: 300,
+    maxWidth: "80%",
+    alignItems: 'stretch',
+    
   },
   input: {
     width: "90%",
     textAlign: "center",
+    borderRadius: 5,
+    padding: 12,
+    backgroundColor: 'white',
+    marginBottom: 18,
+
   },
-  lineStyle: {
-    width: "90%",
-    borderWidth: 1,
-    borderColor: "#808080",
-    margin: 10,
-    marginTop: 30,
-  },
+  
   buttonContainer: {
-    height: 250,
+    height: 300,
     width: 300,
     alignItems: "stretch",
-    marginTop: 20,
     justifyContent: "space-evenly",
   },
+  LinearGradient: 
+  {
+    width: '100%',
+    height: '100%',
+    opacity: 0.95,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  LinkButton:
+  {
+    borderRadius: 15,
+  },
+  SigupButton: {
+    padding: 10,
+    color: '#006AFF',
+    fontSize: 18,
+    textAlign: 'center'
+  },
+  
 });
