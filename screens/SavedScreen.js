@@ -6,7 +6,6 @@ import {
   Keyboard,
 } from "react-native";
 
-import Header from "../components/Header";
 import PlaceList from "../components/PlaceList";
 
 const SavedScreen = (props) => {
@@ -18,7 +17,7 @@ const SavedScreen = (props) => {
     >
       <View style={styles.screen}>
         <View style={styles.content}>
-          <PlaceList listMode={"saved"} />
+          <PlaceList listMode={"saved"} navigation={props.navigation} />
         </View>
       </View>
     </TouchableWithoutFeedback>

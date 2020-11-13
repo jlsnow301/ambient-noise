@@ -6,7 +6,6 @@ import {
   Keyboard,
 } from "react-native";
 
-import Header from "../components/Header";
 import PlaceList from "../components/PlaceList";
 
 const RecentScreen = (props) => {
@@ -18,7 +17,7 @@ const RecentScreen = (props) => {
     >
       <View style={styles.screen}>
         <View style={styles.content}>
-          <PlaceList listMode={"recent"} />
+          <PlaceList listMode={"recent"} navigation={props.navigation} />
         </View>
       </View>
     </TouchableWithoutFeedback>

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import Geocode from "react-geocode";
 import * as Location from "expo-location";
-import * as Permissions from "expo-permissions";
+import { StyleSheet } from "react-native";
+import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 
+import Colors from "../constants/colors";
+import MarkerTooltip from "./MarkerTooltip";
 import GOOGLE_KEY from "../constants/api-keys";
 import { LOCATIONS } from "../data/dummy-locations";
 
@@ -34,14 +35,12 @@ const MapOverlay = (props) => {
           setErrorMsg("Permission to access location was denied");
         }
         let location = await Location.getCurrentPositionAsync({});
-        console.log(location);
         setCurrentRegion({
           latitude: location.coords.latitude,
           latitudeDelta: 0.07,
           longitude: location.coords.longitude,
           longitudeDelta: 0.07,
         });
-        console.log(currentRegion);
       })();
     }
   }, []);
@@ -68,15 +67,16 @@ const MapOverlay = (props) => {
       region={currentRegion}
     >
       {LOCATIONS.map((location) => (
-        <MapView.Marker
+        <Marker
           key={location.id}
+          pinColor={Colors.accent}
           coordinate={{
             latitude: location.coordinates.latitude,
             longitude: location.coordinates.longitude,
           }}
-          title={location.title}
-          description={location.description}
-        />
+        >
+          <MarkerTooltip location={location} navigation={props.navigation} />
+        </Marker>
       ))}
     </MapView>
   );

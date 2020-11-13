@@ -26,7 +26,7 @@ import * as firebase from 'firebase';
 
 // Testing only
 let DUMMY_NAME = "Joe";
-let DUMMY_IMAGE = "../assets/logo.png";
+let DUMMY_IMAGE = "https://bootdey.com/img/Content/avatar/avatar6.png";
 let DUMMY_TOKEN = "123456abcdef";
 
 const LoginScreen = (props) => {

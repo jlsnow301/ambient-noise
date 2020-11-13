@@ -7,7 +7,7 @@ const PlayButton = (props) => {
         <View style={styles.container}>
             <TouchableOpacity activeOpacity={0.8} onPress={props.onPress}>
                 <View style={styles.button}>
-                    <AntDesign name="sound" size={40} color="#006AFF" />
+                    <AntDesign name="sound" size={50} color="#006AFF" />
                 </View>
             </TouchableOpacity>
         </View>
@@ -19,9 +19,10 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     button: {
-        padding:10,
+        padding:15,
         margin: 5,
-        width:60,
+        width:80,
+        height:80,
         backgroundColor: 'white',
         borderRadius:50,
         alignItems: "center",
