@@ -1,11 +1,10 @@
-import * as React from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, FadeInView } from 'react-native';
 import Constants from 'expo-constants';
 import RecordButton from "../components/RecordButton";
 import { Audio } from 'expo-av';
 import PlayButton from "../components/PlayButton"
 import { RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_DEFAULT } from 'expo-av/build/Audio';
-
 
 const recordSound = async () => {
     try {
@@ -23,10 +22,10 @@ const recordSound = async () => {
     }
 };
 
-class MoreScreen extends React.Component {
-    async componentDidMount() {
+const MoreScreen = (props) => {
+    useEffect(() => {
         Audio.setAudioModeAsync({
-            allowsRecordingIOS: false,
+            allowsRecordingIOS: true,
             interruptionModeIOS: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
             playsInSilentModeIOS: true,
             interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
@@ -34,39 +33,38 @@ class MoreScreen extends React.Component {
             staysActiveInBackground: true,
         });
 
-        this.sound = new Audio.Sound();
 
-        const status = {
-            shouldPlay: false
-        };
+    }, []);
+    const soundObject = new Audio.Sound();
 
-        this.sound.loadAsync(require('../assets/sound/freeway-1.mp3'), status, false);
-    }
+    const status = {
+        shouldPlay: false
+    };
 
-    playsound() {
-        this.sound.playAsync();
-    }
+    soundObject.loadAsync(require('../assets/sound/freeway-1.mp3'), status, false);
+    function playsound(){
+        soundObject.playAsync();
+    };
 
-    render() {
-        return (
-            <View style={styles.container}>
-                <TouchableOpacity>
-                    <Text>Tap to record!</Text>
-                    <RecordButton
-                        onPress={() => { recordSound() }}
-                    />
-                </TouchableOpacity>
+    return (
+        <View style={styles.container}>
+            <TouchableOpacity>
+                <Text>Tap to record!</Text>
+                <RecordButton
+                    onPress={() => { recordSound() }}
+                />
+            </TouchableOpacity>
 
-                <TouchableOpacity>
-                    <Text>Tap to play audio!</Text>
-                    <PlayButton
-                        onPress={this.playsound.bind(this)} 
-                    />
-                </TouchableOpacity>
-            </View>
-        );
-    }
+            <TouchableOpacity>
+                <Text>Tap to play audio!</Text>
+                <PlayButton
+                    onPress={playsound.bind()}
+                />
+            </TouchableOpacity>
+        </View>
+    );
 }
+
 
 export default MoreScreen;
 
