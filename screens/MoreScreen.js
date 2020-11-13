@@ -8,6 +8,7 @@ import { RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_DEFAULT } from 'expo-av/build/Au
 
 const recordSound = async () => {
     try {
+        Audio.Sound.createAsync(source, initialStatus = {}, onPlaybackStatusUpdate = null, downloadFirst = true)
         const recording = new Audio.Recording();
 
         let { canRecord, isDoneRecording } = await recording.getStatusAsync();
@@ -23,40 +24,12 @@ const recordSound = async () => {
 };
 
 const MoreScreen = (props) => {
-    useEffect(() => {
-        Audio.setAudioModeAsync({
-            allowsRecordingIOS: true,
-            interruptionModeIOS: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-            playsInSilentModeIOS: true,
-            interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
-            shouldDuckAndroid: true,
-            staysActiveInBackground: true,
-        });
-    }, []);
-    const soundObject = new Audio.Sound();
-
-    const status = {
-        shouldPlay: false
-    };
-
-    soundObject.loadAsync(require('../assets/sound/freeway-1.mp3'), status, false);
-    function playsound(){
-        soundObject.playAsync();
-    };
-
     return (
         <View style={styles.container}>
             <TouchableOpacity>
                 <Text>Tap to record!</Text>
                 <RecordButton
                     onPress={() => { recordSound() }}
-                />
-            </TouchableOpacity>
-
-            <TouchableOpacity>
-                <Text>Tap to play audio!</Text>
-                <PlayButton
-                    onPress={playsound.bind()}
                 />
             </TouchableOpacity>
         </View>
