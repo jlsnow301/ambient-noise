@@ -32,8 +32,6 @@ const MoreScreen = (props) => {
             shouldDuckAndroid: true,
             staysActiveInBackground: true,
         });
-
-
     }, []);
     const soundObject = new Audio.Sound();
 
