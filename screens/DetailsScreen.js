@@ -10,9 +10,7 @@ import IconButton from "../components/IconButton";
 const DetailsScreen = (props) => {
   const playAudio = async () => {
     try {
-
       const soundObject = new Audio.Sound();
-
       const status = {
         shouldPlay: true
       };
@@ -30,7 +28,7 @@ const DetailsScreen = (props) => {
         }).catch((error) => { });
       }
       const clickSound = require('../assets/sound/freeway-1.mp3');
-      playSound('click', clickSound);
+      playSound('noise', clickSound);
     }
     catch (error) {
       console.log(`Error while playing ${error}`);
