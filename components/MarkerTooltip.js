@@ -52,10 +52,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   lineStyle: {
-    width: "100%",
+    alignSelf:'stretch',
     borderWidth: 1,
     borderColor: "#808080",
-    margin: 5,
+    marginTop: 5,
     marginBottom: 10,
   },
   attributeText: {
