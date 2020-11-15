@@ -39,11 +39,12 @@ export default MarkerTooltip;
 const styles = StyleSheet.create({
   card: {
     width: 200,
-    maxWidth: "90%",
+    maxWidth: "100%",
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
+    marginHorizontal: 10,
   },
   titleText: {
     fontSize: 18,
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   lineStyle: {
-    width: "90%",
+    width: "100%",
     borderWidth: 1,
     borderColor: "#808080",
     margin: 5,

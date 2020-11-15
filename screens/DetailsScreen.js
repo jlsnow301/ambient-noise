@@ -1,53 +1,25 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React from "react";
+import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { StyleSheet, Text, View } from "react-native";
-import { FontAwesome5, AntDesign } from "@expo/vector-icons";
-import { Audio } from 'expo-av';
+
 import Card from "../components/Card";
+import Colors from "../constants/colors";
 import BodyText from "../components/BodyText";
 import TitleText from "../components/TitleText";
 import IconButton from "../components/IconButton";
+import PlayButton from "../components/PlayButton";
 
 const DetailsScreen = (props) => {
-  const playAudio = async () => {
-    try {
-      const soundObject = new Audio.Sound();
-      const status = {
-        shouldPlay: true
-      };
-      console.log(`Played track ${props.route.params.id}`);
-      function playSound(name, sound) {
-        Audio.Sound.createAsync(
-          sound,
-          { shouldPlay: true }
-        ).then((res) => {
-          res.sound.setOnPlaybackStatusUpdate((status) => {
-            if (!status.didJustFinish) return;
-            console.log('Unloading ' + name);
-            res.sound.unloadAsync().catch(() => { });
-          });
-        }).catch((error) => { });
-      }
-      const clickSound = require('../assets/sound/freeway-1.mp3');
-      playSound('noise', clickSound);
-    }
-    catch (error) {
-      console.log(`Error while playing ${error}`);
-    }
-  };
-  const mapButtonHandler = () => {
-    props.navigation.navigate("HomeStack", props.route.params.coordinates);
-  };
-
-  const listenButtonHandler = () => {
-    console.log(`Played track ${props.route.params.id}`);
-  };
-
   return (
     <View style={styles.screen}>
       <Card style={styles.card}>
-        <TitleText style={styles.titleText}>
-          {props.route.params.title}
-        </TitleText>
+        <View style={styles.header}>
+          <TitleText style={styles.titleText}>
+            {props.route.params.title}
+          </TitleText>
+          <Ionicons name="ios-pin" size={25} color={Colors.accent} />
+        </View>
         <View style={styles.lineStyle} />
         <Text style={styles.attributeText}>Description:</Text>
         <BodyText style={styles.bodyText}>
@@ -56,16 +28,19 @@ const DetailsScreen = (props) => {
         <Text style={styles.attributeText}>Date Added:</Text>
         <BodyText style={styles.bodyText}>{props.route.params.date}</BodyText>
         <View style={styles.buttonContainer}>
-          <IconButton
-            icon={<AntDesign name="sound" size={40} color="#006AFF" />}
-            onPress={() => { playAudio() }}
-            text="LISTEN"
+          <PlayButton
+            soundId={`../assets/sound/${props.route.params.soundId}.mp3`}
           />
           <IconButton
             icon={
               <FontAwesome5 name="globe-americas" size={40} color="#006AFF" />
             }
-            onPress={mapButtonHandler}
+            onPress={() =>
+              props.navigation.navigate(
+                "HomeStack",
+                props.route.params.coordinates
+              )
+            }
             text="MAP"
           />
         </View>
@@ -82,16 +57,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: 10,
+  },
   titleText: {
+    fontWeight: "bold",
     color: "black",
-    textAlign: "center",
   },
   lineStyle: {
-    width: "90%",
+    minWidth: "100%",
     borderWidth: 1,
     borderColor: "#808080",
-    margin: 10,
-    marginBottom: 30,
+    margin: 5,
+    marginBottom: 10,
   },
   attributeText: {
     fontSize: 16,
