@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     color: "black",
   },
   lineStyle: {
-    minWidth: "100%",
+    alignSelf:'stretch',
     borderWidth: 1,
     borderColor: "#808080",
     margin: 5,
