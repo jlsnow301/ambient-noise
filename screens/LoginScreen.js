@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react";
+/*jshint esversion: 6 */
+import React, { useState, Component } from "react";
 import {
   StyleSheet,
   Button,
@@ -7,85 +8,66 @@ import {
   Keyboard,
   View,
   TextInput,
+  ActivityIndicator,
   Text,
   TouchableOpacity,
 } from "react-native";
 
-
+import {createStackNavigator} from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
 import Input from "../components/Input";
 import Colors from "../constants/colors";
 import TitleText from "../components/TitleText";
 import LinkButton from "../components/LinkButton";
 import { AuthContext } from "../functions/auth-context";
 import { LinearGradient } from 'expo-linear-gradient';
-import { NavigationActions, NavigationEvents, NavigationProvider, createStackNavigator } from "react-navigation";
+import { NavigationActions, NavigationEvents, NavigationProvider } from "react-navigation";
 import SignupScreen from './SignupScreen';
-import * as firebase from 'firebase';
-//import navigation from '../navigation/StackNavigator';
+import firebase from '../database/firebase';
 
 
-// Testing only
-let DUMMY_NAME = "Joe";
-let DUMMY_IMAGE = "https://bootdey.com/img/Content/avatar/avatar6.png";
-let DUMMY_TOKEN = "123456abcdef";
-
-const LoginScreen = (props) => {
-  const auth = useContext(AuthContext);
-  const [enteredEmail, setEnteredEmail] = useState("");
-  const [enteredPassword, setEnteredPassword] = useState("");
-
-  // Changes what is displayed as the user types
-  const emailInputHandler = (value) => {
-    setEnteredEmail(value);
-  };
-
-  // Changes what is displayed as the user types
-  const passwordInputHandler = (value) => {
-    setEnteredPassword(value);
-  };
-
-  // Clears the displayed values
-  const resetInputHandler = () => {
-    setEnteredEmail("");
-    setEnteredPassword("");
-  };
-
-  const textPressHandler = () => {
-    
+export default class LoginScreen extends Component {
+  
+  constructor() {
+    super();
+    this.state = { 
+      email: '', 
+      password: '',
+      isLoading: false
+    };
   }
 
-  // User hits submit. Validated, then entered.
-  // Currently leading to nowhere.
-  const loginHandler = () => {
-    const email = enteredEmail.toString();
-    if (email === "" || email.length < 5) {
-      Alert.alert("Invalid Email!", "You must type in an email address.", [
-        { text: "Okay", style: "destructive", onPress: resetInputHandler },
-      ]);
-      return;
-    }
+  updateInputVal = (val, prop) => {
+    const state = this.state;
+    state[prop] = val;
+    this.setState(state);
+  }
 
-    // So for now we're taking this and checking it here, not sending it anywhere
-    const password = enteredPassword.toString();
-    if (password === "" || password.length < 5) {
-      Alert.alert(
-        "Invalid Password!",
-        "You must type in a password. Minimum 5 characters.",
-        [
-          {
-            text: "Okay",
-            style: "destructive",
-            onPress: resetInputHandler,
-          },
-        ]
-      );
-      return;
+  userLogin = () => {
+    if(this.state.email === '' && this.state.password === '') {
+      Alert.alert('Enter email and/or password to login!');
+    } else {
+      this.setState({
+        isLoading: true,
+      });
+      firebase
+      .auth()
+      .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .then((res) => {
+        console.log(res);
+        console.log('User logged-in successfully!');
+        this.setState({
+          isLoading: false,
+          email: '', 
+          password: ''
+        });
+        this.props.navigation.navigate('ProfileStack');
+      })
+      .catch(error => this.setState({ errorMessage: error.message }));
     }
-    // We have no server so there's nothing giving us user info on login.
-    auth.login(DUMMY_NAME, DUMMY_IMAGE, enteredEmail, DUMMY_TOKEN);
-    Keyboard.dismiss();
   };
- 
+
+  render() {
   return (
     
     <TouchableWithoutFeedback
@@ -98,7 +80,6 @@ const LoginScreen = (props) => {
         colors={['#6DD5FA', '#FFFFFF']}
         style={styles.LinearGradient}
       >
-      
       
         <TitleText style={styles.title}>Please Log In to Continue</TitleText>
         
@@ -113,8 +94,8 @@ const LoginScreen = (props) => {
             placeholder={'Enter Email address'}
             placeholderTextColor= '#8e9eab'
             keyboardType="email-address"
-            onChangeText={emailInputHandler}
-            value={enteredEmail}
+            onChangeText={(val) => this.updateInputVal(val, 'email')}
+            value={this.state.email}
             
           />
           <TextInput
@@ -126,24 +107,23 @@ const LoginScreen = (props) => {
             autoCorrect={false}
             keyboardType="password"
             secureTextEntry={true}
-            onChangeText={passwordInputHandler}
-            value={enteredPassword}
+            onChangeText={(val) => this.updateInputVal(val, 'password')}
+            value={this.state.password}
             
           />
           <Button
-            title="Continue"
-            onPress={loginHandler}
+            title="Log In"
+            onPress={() => this.userLogin('ProfileScreen')}
             color={Colors.primary}
           />
           
           <Text 
-          style={styles.SigupButton} 
-          onPress={ () => navigator.navigate('../LoginStack/SignupScreen')
-          }
+          style={styles.SigupButton}
+          onPress={ () => this.props.navigation.navigate('SignupStack')}
           >Don't have an account Sign Up</Text>
          
-        
-        <View style={styles.buttonContainer}>
+         
+          <View style={styles.buttonContainer}>
           <LinkButton>Connect With Apple</LinkButton>
           <LinkButton>Connect With Google</LinkButton>
           <LinkButton>Connect With Facebook</LinkButton>
@@ -155,9 +135,10 @@ const LoginScreen = (props) => {
     </TouchableWithoutFeedback>
     
   );
-};
+}
+}
 
-export default LoginScreen;
+// Styles
 
 const styles = StyleSheet.create({
   screen: {
@@ -178,9 +159,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-    width: 300,
+    width: "100%",
     maxWidth: "80%",
-    alignItems: 'stretch',
+    alignItems: 'center',
+    justifyContent: 'center',
     
   },
   input: {

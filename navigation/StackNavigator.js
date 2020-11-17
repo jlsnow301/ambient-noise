@@ -1,14 +1,14 @@
+/*jshint esversion: 6 */
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-
+import {NavigationContainer} from "@react-navigation/native"
 import HomeScreen from "../screens/HomeScreen";
 import MoreScreen from "../screens/MoreScreen";
 import LoginScreen from "../screens/LoginScreen";
 import SavedScreen from "../screens/SavedScreen";
 import RecentScreen from "../screens/RecentlyScreen";
 import ProfileScreen from "../screens/ProfileScreen";
-import SignupScreen from "../screens/SignupScreen"
-
+import SignupScreen from "../screens/SignupScreen";
 import Colors from "../constants/colors";
 import DetailsScreen from "../screens/DetailsScreen";
 
@@ -18,6 +18,8 @@ const LoginStack = createStackNavigator();
 const SavedStack = createStackNavigator();
 const RecentStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
+const SignupStack = createStackNavigator ();
+const AuthStack = createStackNavigator ();
 
 const defaultStyling = (route) => {
   return {
@@ -65,14 +67,15 @@ export const LoginStackNavigator = () => {
         component={LoginScreen}
         options={({ route }) => defaultStyling(route)}
       />
-        <LoginStack.Screen
+    <SignupStack.Screen
         name="SignupStack"
         component={SignupScreen}
-        options={defaultStyling}
+        options={({ route }) => defaultStyling(route)}
       />
     </LoginStack.Navigator>
   );
 };
+
 export const SavedStackNavigator = () => {
   return (
     <SavedStack.Navigator>
