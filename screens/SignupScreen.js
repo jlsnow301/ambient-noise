@@ -118,7 +118,7 @@ export default class SignupScreen extends Component {
           <TextInput
             style={styles.input}
             blurOnSubmit
-            placeholder={'Re-Enter password'}
+            placeholder={' cofirm-password'}
             placeholderTextColor= '#8e9eab'
             autoCapitalize="none"
             autoCorrect={false}
