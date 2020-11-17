@@ -22,7 +22,7 @@ import { AuthContext } from "../functions/auth-context";
 import { LinearGradient } from 'expo-linear-gradient';
 import { render } from "react-dom";
 import LoginScreen from './LoginScreen';
-import firebase from '../database/firebase';
+import firebase from 'firebase';
 
 
 export default class SignupScreen extends Component {
