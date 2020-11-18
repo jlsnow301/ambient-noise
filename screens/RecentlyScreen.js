@@ -33,7 +33,5 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingHorizontal: 20,
     maxHeight: "85%",
-    minWidth: 400,
-    maxWidth: "95%",
   },
 });
