@@ -152,10 +152,14 @@ const SignupScreen = (props) => {
             style={styles.input}
             blurOnSubmit
 <<<<<<< HEAD
+<<<<<<< HEAD
             placeholder={' cofirm-password'}
             placeholderTextColor= '#8e9eab'
 =======
             placeholder={"re-enter password"}
+=======
+            placeholder={"retype password"}
+>>>>>>> 46bfb185d7ca55faa110853b95b6c07aef468baf
             placeholderTextColor="#8e9eab"
 >>>>>>> 889eac44436b254a2812f7d903b6621593959ae5
             autoCapitalize="none"

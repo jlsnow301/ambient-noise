@@ -15,14 +15,14 @@ import SignupScreen from './screens/SignupScreen';
 =======
 
 import * as firebase from "firebase";
+import keys from "./constants/api-keys";
 import { useAuth } from "./hooks/auth-hook";
 import TabNavigator from "./navigation/TabNavigator";
 import { AuthContext } from "./functions/auth-context";
-import { FIREBASE_CONFIG } from "./constants/api-keys";
 
 // Initialize Firebase
 if (!firebase.apps.length) {
-  firebase.initializeApp(FIREBASE_CONFIG);
+  firebase.initializeApp(keys.FIREBASE_CONFIG);
 }
 >>>>>>> 889eac44436b254a2812f7d903b6621593959ae5
 
