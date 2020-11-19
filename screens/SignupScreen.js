@@ -151,7 +151,7 @@ const SignupScreen = (props) => {
           <TextInput
             style={styles.input}
             blurOnSubmit
-            placeholder={"re-enter password"}
+            placeholder={"retype password"}
             placeholderTextColor="#8e9eab"
             autoCapitalize="none"
             autoCorrect={false}
