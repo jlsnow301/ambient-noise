@@ -1,5 +1,7 @@
 import React from "react";
-import { Text, StyleSheet } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
+
+import Colors from "../constants/colors";
 
 /* Creates large text in 26pt font. Used on the header.
    Usage: <TitleText style={styles.override}>Text</TitleText>
@@ -7,13 +9,25 @@ import { Text, StyleSheet } from "react-native";
    <TitleText style={{color: "black"}}>Text</TitleText> */
 
 const TitleText = (props) => (
-  <Text style={{ ...styles.title, ...props.style }}>{props.children}</Text>
+  <View style={{ ...styles.button, ...props.style }}>
+    <Text style={styles.text}>{props.children}</Text>
+  </View>
 );
 
 const styles = StyleSheet.create({
-  title: {
+  button: {
+    // backgroundColor: Colors.secondary,
+    // paddingVertical: 12,
+    // paddingHorizontal: 30,
+    // borderRadius: 10,
+    alignSelf: "center",
+    justifyContent: "center",
+  },
+  text: {
     fontSize: 24,
-    color: "white",
+    color: Colors.primary,
+    textAlign: "center",
+    fontWeight: "bold",
   },
 });
 

@@ -1,211 +1,207 @@
-/*jshint esversion: 6 */
-import React, { useState, useContext, Component } from "react";
+import React, { useState } from "react";
 import {
-  StyleSheet,
-  Button,
-  TouchableWithoutFeedback,
-  Alert,
-  Keyboard,
-  View,
-  TextInput,
-  ActivityIndicator,
   Text,
+  View,
+  Alert,
+  Button,
+  Keyboard,
+  TextInput,
+  StyleSheet,
+  TouchableWithoutFeedback,
 } from "react-native";
-import {createStackNavigator} from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-import { NavigationActions, NavigationEvents, NavigationProvider } from "react-navigation";
-import Input from "../components/Input";
+
+import * as firebase from "firebase";
 import Colors from "../constants/colors";
 import TitleText from "../components/TitleText";
-import LinkButton from "../components/LinkButton";
-import { AuthContext } from "../functions/auth-context";
-import { LinearGradient } from 'expo-linear-gradient';
-import { render } from "react-dom";
-import LoginScreen from './LoginScreen';
-import firebase from 'firebase';
+import MainButton from "../components/MainButton";
+import { LinearGradient } from "expo-linear-gradient";
 
+const SignupScreen = (props) => {
+  const [enteredEmail, setEnteredEmail] = useState("");
+  const [enteredPassword, setEnteredPassword] = useState("");
+  const [enteredVerify, setEnteredVerify] = useState("");
+  const [confirmedDetails, setConfirmedDetails] = useState({
+    email: "",
+    password: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
 
-export default class SignupScreen extends Component {
-
-  constructor() {
-    super();
-    this.state = { 
-      email: '', 
-      password: '',
-      password_: '',
-      isLoading: false
-    };
-  }
-
-  updateInputVal = (val, prop) => {
-    const state = this.state;
-    state[prop] = val;
-    this.setState(state);
-  }
-
-  registerUser = () => {
-    // Check if the two passwords are matching
-    if(this.state.password != this.state.password_) {
-      Alert.alert('The two passwords are not matching');
-    } else {
-      this.state.password_ == this.state.password;
-    }
-    if(this.state.email === '' && this.state.password === '' && this.state.password_ === '') {
-      Alert.alert('Please enter a valid email and/or password to signup!');
-        
-    } else{
-      this.setState({
-        isLoading: true,
-      });
-      // call the authentication function to create an account
-      firebase
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then((res) => {
-        res.user.updateProfile({
-          email: this.state.email
-        });
-        console.log('User registered successfully!');
-        this.setState({
-          isLoading: false,
-          email: '', 
-          password: '',
-          password_: ''
-        });
-        this.props.navigation.navigate('LoginStack');
-      })
-      .catch(error => this.setState({ errorMessage: error.message }));      
-    }
+  // Changes what is displayed as the user types
+  const emailInputHandler = (value) => {
+    setEnteredEmail(value);
   };
 
-    render() {
-        return (
-            <TouchableWithoutFeedback
-            onPress={() => {
-              Keyboard.dismiss();
-            }}
-          >
-          
+  // Changes what is displayed as the user types
+  const passwordInputHandler = (value) => {
+    setEnteredPassword(value);
+  };
+
+  // Changes what is displayed as the user types
+  const verifyInputHandler = (value) => {
+    setEnteredVerify(value);
+  };
+
+  // Clears the displayed values
+  const resetInputHandler = () => {
+    setEnteredEmail("");
+    setEnteredPassword("");
+    setEnteredVerify("");
+  };
+
+  const signupHandler = () => {
+    // Email is blank or less than 5
+    const email = enteredEmail.toString();
+    if (email === "" || email.length < 5) {
+      Alert.alert(
+        "Invalid Email!",
+        "You must type in an email address. Minimum 5 characters.",
+        [{ text: "Okay", style: "destructive", onPress: resetInputHandler }]
+      );
+      return;
+    }
+    // Password is blank or less than 5
+    const password = enteredPassword.toString();
+    if (password === "" || password.length < 5) {
+      Alert.alert(
+        "Invalid Password!",
+        "You must type in a password. Minimum 5 characters.",
+        [
+          {
+            text: "Okay",
+            style: "destructive",
+            onPress: resetInputHandler,
+          },
+        ]
+      );
+      return;
+    }
+    // Passwords do not match
+    const verify = enteredVerify.toString();
+    if (verify === "" || verify.length < 5 || verify !== enteredPassword) {
+      Alert.alert(
+        "Invalid Verification!",
+        "Your passwords must match. Minimum 5 characters.",
+        [
+          {
+            text: "Okay",
+            style: "destructive",
+            onPress: resetInputHandler,
+          },
+        ]
+      );
+      return;
+    }
+    // If nothing has failed yet,
+    setIsLoading(true);
+    // Call the authentication function to create an account
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(enteredEmail, enteredPassword)
+      .then((res) => {
+        res.user.updateProfile({
+          email: enteredEmail,
+        });
+        console.log("User registered successfully!");
+        resetInputHandler();
+        props.navigation.navigate("LoginStack");
+      })
+      .catch((error) => setError({ errorMessage: error.message }));
+
+    setIsLoading(false);
+    resetInputHandler();
+  };
+
+  return (
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+      }}
+    >
       <LinearGradient
         // Background Linear Gradient
-        colors={['#6DD5FA', '#FFFFFF']}
-        style={styles.LinearGradient}
+        colors={["#6DD5FA", "#FFFFFF"]}
+        style={styles.linearGradient}
       >
         <TitleText style={styles.title}>Create an account</TitleText>
+        <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
             blurOnSubmit
             autoCapitalize="none"
             autoCorrect={false}
-            placeholder={'Enter Email address'}
-            placeholderTextColor= '#8e9eab'
+            placeholder={"email address"}
+            placeholderTextColor="#8e9eab"
             keyboardType="email-address"
-            onChangeText={(val) => this.updateInputVal(val, 'email')}
-            value={this.state.email}
+            onChangeText={emailInputHandler}
+            value={enteredEmail}
           />
           <TextInput
             style={styles.input}
             blurOnSubmit
-            placeholder={'password'}
-            placeholderTextColor= '#8e9eab'
+            placeholder={"password"}
+            placeholderTextColor="#8e9eab"
             autoCapitalize="none"
             autoCorrect={false}
-            keyboardType="password"
+            keyboardType="default"
             secureTextEntry={true}
-            onChangeText={(val) => this.updateInputVal(val, 'password')}
-            value={this.state.password}
+            onChangeText={passwordInputHandler}
+            value={enteredPassword}
           />
           <TextInput
             style={styles.input}
             blurOnSubmit
-            placeholder={'Re-Enter password'}
-            placeholderTextColor= '#8e9eab'
+            placeholder={"re-enter password"}
+            placeholderTextColor="#8e9eab"
             autoCapitalize="none"
             autoCorrect={false}
-            keyboardType="password"
+            keyboardType="default"
             secureTextEntry={true}
-            onChangeText={(val) => this.updateInputVal(val, 'password_')}
-            value={this.state.password_}
+            onChangeText={verifyInputHandler}
+            value={enteredVerify}
           />
-          <Button
-            title="Sign Up"
-            onPress={() => this.registerUser()}
-            color={Colors.primary}
-          />
-           <Text 
-          style={styles.LoginButton}
-          onPress={() => this.props.navigation.navigate('LoginStack')}>
-          Already Registered? Click here to login
-        </Text>   
-            </LinearGradient>
-      
-      
+          <MainButton onPress={signupHandler} color={Colors.primary}>
+            Sign Up
+          </MainButton>
+          <Text
+            style={styles.loginButton}
+            onPress={() => props.navigation.navigate("LoginStack")}
+          >
+            Already Registered? Click here to login.
+          </Text>
+        </View>
+      </LinearGradient>
     </TouchableWithoutFeedback>
-
-
-
-        )
-    };
-
+  );
 };
-// Create the page styles
+
+export default SignupScreen;
+
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    padding: 10,
-    alignItems: "center",
-    
+  linearGradient: {
+    opacity: 0.95,
+    height: "100%",
+    width: "100%",
   },
   title: {
-    fontSize: 20,
-    marginTop: 70,
-    marginBottom: 20,
-    color: "#006AFF",
+    marginVertical: 20,
   },
   inputContainer: {
-    width: 350,
-    maxWidth: "90%",
     alignItems: "center",
-  },
-  button: {
-    width: 300,
-    maxWidth: "80%",
-    alignItems: 'stretch',
-    
+    justifyContent: "center",
   },
   input: {
     width: "90%",
     textAlign: "center",
     borderRadius: 5,
     padding: 12,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     marginBottom: 18,
-
   },
-  
-  buttonContainer: {
-    height: 300,
-    width: 300,
-    alignItems: "stretch",
-    justifyContent: "space-evenly",
-  },
-  LinearGradient: 
-  {
-    width: '100%',
-    height: '100%',
-    opacity: 0.95,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  LinkButton:
-  {
-    borderRadius: 15,
-  },
-  LoginButton: {
-    padding: 10,
-    color: '#006AFF',
+  loginButton: {
+    marginTop: 25,
+    color: "#006AFF",
     fontSize: 18,
-    textAlign: 'center'
+    textAlign: "center",
   },
-  
 });

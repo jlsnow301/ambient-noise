@@ -1,203 +1,191 @@
 /*jshint esversion: 6 */
-import React, { useState, Component } from "react";
+import React, { useState, useContext } from "react";
 import {
-  StyleSheet,
-  Button,
-  TouchableWithoutFeedback,
+  Text,
+  View,
   Alert,
   Keyboard,
-  View,
   TextInput,
-  ActivityIndicator,
-  Text,
-  TouchableOpacity,
+  StyleSheet,
+  TouchableWithoutFeedback,
 } from "react-native";
 
-import {createStackNavigator} from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-import Input from "../components/Input";
-import Colors from "../constants/colors";
+import * as firebase from "firebase";
 import TitleText from "../components/TitleText";
+import MainButton from "../components/MainButton";
 import LinkButton from "../components/LinkButton";
+import { LinearGradient } from "expo-linear-gradient";
 import { AuthContext } from "../functions/auth-context";
-import { LinearGradient } from 'expo-linear-gradient';
-import { NavigationActions, NavigationEvents, NavigationProvider } from "react-navigation";
-import SignupScreen from './SignupScreen';
-import firebase from 'firebase';
 
+// Testing only
+let DUMMY_NAME = "Joe";
+let DUMMY_IMAGE = "https://bootdey.com/img/Content/avatar/avatar6.png";
+let DUMMY_TOKEN = "123456abcdef";
 
-export default class LoginScreen extends Component {
-  
-  constructor() {
-    super();
-    this.state = { 
-      email: '', 
-      password: '',
-      isLoading: false
-    };
-  }
+const LoginScreen = (props) => {
+  const auth = useContext(AuthContext);
+  const [enteredEmail, setEnteredEmail] = useState("");
+  const [enteredPassword, setEnteredPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
 
-  updateInputVal = (val, prop) => {
-    const state = this.state;
-    state[prop] = val;
-    this.setState(state);
-  }
-
-  userLogin = () => {
-    if(this.state.email === '' && this.state.password === '') {
-      Alert.alert('Enter email and/or password to login!');
-    } else {
-      this.setState({
-        isLoading: true,
-      });
-      firebase
-      .auth()
-      .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then((res) => {
-        console.log(res);
-        console.log('User logged-in successfully!');
-        this.setState({
-          isLoading: false,
-          email: '', 
-          password: ''
-        });
-        this.props.navigation.navigate('ProfileStack');
-      })
-      .catch(error => this.setState({ errorMessage: error.message }));
-    }
+  // Changes what is displayed as the user types
+  const emailInputHandler = (value) => {
+    setEnteredEmail(value);
   };
 
-  render() {
+  // Changes what is displayed as the user types
+  const passwordInputHandler = (value) => {
+    setEnteredPassword(value);
+  };
+
+  // Clears the displayed values
+  const resetInputHandler = () => {
+    setEnteredEmail("");
+    setEnteredPassword("");
+  };
+
+  // User hits submit. Validated, then entered.
+  // Currently leading to nowhere.
+  const loginHandler = () => {
+    const email = enteredEmail.toString();
+    if (email === "" || email.length < 5) {
+      Alert.alert(
+        "Invalid Email!",
+        "You must type in an email address. Minimum 5 characters.",
+        [{ text: "Okay", style: "destructive", onPress: resetInputHandler }]
+      );
+      return;
+    }
+    // So for now we're taking this and checking it here, not sending it anywhere
+    const password = enteredPassword.toString();
+    if (password === "" || password.length < 5) {
+      Alert.alert(
+        "Invalid Password!",
+        "You must type in a password. Minimum 5 characters.",
+        [
+          {
+            text: "Okay",
+            style: "destructive",
+            onPress: resetInputHandler,
+          },
+        ]
+      );
+      return;
+    }
+    setIsLoading(true);
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(enteredEmail, enteredPassword)
+      .then((res) => {
+        console.log(res);
+        console.log("User logged-in successfully!");
+        auth.login(DUMMY_NAME, DUMMY_IMAGE, enteredEmail, DUMMY_TOKEN);
+        // auth.login(res.name, res.image, enteredEmail, res.token); Log in with the server response
+        this.props.navigation.navigate("ProfileStack");
+      })
+      .catch((error) => setError({ errorMessage: error.message }));
+    // Clear inputs
+    resetInputHandler();
+  };
+
   return (
-    
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
       }}
     >
-     <LinearGradient
+      <LinearGradient
         // Background Linear Gradient
-        colors={['#6DD5FA', '#FFFFFF']}
-        style={styles.LinearGradient}
+        colors={["#6DD5FA", "#FFFFFF"]}
+        style={styles.linearGradient}
       >
-      
         <TitleText style={styles.title}>Please Log In to Continue</TitleText>
-        
         <View style={styles.inputContainer}>
-
-          
           <TextInput
             style={styles.input}
             blurOnSubmit
             autoCapitalize="none"
             autoCorrect={false}
-            placeholder={'Enter Email address'}
-            placeholderTextColor= '#8e9eab'
+            placeholder={"email address"}
+            placeholderTextColor="#8e9eab"
             keyboardType="email-address"
-            onChangeText={(val) => this.updateInputVal(val, 'email')}
-            value={this.state.email}
-            
+            onChangeText={emailInputHandler}
+            value={enteredEmail}
           />
           <TextInput
             style={styles.input}
             blurOnSubmit
-            placeholder={'password'}
-            placeholderTextColor= '#8e9eab'
+            placeholder={"password"}
+            placeholderTextColor="#8e9eab"
             autoCapitalize="none"
             autoCorrect={false}
-            keyboardType="password"
+            keyboardType="default"
             secureTextEntry={true}
-            onChangeText={(val) => this.updateInputVal(val, 'password')}
-            value={this.state.password}
-            
+            onChangeText={passwordInputHandler}
+            value={enteredPassword}
           />
-          <Button
-            title="Log In"
-            onPress={() => this.userLogin('ProfileScreen')}
-            color={Colors.primary}
-          />
-          
-          <Text 
-          style={styles.SigupButton}
-          onPress={ () => this.props.navigation.navigate('SignupStack')}
-          >Don't have an account Sign Up</Text>
-         
-         
-          <View style={styles.buttonContainer}>
-          <LinkButton>Connect With Apple</LinkButton>
-          <LinkButton>Connect With Google</LinkButton>
-          <LinkButton>Connect With Facebook</LinkButton>
-        </View>
-      
-      </View>
-      </LinearGradient>
-      
-    </TouchableWithoutFeedback>
-    
-  );
-}
-}
+          <MainButton onPress={loginHandler}>Log In</MainButton>
+          <Text
+            style={styles.signupButton}
+            onPress={() => props.navigation.navigate("SignupStack")}
+          >
+            No account? Sign Up Instead.
+          </Text>
 
-// Styles
+          <View style={styles.buttonContainer}>
+            <LinkButton>Connect With Apple</LinkButton>
+            <LinkButton>Connect With Google</LinkButton>
+            <LinkButton>Connect With Facebook</LinkButton>
+          </View>
+        </View>
+      </LinearGradient>
+    </TouchableWithoutFeedback>
+  );
+};
+
+export default LoginScreen;
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    padding: 10,
-    alignItems: "center",
-    
+  linearGradient: {
+    opacity: 0.95,
+    height: "100%",
+    width: "100%",
   },
   title: {
-    fontSize: 20,
-    marginTop: 70,
-    marginBottom: 20,
-    color: "#006AFF",
+    marginVertical: 20,
   },
   inputContainer: {
-    width: 350,
-    maxWidth: "90%",
     alignItems: "center",
+    justifyContent: "center",
   },
   button: {
     width: "100%",
     maxWidth: "80%",
-    alignItems: 'center',
-    justifyContent: 'center',
-    
+    alignItems: "center",
+    justifyContent: "center",
   },
   input: {
     width: "90%",
     textAlign: "center",
     borderRadius: 5,
     padding: 12,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     marginBottom: 18,
-
   },
-  
   buttonContainer: {
     height: 300,
     width: 300,
     alignItems: "stretch",
     justifyContent: "space-evenly",
   },
-  LinearGradient: 
-  {
-    width: '100%',
-    height: '100%',
-    opacity: 0.95,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  LinkButton:
-  {
+  linkButton: {
     borderRadius: 15,
   },
-  SigupButton: {
-    padding: 10,
-    color: '#006AFF',
+  signupButton: {
+    marginTop: 25,
+    color: "#006AFF",
     fontSize: 18,
-    textAlign: 'center'
+    textAlign: "center",
   },
-  
 });
