@@ -11,7 +11,10 @@
     "@react-native-community/async-storage": "~1.12.0",
     "@react-native-community/google-signin": "^5.0.0",
     "@react-native-community/masked-view": "0.1.10",
+<<<<<<< HEAD
     "@react-native-firebase/app": "^9.0.0",
+=======
+>>>>>>> 889eac44436b254a2812f7d903b6621593959ae5
     "@react-navigation/bottom-tabs": "^5.10.5",
     "@react-navigation/material-bottom-tabs": "^5.3.5",
     "@react-navigation/native": "^5.8.9",
@@ -51,5 +54,6 @@
   "devDependencies": {
     "@babel/core": "~7.9.0"
   },
-  "private": true
+  "private": true,
+  "name": "ambient-noise"
 }

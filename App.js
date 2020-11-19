@@ -3,6 +3,7 @@ import * as Font from "expo-font";
 import { AppLoading } from "expo";
 import { StyleSheet, View, Text, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
+<<<<<<< HEAD
 import {createStackNavigator} from '@react-navigation/stack';
 import { useAuth } from "./hooks/auth-hook";
 import TabNavigator from "./navigation/TabNavigator";
@@ -11,6 +12,19 @@ import * as firebase from './database/firebase';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 
+=======
+
+import * as firebase from "firebase";
+import { useAuth } from "./hooks/auth-hook";
+import TabNavigator from "./navigation/TabNavigator";
+import { AuthContext } from "./functions/auth-context";
+import { FIREBASE_CONFIG } from "./constants/api-keys";
+
+// Initialize Firebase
+if (!firebase.apps.length) {
+  firebase.initializeApp(FIREBASE_CONFIG);
+}
+>>>>>>> 889eac44436b254a2812f7d903b6621593959ae5
 
 const fetchFonts = () => {
   Font.loadAsync({
