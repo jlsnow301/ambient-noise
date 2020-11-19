@@ -26,22 +26,25 @@ const MapOverlay = (props) => {
 
   Geocode.setApiKey(GOOGLE_KEY);
 
+  // Get user location
+  const fetchUserLocation = async () => {
+    let { status } = await Location.requestPermissionsAsync();
+    if (status !== "granted") {
+      setErrorMsg("Permission to access location was denied");
+    }
+    let location = await Location.getCurrentPositionAsync({});
+    setCurrentRegion({
+      latitude: location.coords.latitude,
+      latitudeDelta: 0.07,
+      longitude: location.coords.longitude,
+      longitudeDelta: 0.07,
+    });
+  };
+
   // Run once on startup
   useEffect(() => {
     if (props.coordinates === "") {
-      (async () => {
-        let { status } = await Location.requestPermissionsAsync();
-        if (status !== "granted") {
-          setErrorMsg("Permission to access location was denied");
-        }
-        let location = await Location.getCurrentPositionAsync({});
-        setCurrentRegion({
-          latitude: location.coords.latitude,
-          latitudeDelta: 0.07,
-          longitude: location.coords.longitude,
-          longitudeDelta: 0.07,
-        });
-      })();
+      fetchUserLocation();
     }
   }, []);
 
