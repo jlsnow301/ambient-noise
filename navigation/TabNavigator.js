@@ -4,15 +4,15 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import {
   HomeStackNavigator,
-  RecentStackNavigator,
-  SavedStackNavigator,
-  LoginStackNavigator,
-  ProfileStackNavigator,
   MoreStackNavigator,
+  LoginStackNavigator,
+  SavedStackNavigator,
+  RecentStackNavigator,
+  ProfileStackNavigator,
 } from "./StackNavigator";
 
-import { AuthContext } from "../functions/auth-context";
 import Colors from "../constants/colors";
+import { AuthContext } from "../functions/auth-context";
 
 const Tab = createBottomTabNavigator();
 
