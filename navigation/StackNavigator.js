@@ -9,16 +9,17 @@ import RecentScreen from "../screens/RecentScreen";
 import SignupScreen from "../screens/SignupScreen";
 import DetailsScreen from "../screens/DetailsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import MoreScreen from "../screens/MoreScreen";
 
 import Colors from "../constants/colors";
 
 const HomeStack = createStackNavigator();
-const MoreStack = createStackNavigator();
 const LoginStack = createStackNavigator();
 const SavedStack = createStackNavigator();
 const RecentStack = createStackNavigator();
 const SignupStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
+const MoreStack = createStackNavigator();
 
 const defaultStyling = (route) => {
   return {
