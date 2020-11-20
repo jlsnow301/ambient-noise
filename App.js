@@ -4,9 +4,16 @@ import { AppLoading } from "expo";
 import { StyleSheet, View, Text, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 
+import * as firebase from "firebase";
+import keys from "./constants/api-keys";
 import { useAuth } from "./hooks/auth-hook";
 import TabNavigator from "./navigation/TabNavigator";
 import { AuthContext } from "./functions/auth-context";
+
+// Initialize Firebase
+if (!firebase.apps.length) {
+  firebase.initializeApp(keys.FIREBASE_CONFIG);
+}
 
 const fetchFonts = () => {
   Font.loadAsync({
