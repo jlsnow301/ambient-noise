@@ -37,16 +37,19 @@ const MoreScreen = (props) => {
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity>
-                <Text>Tap to record!</Text>
-                <RecordButton
-                    onPress={() => { recordSound() }}
-                />
-            </TouchableOpacity>
-
-            <TouchableOpacity>
-                <SoundScore/>
-            </TouchableOpacity>
+            <View>
+                <TouchableOpacity>
+                    <Text>Tap to record!</Text>
+                    <RecordButton
+                        onPress={() => { recordSound() }}
+                    />
+                </TouchableOpacity>
+            </View>
+            <View>
+                <TouchableOpacity>
+                    <SoundScore/>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 }
@@ -60,8 +63,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingTop: Constants.statusBarHeight,
         padding: 8,
-        flexDirection: 'column',
         justifyContent: 'center',
+        flexDirection: 'column',
+        position: 'absolute',
+        alignItems: 'center',
+        top: '10%', left: 0, 
+        right: 0, bottom: '30%',
+
     },
     paragraph: {
         margin: 24,

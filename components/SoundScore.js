@@ -4,19 +4,20 @@ import { Rating, AirbnbRating } from 'react-native-elements';
 
 import Colors from "../constants/colors";
 
-const SoundScore = (rating) => {
-  console.log("Rating is: " + rating)
+const SoundScore = (props) => {
+  console.log("Rating is: " + props.rating)
   return (
-    <View>
-      <AirbnbRating
-        count={6}
-        reviews={["Silent", "Light Outdoors", "Normal Conversation", "Light Traffic", "Heavy Machinery", "Unliveable"]}
-        defaultRating={3}
-        size={20}
-      />
-    </View>
+
+    <AirbnbRating
+      count={6}
+      reviews={["Silent", "Light Outdoors", "Normal Conversation", "Light Traffic", "Heavy Machinery", "Unliveable"]}
+      defaultRating={3}
+      size={20}
+    />
+
   )
 };
+
 
 
 export default SoundScore;
