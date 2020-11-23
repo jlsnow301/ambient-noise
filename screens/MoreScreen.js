@@ -1,10 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, FadeInView } from 'react-native';
 import Constants from 'expo-constants';
-import RecordButton from "../components/RecordButton";
 import { Audio } from 'expo-av';
-import PlayButton from "../components/PlayButton"
 import { RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_DEFAULT } from 'expo-av/build/Audio';
+
+import PlayButton from "../components/PlayButton"
+import RecordButton from "../components/RecordButton";
+import SoundScore from "../components/SoundScore"
 
 const recordSound = async () => {
     Audio.setAudioModeAsync({
@@ -35,12 +37,19 @@ const MoreScreen = (props) => {
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity>
-                <Text>Tap to record!</Text>
-                <RecordButton
-                    onPress={() => { recordSound() }}
-                />
-            </TouchableOpacity>
+            <View>
+                <TouchableOpacity>
+                    <Text>Tap to record!</Text>
+                    <RecordButton
+                        onPress={() => { recordSound() }}
+                    />
+                </TouchableOpacity>
+            </View>
+            <View>
+                <TouchableOpacity>
+                    <SoundScore/>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 }
@@ -54,8 +63,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingTop: Constants.statusBarHeight,
         padding: 8,
-        flexDirection: 'row',
         justifyContent: 'center',
+        flexDirection: 'column',
+        position: 'absolute',
+        alignItems: 'center',
+        top: '10%', left: 0, 
+        right: 0, bottom: '30%',
+
     },
     paragraph: {
         margin: 24,
