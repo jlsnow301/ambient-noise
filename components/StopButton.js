@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Entypo } from '@expo/vector-icons';
 
-const RecordButton = (props) => {
+const StopButton = (props) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity activeOpacity={0.8} onPress={props.onPress}>
@@ -30,4 +30,4 @@ const styles = StyleSheet.create({
 },
 });
 
-export default RecordButton;
+export default StopButton;

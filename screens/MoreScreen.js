@@ -6,13 +6,19 @@ import { Audio } from 'expo-av';
 import { RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_DEFAULT } from 'expo-av/build/Audio';
 import StopButton from "../components/StopButton";
 import PlayBackButton from "../components/PlayBackButton";
-import PauseButton from "../componentss/PauseButton";
+import PauseButton from "../components/PauseButton";
+import { FontAwesome } from '@expo/vector-icons';
+import * as firebase from "firebase";
+if (!firebase.apps.length) {
+    firebase.initializeApp(keys.FIREBASE_CONFIG);
+  }
 
 const MoreScreen = (props) => {
     const [isRecording, setIsRecording] = useState(false);
     const [recording, setRecording] = useState(null);
     const [sound, setSound] = useState(null);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [isFetching, setIsFetching] = useState(false);
 
     useEffect(() => {
         Audio.requestPermissionsAsync()
@@ -22,65 +28,63 @@ const MoreScreen = (props) => {
 
         const { status } = Audio.getPermissionsAsync();
         if (status !== 'granted') return;
-
-        // stop playback
-        if (sound !== null) {
-            await sound.unloadAsync();
-            sound.setOnPlaybackStatusUpdate(null);
-            setSound(null);
-        }
-
+        console.log("recording")
+        setIsRecording(true);
         await Audio.setAudioModeAsync({
             allowsRecordingIOS: true,
             interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
             playsInSilentModeIOS: true,
             shouldDuckAndroid: true,
             interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-            playThroughEarpieceAndroid: false,
-            staysActiveInBackground: true,
+            playThroughEarpieceAndroid: true,
         });
-        const _recording = new Audio.Recording();
+        const recording = new Audio.Recording();
+
         try {
-            await _recording.prepareToRecordAsync(recordingSettings);
-            setRecording(_recording);
-            await _recording.startAsync();
-            console.log("recording");
-            setIsRecording(true);
+            await recording.prepareToRecordAsync(recordingOptions);
+            await recording.startAsync();
         } catch (error) {
-            console.log("error while recording:", error);
+            console.log(error);
+            stopRecording();
         }
+
+        setRecording(recording);
     };
 
     const stopRecording = async () => {
+        setIsRecording(false);
         try {
             await recording.stopAndUnloadAsync();
         } catch (error) {
-            // Do nothing -- we are already unloaded.
         }
-        const info = await FileSystem.getInfoAsync(recording.getURI());
-        console.log(`FILE INFO: ${JSON.stringify(info)}`);
-        await Audio.setAudioModeAsync({
-            allowsRecordingIOS: false,
-            interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
-            playsInSilentModeIOS: true,
-            playsInSilentLockedModeIOS: true,
-            shouldDuckAndroid: true,
-            interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-            playThroughEarpieceAndroid: false,
-            staysActiveInBackground: true,
-        });
-        const { sound: _sound, status } = await recording.createNewLoadedSoundAsync(
-            {
-                isLooping: true,
-                isMuted: false,
-                volume: 1.0,
-                rate: 1.0,
-                shouldCorrectPitch: true,
-            }
-        );
-        setSound(_sound);
-        setIsRecording(false);
-    };
+    }
+
+    const getTranscription = async () => {
+        setIsFetching(true);
+        try {
+            const info = await FileSystem.getInfoAsync(recording.getURI());
+            console.log(`FILE INFO: ${JSON.stringify(info)}`);
+            const uri = info.uri;
+            const formData = new FormData();
+            formData.append('file', {
+                uri,
+                type: 'audio/x-wav',
+                name: 'speech2text'
+            });
+            const response = await fetch(config.CLOUD_FUNCTION_URL, {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            console.log(data);
+            setQuery(data.transcript);
+        } catch(error) {
+            console.log('There was an error reading file', error);
+            stopRecording();
+            resetRecording();
+        }
+        setIsFetching(false);
+    }
 
     // const uploadAudio = async () => {
     //     const uri = recording.getURI();
@@ -146,18 +150,39 @@ const MoreScreen = (props) => {
         try {
             const info = await FileSystem.getInfoAsync(recording.getURI());
             await FileSystem.deleteAsync(info.uri)
-        } catch(error) {
+        } catch (error) {
             console.log("There was an error deleting recording file", error);
         }
     }
+
+    const handleOnPressIn = () => {
+        startRecording();
+    };
+
+    const handleOnPressOut = () => {
+        stopRecording();
+        getTranscription();
+    };
 
     return (
         <View style={styles.container}>
             <TouchableOpacity>
                 <Text>Tap to record!</Text>
-                <RecordButton
-                    onPress={() => { recordSound() }}
-                />
+                <View style={styles.container}>
+                    {isRecording &&
+                        <RecordButton />
+                    }
+                    {!isRecording &&
+                        <RecordButton size={32} color="#48C9B0" />
+                    }
+                    <Text>Voice Search</Text>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPressIn={handleOnPressIn}
+                        onPressOut={handleOnPressOut}
+                    >
+                    </TouchableOpacity>
+                </View>
                 <StopButton
                     onPress={() => { stopRecording() }}
                 />
@@ -165,7 +190,9 @@ const MoreScreen = (props) => {
                     onPress={() => { downloadAudio() }}
                 />
 
-                <PauseButton />
+                <PauseButton
+                    onPress={() => { downloadAudio() }}
+                />
             </TouchableOpacity>
         </View>
     );
