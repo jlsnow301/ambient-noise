@@ -21,7 +21,7 @@ const MoreScreen = (props) => {
 
     const startRecording = async () => {
         const { status } = Audio.getPermissionsAsync();
-        if (status == 'granted') {
+        if (status !== 'granted') return;
             console.log("recording")
             setIsRecording(true);
             await Audio.setAudioModeAsync({
@@ -43,7 +43,6 @@ const MoreScreen = (props) => {
             }
 
             setRecording(recording);
-        }
     };
 
     const stopRecording = async () => {
@@ -103,8 +102,6 @@ const MoreScreen = (props) => {
             .getDownloadURL();
 
         console.log("uri:", uri);
-
-        // The rest of this plays the audio
         const soundObject = new Audio.Sound();
         try {
             await soundObject.loadAsync({ uri });
@@ -125,11 +122,12 @@ const MoreScreen = (props) => {
 
     const handleOnPressIn = () => {
         startRecording();
+        uploadAudio();
     };
 
     const handleOnPressOut = () => {
         stopRecording();
-        getTranscription();
+        downloadAudio();
     };
 
     return (
