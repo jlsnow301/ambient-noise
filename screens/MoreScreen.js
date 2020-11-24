@@ -165,7 +165,7 @@ const MoreScreen = (props) => {
                     {!isRecording &&
                         <RecordButton size={32} />
                     }
-                    <Text>Voice Search</Text>
+                    <Text>Record</Text>
                     <TouchableOpacity
                         style={styles.button}
                         onPressIn={handleOnPressIn}
