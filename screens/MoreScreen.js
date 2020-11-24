@@ -7,11 +7,6 @@ import { RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_DEFAULT } from 'expo-av/build/Au
 import StopButton from "../components/StopButton";
 import PlayBackButton from "../components/PlayBackButton";
 import PauseButton from "../components/PauseButton";
-import { FontAwesome } from '@expo/vector-icons';
-import * as firebase from "firebase";
-if (!firebase.apps.length) {
-    firebase.initializeApp(keys.FIREBASE_CONFIG);
-}
 
 const MoreScreen = (props) => {
     const [isRecording, setIsRecording] = useState(false);
@@ -25,7 +20,6 @@ const MoreScreen = (props) => {
     }, []);
 
     const startRecording = async () => {
-
         const { status } = Audio.getPermissionsAsync();
         if (status == 'granted') {
             console.log("recording")
@@ -60,49 +54,47 @@ const MoreScreen = (props) => {
         }
     }
 
-
-
-    // const uploadAudio = async () => {
-    //     const uri = recording.getURI();
-    //     try {
-    //         const blob = await new Promise((resolve, reject) => {
-    //             const xhr = new XMLHttpRequest();
-    //             xhr.onload = () => {
-    //                 try {
-    //                     resolve(xhr.response);
-    //                 } catch (error) {
-    //                     console.log("error:", error);
-    //                 }
-    //             };
-    //             xhr.onerror = (e) => {
-    //                 console.log(e);
-    //                 reject(new TypeError("Network request failed"));
-    //             };
-    //             xhr.responseType = "blob";
-    //             xhr.open("GET", uri, true);
-    //             xhr.send(null);
-    //         });
-    //         if (blob != null) {
-    //             const uriParts = uri.split(".");
-    //             const fileType = uriParts[uriParts.length - 1];
-    //             firebase
-    //                 .storage()
-    //                 .ref()
-    //                 .child(`nameOfTheFile.${fileType}`)
-    //                 .put(blob, {
-    //                     contentType: `audio/${fileType}`,
-    //                 })
-    //                 .then(() => {
-    //                     console.log("Sent!");
-    //                 })
-    //                 .catch((e) => console.log("error:", e));
-    //         } else {
-    //             console.log("erroor with blob");
-    //         }
-    //     } catch (error) {
-    //         console.log("error:", error);
-    //     }
-    // };
+    const uploadAudio = async () => {
+        const uri = recording.getURI();
+        try {
+            const blob = await new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.onload = () => {
+                    try {
+                        resolve(xhr.response);
+                    } catch (error) {
+                        console.log("error:", error);
+                    }
+                };
+                xhr.onerror = (e) => {
+                    console.log(e);
+                    reject(new TypeError("Network request failed"));
+                };
+                xhr.responseType = "blob";
+                xhr.open("GET", uri, true);
+                xhr.send(null);
+            });
+            if (blob != null) {
+                const uriParts = uri.split(".");
+                const fileType = uriParts[uriParts.length - 1];
+                firebase
+                    .storage()
+                    .ref()
+                    .child(`nameOfTheFile.${fileType}`)
+                    .put(blob, {
+                        contentType: `audio/${fileType}`,
+                    })
+                    .then(() => {
+                        console.log("Sent!");
+                    })
+                    .catch((e) => console.log("error:", e));
+            } else {
+                console.log("erroor with blob");
+            }
+        } catch (error) {
+            console.log("error:", error);
+        }
+    };
 
     const downloadAudio = async () => {
         const uri = await firebase
@@ -149,7 +141,7 @@ const MoreScreen = (props) => {
                         <RecordButton />
                     }
                     {!isRecording &&
-                        <RecordButton size={32} color="#48C9B0" />
+                        <RecordButton size={32}/>
                     }
                     <Text>Voice Search</Text>
                     <TouchableOpacity
@@ -173,7 +165,6 @@ const MoreScreen = (props) => {
         </View>
     );
 }
-
 
 export default MoreScreen;
 
