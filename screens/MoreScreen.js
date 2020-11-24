@@ -11,7 +11,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import * as firebase from "firebase";
 if (!firebase.apps.length) {
     firebase.initializeApp(keys.FIREBASE_CONFIG);
-  }
+}
 
 const MoreScreen = (props) => {
     const [isRecording, setIsRecording] = useState(false);
@@ -27,28 +27,29 @@ const MoreScreen = (props) => {
     const startRecording = async () => {
 
         const { status } = Audio.getPermissionsAsync();
-        if (status !== 'granted') return;
-        console.log("recording")
-        setIsRecording(true);
-        await Audio.setAudioModeAsync({
-            allowsRecordingIOS: true,
-            interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
-            playsInSilentModeIOS: true,
-            shouldDuckAndroid: true,
-            interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-            playThroughEarpieceAndroid: true,
-        });
-        const recording = new Audio.Recording();
+        if (status == 'granted') {
+            console.log("recording")
+            setIsRecording(true);
+            await Audio.setAudioModeAsync({
+                allowsRecordingIOS: true,
+                interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+                playsInSilentModeIOS: true,
+                shouldDuckAndroid: true,
+                interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+                playThroughEarpieceAndroid: true,
+            });
+            const recording = new Audio.Recording();
 
-        try {
-            await recording.prepareToRecordAsync(recordingOptions);
-            await recording.startAsync();
-        } catch (error) {
-            console.log(error);
-            stopRecording();
+            try {
+                await recording.prepareToRecordAsync(recordingOptions);
+                await recording.startAsync();
+            } catch (error) {
+                console.log(error);
+                stopRecording();
+            }
+
+            setRecording(recording);
         }
-
-        setRecording(recording);
     };
 
     const stopRecording = async () => {
@@ -59,32 +60,7 @@ const MoreScreen = (props) => {
         }
     }
 
-    const getTranscription = async () => {
-        setIsFetching(true);
-        try {
-            const info = await FileSystem.getInfoAsync(recording.getURI());
-            console.log(`FILE INFO: ${JSON.stringify(info)}`);
-            const uri = info.uri;
-            const formData = new FormData();
-            formData.append('file', {
-                uri,
-                type: 'audio/x-wav',
-                name: 'speech2text'
-            });
-            const response = await fetch(config.CLOUD_FUNCTION_URL, {
-                method: 'POST',
-                body: formData
-            });
-            const data = await response.json();
-            console.log(data);
-            setQuery(data.transcript);
-        } catch(error) {
-            console.log('There was an error reading file', error);
-            stopRecording();
-            resetRecording();
-        }
-        setIsFetching(false);
-    }
+
 
     // const uploadAudio = async () => {
     //     const uri = recording.getURI();
