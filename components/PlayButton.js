@@ -4,19 +4,29 @@ import { AntDesign } from "@expo/vector-icons";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 
 const PlayButton = (props) => {
-  const playSound = () => {
-    Audio.Sound.createAsync(require("../assets/sound/freeway-1.mp3"), {
-      shouldPlay: true,
-    })
-      .then((res) => {
-        res.sound.setOnPlaybackStatusUpdate((status) => {
-          if (!status.didJustFinish) return;
-          console.log("Unloading " + props.soundId);
-          res.sound.unloadAsync().catch(() => {});
-        });
+  const [isPlaying, setIsPlaying] = useState(false);
+  if (isplaying) {
+    console.log('pausing...');
+    await this.sound.pauseAsync();
+    console.log('paused!');
+    setIsPlaying(false);
+  }
+  if (!isplaying) {
+    const playSound = () => {
+      Audio.Sound.createAsync(require("../assets/sound/freeway-1.mp3"), {
+        shouldPlay: true,
       })
-      .catch((error) => {});
-  };
+        .then((res) => {
+          setIsPlaying(true);
+          res.sound.setOnPlaybackStatusUpdate((status) => {
+            if (!status.didJustFinish) return;
+            console.log("Unloading " + props.soundId);
+            res.sound.unloadAsync().catch(() => { });
+          });
+        })
+        .catch((error) => { });
+    };
+  }
 
   return (
     <View style={styles.container}>
@@ -28,7 +38,8 @@ const PlayButton = (props) => {
       </TouchableOpacity>
     </View>
   );
-};
+}
+
 
 const styles = StyleSheet.create({
   container: {
