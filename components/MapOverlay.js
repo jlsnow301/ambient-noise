@@ -5,8 +5,8 @@ import { StyleSheet } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 
 import Colors from "../constants/colors";
+import keys from "../constants/api-keys";
 import MarkerTooltip from "./MarkerTooltip";
-import GOOGLE_KEY from "../constants/api-keys";
 import { LOCATIONS } from "../data/dummy-locations";
 
 /* A component which renders a map using Google API.
@@ -24,24 +24,27 @@ const MapOverlay = (props) => {
     longitudeDelta: 0.07,
   });
 
-  Geocode.setApiKey(GOOGLE_KEY);
+  Geocode.setApiKey(keys.GOOGLE_KEY);
+
+  // Get user location
+  const fetchUserLocation = async () => {
+    let { status } = await Location.requestPermissionsAsync();
+    if (status !== "granted") {
+      setErrorMsg("Permission to access location was denied");
+    }
+    let location = await Location.getCurrentPositionAsync({});
+    setCurrentRegion({
+      latitude: location.coords.latitude,
+      latitudeDelta: 0.07,
+      longitude: location.coords.longitude,
+      longitudeDelta: 0.07,
+    });
+  };
 
   // Run once on startup
   useEffect(() => {
     if (props.coordinates === "") {
-      (async () => {
-        let { status } = await Location.requestPermissionsAsync();
-        if (status !== "granted") {
-          setErrorMsg("Permission to access location was denied");
-        }
-        let location = await Location.getCurrentPositionAsync({});
-        setCurrentRegion({
-          latitude: location.coords.latitude,
-          latitudeDelta: 0.07,
-          longitude: location.coords.longitude,
-          longitudeDelta: 0.07,
-        });
-      })();
+      fetchUserLocation();
     }
   }, []);
 

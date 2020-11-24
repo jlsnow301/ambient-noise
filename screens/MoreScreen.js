@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, FadeInView } from 'react-native';
 import Constants from 'expo-constants';
-import RecordButton from "../components/RecordButton";
 import { Audio } from 'expo-av';
 import { RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_DEFAULT } from 'expo-av/build/Audio';
 import StopButton from "../components/StopButton";
@@ -197,8 +196,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingTop: Constants.statusBarHeight,
         padding: 8,
-        flexDirection: 'row',
         justifyContent: 'center',
+        flexDirection: 'column',
+        position: 'absolute',
+        alignItems: 'center',
+        top: '10%', left: 0, 
+        right: 0, bottom: '30%',
+
     },
     paragraph: {
         margin: 24,
