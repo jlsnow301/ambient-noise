@@ -7,6 +7,9 @@ import { RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_DEFAULT } from 'expo-av/build/Au
 import StopButton from "../components/StopButton";
 import PlayBackButton from "../components/PlayBackButton";
 import PauseButton from "../components/PauseButton";
+import * as firebase from "firebase";
+import keys from "../constants/api-keys";
+const db = firebase.database();
 
 const MoreScreen = (props) => {
     const [isRecording, setIsRecording] = useState(false);
@@ -22,27 +25,27 @@ const MoreScreen = (props) => {
     const startRecording = async () => {
         const { status } = Audio.getPermissionsAsync();
         if (status !== 'granted') return;
-            console.log("recording")
-            setIsRecording(true);
-            await Audio.setAudioModeAsync({
-                allowsRecordingIOS: true,
-                interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
-                playsInSilentModeIOS: true,
-                shouldDuckAndroid: true,
-                interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-                playThroughEarpieceAndroid: true,
-            });
-            const recording = new Audio.Recording();
+        console.log("recording")
+        setIsRecording(true);
+        await Audio.setAudioModeAsync({
+            allowsRecordingIOS: true,
+            interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+            playsInSilentModeIOS: true,
+            shouldDuckAndroid: true,
+            interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+            playThroughEarpieceAndroid: true,
+        });
+        const recording = new Audio.Recording();
 
-            try {
-                await recording.prepareToRecordAsync(recordingOptions);
-                await recording.startAsync();
-            } catch (error) {
-                console.log(error);
-                stopRecording();
-            }
+        try {
+            await recording.prepareToRecordAsync(recordingOptions);
+            await recording.startAsync();
+        } catch (error) {
+            console.log(error);
+            stopRecording();
+        }
 
-            setRecording(recording);
+        setRecording(recording);
     };
 
     const stopRecording = async () => {
@@ -51,6 +54,28 @@ const MoreScreen = (props) => {
             await recording.stopAndUnloadAsync();
         } catch (error) {
         }
+        const info = await FileSystem.getInfoAsync(recording.getURI());
+        console.log(`FILE INFO: ${JSON.stringify(info)}`);
+        await Audio.setAudioModeAsync({
+            allowsRecordingIOS: false,
+            interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+            playsInSilentModeIOS: true,
+            playsInSilentLockedModeIOS: true,
+            shouldDuckAndroid: true,
+            interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+            playThroughEarpieceAndroid: false,
+            staysActiveInBackground: true,
+        });
+        const { sound: _sound, status } = await recording.createNewLoadedSoundAsync(
+            {
+                isLooping: true,
+                isMuted: false,
+                volume: 1.0,
+                rate: 1.0,
+                shouldCorrectPitch: true,
+            }
+        );
+        setSound(_sound);
     }
 
     const uploadAudio = async () => {
@@ -139,7 +164,7 @@ const MoreScreen = (props) => {
                         <RecordButton />
                     }
                     {!isRecording &&
-                        <RecordButton size={32}/>
+                        <RecordButton size={32} />
                     }
                     <Text>Voice Search</Text>
                     <TouchableOpacity
