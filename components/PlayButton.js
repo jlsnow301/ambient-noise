@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { Audio } from "expo-av";
 import { AntDesign } from "@expo/vector-icons";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
-
+import PauseButton from "../components/PauseButton";
 const soundObject = new Audio.Sound();
 
 const PlayButton = (props) => {
   const [playing, setPlaying] = useState(false);
   const playAudio = async () => {
-    console.log(playing);
+    console.log('is it playing audio: '+playing);
     try {
       if (playing) {
         await soundObject.pauseAsync();
@@ -21,8 +21,12 @@ const PlayButton = (props) => {
           require("../assets/sound/freeway-1.mp3"), {
           shouldPlay: true,
         })
-        console.log("create");
+        console.log("start playing");
+        <View style={styles.button}>
+          <AntDesign name="sound" size={50} color="#006AFF" />
+        </View>
         await soundObject.playAsync();
+        <PauseButton />
       }
     } catch (error) {
       console.log(error);
