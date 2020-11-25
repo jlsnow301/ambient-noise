@@ -22,9 +22,6 @@ const PlayButton = (props) => {
           shouldPlay: true,
         })
         console.log("start playing");
-        <View style={styles.button}>
-          <AntDesign name="sound" size={50} color="#006AFF" />
-        </View>
         await soundObject.playAsync();
         <PauseButton />
       }
