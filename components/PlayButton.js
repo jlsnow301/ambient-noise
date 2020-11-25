@@ -1,36 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { Audio } from "expo-av";
 import { AntDesign } from "@expo/vector-icons";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 
+const soundObject = new Audio.Sound();
+
 const PlayButton = (props) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  if (isplaying) {
-    console.log('pausing...');
-    await this.sound.pauseAsync();
-    console.log('paused!');
-    setIsPlaying(false);
-  }
-  if (!isplaying) {
-    const playSound = () => {
-      Audio.Sound.createAsync(require("../assets/sound/freeway-1.mp3"), {
-        shouldPlay: true,
-      })
-        .then((res) => {
-          setIsPlaying(true);
-          res.sound.setOnPlaybackStatusUpdate((status) => {
-            if (!status.didJustFinish) return;
-            console.log("Unloading " + props.soundId);
-            res.sound.unloadAsync().catch(() => { });
-          });
+  const [playing, setPlaying] = useState(false);
+  const playAudio = async () => {
+    console.log(playing);
+    try {
+      if (playing) {
+        await soundObject.pauseAsync();
+        setPlaying(false);
+        console.log('paused')
+      } else {
+        setPlaying(true);
+        soundObject.unloadAsync();
+        await soundObject.loadAsync(
+          require("../assets/sound/freeway-1.mp3"), {
+          shouldPlay: true,
         })
-        .catch((error) => { });
-    };
-  }
+        console.log("create");
+        await soundObject.playAsync();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity activeOpacity={0.8} onPress={() => playSound()}>
+      <TouchableOpacity activeOpacity={0.8} onPress={() => playAudio()}>
         <View style={styles.button}>
           <AntDesign name="sound" size={40} color="#006AFF" />
           <Text style={{ textAlign: "center" }}>LISTEN</Text>
@@ -38,8 +39,7 @@ const PlayButton = (props) => {
       </TouchableOpacity>
     </View>
   );
-}
-
+};
 
 const styles = StyleSheet.create({
   container: {
