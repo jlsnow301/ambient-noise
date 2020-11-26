@@ -9,6 +9,16 @@ import RecordButton from "../components/RecordButton";
 import SoundScore from "../components/SoundScore"
 
 const recordSound = async () => {
+    function storeSoundId(user, soundID) {
+        if (user != null) {
+          firebase
+            .database()
+            .ref('users/' + user.uid)
+            .set({
+              soundID: soundID,
+            });
+        }
+      }
     Audio.setAudioModeAsync({
         allowsRecordingIOS: true,
         staysActiveInBackground: false,

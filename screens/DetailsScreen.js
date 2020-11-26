@@ -9,6 +9,8 @@ import BodyText from "../components/BodyText";
 import TitleText from "../components/TitleText";
 import IconButton from "../components/IconButton";
 import PlayButton from "../components/PlayButton";
+import PlayBackButton from "../components/PlayBackButton";
+import PauseButton from "../components/PauseButton";
 
 const DetailsScreen = (props) => {
   return (
