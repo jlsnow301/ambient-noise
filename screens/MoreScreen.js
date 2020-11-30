@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, FadeInView } from 'react-native';
 import Constants from 'expo-constants';
 import { Audio } from 'expo-av';
+import Slider from '@react-native-community/slider';
 import { FontAwesome } from "@expo/vector-icons";
 import RecordButton from "../components/RecordButton";
 import SoundScore from "../components/SoundScore"
@@ -45,16 +46,16 @@ const MoreScreen = () => {
     const [isRecording, setIsRecording] = useState(false);
     const [sound, setSound] = useState(null);
     const [isplaying, setIsPlaying] = useState(false);
+    const [volumnValue, setVolumeValue] = useState(4);
     const db = firebase.database();
+
     useEffect(() => {
         Audio.requestPermissionsAsync();
     }, []);
 
     const startRecording = async () => {
-
         const { status } = await Audio.getPermissionsAsync();
         if (status !== 'granted') return;
-
         setIsRecording(true);
         console.log('is recording: ' + isRecording);
         await Audio.setAudioModeAsync({
@@ -103,7 +104,6 @@ const MoreScreen = () => {
     };
 
     const saveRecording = async () => {
-        const uri = recording.getURI();
     };
 
     const getAudio = async () => {
@@ -122,6 +122,7 @@ const MoreScreen = () => {
                 staysActiveInBackground: true,
             });
             const { sound, status } = await recording.createNewLoadedSoundAsync();
+            setSound(sound);
             if (isplaying) {
                 await sound.unloadAsync();
             }
@@ -135,16 +136,22 @@ const MoreScreen = () => {
             resetRecording();
         }
         setIsFetching(false);
-    }
+    };
+
+    const onValueChange = () => {
+        setVolumeValue(value);
+      };
 
     return (
         <View style={styles.container}>
             {isRecording &&
-                <FontAwesome name="microphone" size={20} color="#DE1C22" >recording...Press Stop Button</FontAwesome>
+                <FontAwesome name="microphone" size={20} color="#DE1C22" > recording...Press Stop Button</FontAwesome>
 
             }
             {!isRecording
             }
+
+            
             <View style={styles.buttons}>
                 <View style={styles.button}>
                     <RecordButton
@@ -170,6 +177,20 @@ const MoreScreen = () => {
                     />
                 </View>
             </View>
+            <Slider
+                style={{ width: 200, height: 20 }}
+                minimumValue={0}
+                maximumValue={8}
+                minimumTrackTintColor="#1EB1FC"
+                maximumTrackTintColor="#000000"
+                step={1}
+                value={4}
+                onValueChange={value => onValueChange()}
+                disabled={isplaying || !isplaying}
+            />
+            <Text>
+                volume
+            </Text>
             <View style={styles.button}>
                 <SaveButton
                     onPress={() => saveRecording()}
@@ -189,7 +210,7 @@ export default MoreScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: '40%',
+        marginTop: '25%',
         alignItems: 'center',
         marginBottom: '40%',
 
@@ -206,6 +227,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         marginBottom: 10,
+        marginTop:10,
     },
     paragraph: {
         margin: 24,
