@@ -7,7 +7,37 @@ import RecordButton from "../components/RecordButton";
 import SoundScore from "../components/SoundScore"
 import PlayBackButton from "../components/PlayBackButton";
 import StopButton from "../components/StopButton";
+import DeleteButton from "../components/DeleteButton";
+import SaveButton from "../components/SaveButton";
 import * as FileSystem from 'expo-file-system';
+import * as firebase from 'firebase';
+import keys from "../constants/api-keys";
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(keys.FIREBASE_CONFIG);
+}
+
+const recordingSettings = {
+    android: {
+        extension: ".m4a",
+        outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4,
+        audioEncoder: Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC,
+        sampleRate: 44100,
+        numberOfChannels: 2,
+        bitRate: 128000,
+    },
+    ios: {
+        extension: ".m4a",
+        outputFormat: Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_MPEG4AAC,
+        audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_MIN,
+        sampleRate: 44100,
+        numberOfChannels: 2,
+        bitRate: 128000,
+        linearPCMBitDepth: 16,
+        linearPCMIsBigEndian: false,
+        linearPCMIsFloat: false,
+    },
+};
 
 const MoreScreen = () => {
     const [recording, setRecording] = useState(null);
@@ -15,7 +45,7 @@ const MoreScreen = () => {
     const [isRecording, setIsRecording] = useState(false);
     const [sound, setSound] = useState(null);
     const [isplaying, setIsPlaying] = useState(false);
-
+    const db = firebase.database();
     useEffect(() => {
         Audio.requestPermissionsAsync();
     }, []);
@@ -38,7 +68,7 @@ const MoreScreen = () => {
         const recording = new Audio.Recording();
         console.log('start Recording');
         try {
-            await recording.prepareToRecordAsync();
+            await recording.prepareToRecordAsync(recordingSettings);
             await recording.startAsync();
         } catch (error) {
             console.log(error);
@@ -61,6 +91,7 @@ const MoreScreen = () => {
         try {
             const info = await FileSystem.getInfoAsync(recording.getURI());
             await FileSystem.deleteAsync(info.uri)
+            console.log("deleted");
         } catch (error) {
             console.log("There was an error deleting recording file", error);
         }
@@ -71,6 +102,10 @@ const MoreScreen = () => {
         setRecording(null);
     };
 
+    const saveRecording = async () => {
+        const uri = recording.getURI();
+    };
+
     const getAudio = async () => {
         setIsFetching(true);
         try {
@@ -78,22 +113,22 @@ const MoreScreen = () => {
             console.log(`FILE INFO: ${JSON.stringify(info)}`);
             setIsPlaying(true);
             await Audio.setAudioModeAsync({
-              allowsRecordingIOS: false,
-              interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
-              playsInSilentModeIOS: true,
-              shouldDuckAndroid: true,
-              interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-              playThroughEarpieceAndroid: false,
-              staysActiveInBackground: true,
+                allowsRecordingIOS: false,
+                interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+                playsInSilentModeIOS: true,
+                shouldDuckAndroid: true,
+                interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+                playThroughEarpieceAndroid: false,
+                staysActiveInBackground: true,
             });
             const { sound, status } = await recording.createNewLoadedSoundAsync();
-            if(isplaying){
+            if (isplaying) {
                 await sound.unloadAsync();
             }
-            if(!isplaying){  
+            if (!isplaying) {
                 sound.playAsync();
                 setIsPlaying(false);
-            }         
+            }
         } catch (error) {
             console.log('There was an error reading file', error);
             stopRecording();
@@ -105,31 +140,47 @@ const MoreScreen = () => {
     return (
         <View style={styles.container}>
             {isRecording &&
-                <FontAwesome name="microphone" size={32} color="#DE1C22" >recording...</FontAwesome>
-                
+                <FontAwesome name="microphone" size={20} color="#DE1C22" >recording...Press Stop Button</FontAwesome>
+
             }
-            {!isRecording 
+            {!isRecording
             }
-            <View>
-                <RecordButton
-                    onPress={() => startRecording()}
+            <View style={styles.buttons}>
+                <View style={styles.button}>
+                    <RecordButton
+                        onPress={() => startRecording()}
+                    />
+                    {/* <Text>Tap to record</Text> */}
+                </View>
+                <View style={styles.button}>
+                    <StopButton
+                        onPress={() => stopRecording()}
+                    />
+                    {/* <Text>Tap to stop recording</Text> */}
+                </View>
+                <View style={styles.button}>
+                    <PlayBackButton
+                        onPress={() => getAudio()}
+                    />
+                    {/* <Text>Tap to listen recorded audio</Text> */}
+                </View>
+                <View style={styles.button}>
+                    <DeleteButton
+                        onPress={() => resetRecording()}
+                    />
+                </View>
+            </View>
+            <View style={styles.button}>
+                <SaveButton
+                    onPress={() => saveRecording()}
                 />
-                <Text>Tap to record</Text>
-                <StopButton
-                    onPress={() => stopRecording()}
-                />
-                <Text>Tap to stop recording</Text>
-                <PlayBackButton
-                    onPress={() => getAudio()}
-                />
-                <Text>Tap to listen recorded audio</Text>
             </View>
             <View>
                 <TouchableOpacity>
                     <SoundScore />
                 </TouchableOpacity>
             </View>
-        </View>
+        </View >
     );
 }
 
@@ -138,16 +189,23 @@ export default MoreScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        marginTop: '40%',
+        alignItems: 'center',
+        marginBottom: '40%',
+
+    },
+    buttons: {
+        flex: 1,
+        flexDirection: 'row',
         justifyContent: 'center',
         paddingTop: Constants.statusBarHeight,
-        padding: 8,
-        justifyContent: 'center',
-        flexDirection: 'column',
-        position: 'absolute',
+        padding: 20,
         alignItems: 'center',
-        top: '10%', left: 0,
-        right: 0, bottom: '30%',
-
+    },
+    button: {
+        flex: 1,
+        flexDirection: 'column',
+        marginBottom: 10,
     },
     paragraph: {
         margin: 24,
@@ -155,13 +213,4 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
     },
-
-    button: {
-        backgroundColor: '#48C9B0',
-        paddingVertical: 20,
-        width: '90%',
-        alignItems: 'center',
-        borderRadius: 5,
-        marginTop: 20,
-    }
 });
