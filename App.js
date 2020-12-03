@@ -8,7 +8,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import { useAuth } from "./hooks/auth-hook";
 import TabNavigator from "./navigation/TabNavigator";
 import { AuthContext } from "./functions/auth-context";
-import * as firebase from './database/firebase';
+import firebase from './database/firebase';
 import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import keys from "./constants/api-keys";
@@ -47,6 +47,7 @@ function App() {
   }
 
   return (
+    
     <AuthContext.Provider
       value={{
         isLoggedIn: !!token,
@@ -58,6 +59,7 @@ function App() {
         logout: logout,
       }}
     >
+      
       <NavigationContainer>
         <TabNavigator />
       </NavigationContainer>
