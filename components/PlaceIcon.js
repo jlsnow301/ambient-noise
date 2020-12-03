@@ -4,10 +4,10 @@ import { Entypo } from "@expo/vector-icons";
 
 import Colors from "../constants/colors";
 
-const PlaceIcon = (props) => {
+const PlaceIcon = props => {
   // Is this for the saved list?
   if (props.listMode === "saved") {
-    return <Entypo name="heart" size={22} color={Colors.heart} />;
+    return <Entypo name="heart" size={20} color={Colors.secondary} />;
   }
 
   // Okay so what's the creation date
@@ -15,13 +15,13 @@ const PlaceIcon = (props) => {
   saveDate = saveDate.getDate();
   // Now what's three days ago
   let threeDaysAgo = new Date();
-  threeDaysAgo = threeDaysAgo.getDate() - 3;
+  threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
 
   // Is the place new?
   if (saveDate > threeDaysAgo) {
     return <Entypo name="new" size={22} color={Colors.primary} />;
   }
-  return <Entypo name="dot-single" size={22} />;
+  return <Entypo name="clock" size={22} color={Colors.primary} />;
 
   // Please refactor this I feel disgusting
 };
