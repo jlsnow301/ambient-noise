@@ -1,13 +1,13 @@
 import React from "react";
+import { MaterialIcons } from '@expo/vector-icons';
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { Entypo } from '@expo/vector-icons';
 
-const PlaybackButton = (props) => {
+const DeleteButton = (props) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity activeOpacity={0.8} onPress={props.onPress}>
         <View style={styles.button}>
-          <Entypo name="controller-play" size={40} color="#006AFF" />
+          <MaterialIcons name="delete" size={40} color="#006AFF" />
         </View>
       </TouchableOpacity>
     </View>
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: "center",
-},
+  },
 });
 
-export default PlaybackButton;
+export default DeleteButton;
