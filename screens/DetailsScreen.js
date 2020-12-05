@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { StyleSheet, Text, View } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
 
 import Card from "../components/Card";
 import Colors from "../constants/colors";
@@ -9,45 +10,129 @@ import BodyText from "../components/BodyText";
 import TitleText from "../components/TitleText";
 import IconButton from "../components/IconButton";
 import PlayButton from "../components/PlayButton";
-import PlayBackButton from "../components/PlayBackButton";
-import PauseButton from "../components/PauseButton";
+import SoundScore from "../components/SoundScore";
+import { AuthContext } from "../functions/auth-context";
+import RecordingDials from "../components/RecordingDials";
 
 const DetailsScreen = (props) => {
+  const auth = useContext(AuthContext);
+  const [cardVisible, setCardVisible] = useState(false);
+  const [cardContent, setCardContent] = useState(null);
+  const [currentOption, setCurrentOption] = useState("");
+  const [loadedRatings, setLoadedRatings] = useState();
+
+  const showOptionsHandler = (option) => {
+    // This is kind of dumb that I do it in a state. But this
+    // hides the card if they click on it twice.
+    if (!option || option === currentOption) {
+      clearOptionsHandler();
+      return;
+    }
+
+    if (option === "record") {
+      setCardContent(<RecordingDials />);
+      setCardVisible(true);
+      setCurrentOption("record");
+    } else if (option === "rate") {
+      setCardContent(<SoundScore locationId={props.route.params.id} />);
+      setCardVisible(true);
+      setCurrentOption("rate");
+    }
+  };
+
+  const clearOptionsHandler = () => {
+    setCardVisible(false);
+    setCardContent(null);
+    setCurrentOption("");
+  };
+
+  useEffect(() => {
+    // ALL THIS JUST TO STOP SOME UNDEFINES AAAAAAA
+    if (!props.route.params.ratings || !props.route.params.ratings.length) {
+      setLoadedRatings("Loading...");
+      return;
+    }
+    // Get the average ratings
+    let ratings = Object.values(props.route.params.ratings);
+    let averageRating =
+      ratings.reduce((previous, current) => (current += previous)) /
+      ratings.length;
+    setLoadedRatings(averageRating);
+  }, []);
+
   return (
-    <View style={styles.screen}>
-      <Card style={styles.card}>
-        <View style={styles.header}>
-          <TitleText style={styles.titleText}>
-            {props.route.params.title}
-          </TitleText>
-          <Ionicons name="ios-pin" size={25} color={Colors.accent} />
-        </View>
-        <View style={styles.lineStyle} />
-        <Text style={styles.attributeText}>Description:</Text>
-        <BodyText style={styles.bodyText}>
-          {props.route.params.description}
-        </BodyText>
-        <Text style={styles.attributeText}>Date Added:</Text>
-        <BodyText style={styles.bodyText}>{props.route.params.date}</BodyText>
-        <View style={styles.buttonContainer}>
-          <PlayButton
-            soundId={`../assets/sound/${props.route.params.soundId}.mp3`}
-          />
-          <IconButton
-            icon={
-              <FontAwesome5 name="globe-americas" size={40} color="#006AFF" />
-            }
-            onPress={() =>
-              props.navigation.navigate(
-                "HomeStack",
-                props.route.params.coordinates
-              )
-            }
-            text="MAP"
-          />
-        </View>
-      </Card>
-    </View>
+    <LinearGradient
+      // Background Linear Gradient
+      colors={["#6DD5FA", "#FFFFFF"]}
+      style={styles.linearGradient}>
+      <View style={styles.screen}>
+        <Card>
+          <View style={styles.header}>
+            <TitleText style={styles.titleText}>
+              {props.route.params?.title}
+            </TitleText>
+            <Ionicons name="ios-pin" size={25} color={Colors.accent} />
+          </View>
+          <View style={styles.lineStyle} />
+          <Text style={styles.attributeText}>Description:</Text>
+          <BodyText style={styles.bodyText}>
+            {props.route.params.description}
+          </BodyText>
+          <Text style={styles.attributeText}>Date Added:</Text>
+          <BodyText style={styles.bodyText}>{props.route.params.date}</BodyText>
+          <Text style={styles.attributeText}>Average Loudness Rating:</Text>
+          <BodyText style={styles.bodyText}>{loadedRatings}</BodyText>
+          <View style={styles.buttonContainer}>
+            <TouchableWithoutFeedback onPress={() => clearOptionsHandler()}>
+              <PlayButton soundId={props.route.params.id} />
+            </TouchableWithoutFeedback>
+            <IconButton
+              icon={
+                <FontAwesome5
+                  name="microphone"
+                  size={40}
+                  color={
+                    currentOption === "record" ? Colors.accent : Colors.primary
+                  }
+                />
+              }
+              onPress={() => showOptionsHandler("record")}
+              text="RECORD"
+            />
+            <IconButton
+              icon={
+                <FontAwesome5
+                  name="star"
+                  size={40}
+                  color={
+                    currentOption === "rate" ? Colors.accent : Colors.primary
+                  }
+                />
+              }
+              onPress={() => showOptionsHandler("rate")}
+              text="RATE"
+            />
+            <IconButton
+              icon={
+                <FontAwesome5
+                  name="globe-americas"
+                  size={40}
+                  color={Colors.primary}
+                />
+              }
+              onPress={() =>
+                props.navigation.navigate(
+                  "HomeStack",
+                  props.route.params.coordinates
+                )
+              }
+              text="MAP"
+            />
+          </View>
+        </Card>
+        {cardVisible && <Card style={styles.card}>{cardContent}</Card>}
+      </View>
+    </LinearGradient>
   );
 };
 
@@ -59,6 +144,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  linearGradient: {
+    opacity: 0.95,
+    height: "100%",
+    width: "100%",
+  },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -69,7 +159,7 @@ const styles = StyleSheet.create({
     color: "black",
   },
   lineStyle: {
-    alignSelf:'stretch',
+    alignSelf: "stretch",
     borderWidth: 1,
     borderColor: "#808080",
     margin: 5,
@@ -83,8 +173,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   buttonContainer: {
-    marginTop: 30,
     flexDirection: "row",
     justifyContent: "space-between",
+    paddingHorizontal: 15,
+  },
+  card: {
+    marginTop: 10,
   },
 });

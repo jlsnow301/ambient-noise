@@ -1,19 +1,20 @@
-import React, { useState } from "react";
+/*jshint esversion: 6 */
+import React, { useState, Component } from "react";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
 import { StyleSheet, View, Text, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-
-import * as firebase from "firebase";
-import keys from "./constants/api-keys";
+import {createStackNavigator} from '@react-navigation/stack';
 import { useAuth } from "./hooks/auth-hook";
 import TabNavigator from "./navigation/TabNavigator";
 import { AuthContext } from "./functions/auth-context";
+import firebase from './database/firebase';
+import LoginScreen from './screens/LoginScreen';
+import SignupScreen from './screens/SignupScreen';
+import keys from "./constants/api-keys";
 
-// Initialize Firebase
-if (!firebase.apps.length) {
-  firebase.initializeApp(keys.FIREBASE_CONFIG);
-}
+
+
 
 const fetchFonts = () => {
   Font.loadAsync({
@@ -46,6 +47,7 @@ function App() {
   }
 
   return (
+    
     <AuthContext.Provider
       value={{
         isLoggedIn: !!token,
@@ -57,6 +59,7 @@ function App() {
         logout: logout,
       }}
     >
+      
       <NavigationContainer>
         <TabNavigator />
       </NavigationContainer>

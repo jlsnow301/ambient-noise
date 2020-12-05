@@ -1,23 +1,86 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, FadeInView } from 'react-native';
-import { Rating, AirbnbRating } from 'react-native-elements';
+import React, { useState, useEffect, useContext } from "react";
+import * as firebase from "firebase";
+import { Text, View, StyleSheet, Button } from "react-native";
+import { Rating, AirbnbRating } from "react-native-elements";
 
+import keys from "../constants/api-keys";
 import Colors from "../constants/colors";
+import { AuthContext } from "../functions/auth-context";
+
+// Initialize Firebase
+if (!firebase.apps.length) {
+  firebase.initializeApp(keys.FIREBASE_CONFIG);
+}
 
 const SoundScore = (props) => {
-  console.log("Rating is: " + props.rating)
+  const auth = useContext(AuthContext);
+  const [userCanRate, setUserCanRate] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+
+  let testUser = "jerm";
+
+  const submitRatingHandler = async () => {
+    if (!userCanRate) return;
+    await firebase
+      .database()
+      .ref(`locations/${props.locationId}/ratings`)
+      // This wild formation is how we make a variable into a object key
+      .push({ [testUser]: userRating });
+    setUserCanRate(false);
+  };
+
+  useEffect(() => {
+    const getRatings = async () => {
+      await firebase
+        .database()
+        .ref(`locations/${props.locationId}/ratings`)
+        .once("value", (snapshot) => {
+          // If there are no ratings, user can make one
+          if (!snapshot.val()) setUserCanRate(true);
+          else {
+            // If the user has not rated this location, they can
+            snapshot.forEach((rating) => {
+              if (!Object.keys(rating.val()).includes(testUser)) {
+                setUserCanRate(true);
+              }
+            });
+          }
+        });
+    };
+    getRatings();
+  }, []);
+
   return (
-
-    <AirbnbRating
-      count={6}
-      reviews={["Silent", "Light Outdoors", "Normal Conversation", "Light Traffic", "Heavy Machinery", "Unliveable"]}
-      defaultRating={3}
-      size={20}
-    />
-
-  )
+    <View style={styles.container}>
+      <AirbnbRating
+        count={6}
+        reviews={[
+          "Silent",
+          "Light Outdoors",
+          "Normal Conversation",
+          "Light Traffic",
+          "Heavy Machinery",
+          "Unliveable",
+        ]}
+        defaultRating={3}
+        onFinishRating={(value) => setUserRating(value)}
+        size={20}
+      />
+      <Button
+        onPress={() => submitRatingHandler()}
+        title="SUBMIT"
+        disabled={userRating === 0 || !userCanRate}
+      />
+    </View>
+  );
 };
 
-
-
 export default SoundScore;
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 15,
+  },
+});
