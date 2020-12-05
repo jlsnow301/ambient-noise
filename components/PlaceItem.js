@@ -6,7 +6,7 @@ import { StyleSheet, Text, View } from "react-native";
    Where OPTIONAL PROPS: You can add in anything else you'd like to pass on.
    */
 
-const PlaceItem = (props) => {
+const PlaceItem = props => {
   return (
     <View style={styles.container}>
       {props.icon}
@@ -27,10 +27,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     marginVertical: 5,
-    backgroundColor: "#ccc",
-    borderColor: "black",
-    borderRadius: 2,
-    borderWidth: 1,
+    backgroundColor: "white",
+    borderRadius: 20,
   },
   placeText: {
     fontSize: 16,
