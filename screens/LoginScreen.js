@@ -53,9 +53,9 @@ const LoginScreen = (props) => {
     firebase.auth().onAuthStateChanged(function(user)
     {
       if(user) {
-        props.navigation.navigate('HomeStack');
+        this.props.navigation.navigate('ProfileStack');
       } else {
-        props.navigation.navigate('LoginStack');
+        this.props.navigation.navigate('LoginStack');
       }
     });
   };
@@ -91,18 +91,14 @@ const LoginScreen = (props) => {
     firebase
       .auth()
       .signInWithEmailAndPassword(enteredEmail, enteredPassword)
-      .then(checkIfLoggedIn);
-        
-        
-        // console.log(res);
-        // console.log("User logged-in successfully!");
-         Alert.alert("Welcome back " + email)
-        //auth.login(DUMMY_NAME, DUMMY_IMAGE, enteredEmail, DUMMY_TOKEN);
-        // auth.login(res.name, res.image, enteredEmail, res.token); Log in with the server response
-        //this.props.navigation.navigate("ProfileStack");
-      
+      .then(checkIfLoggedIn)
+        //  console.log(res);
+        //  console.log("User logged-in successfully!");
+        //  Alert.alert("Welcome back " + email);
+        // this.props.navigation.navigate("ProfileStack")
       .catch((error) => setError({ errorMessage: error.message }));
-    // Clear inputs
+    
+      // Clear inputs
     resetInputHandler();
   };
 
@@ -155,20 +151,7 @@ const LoginScreen = (props) => {
           >
             No account? Sign Up Instead.
           </Text>
-          {/* <GoogleSigninButton
-          style={{width: 192, height: 48}}
-          size={GoogleSigninButton.size.wide}
-          color={GoogleSigninButton.color.Dark}
-          onPress={signIn}
-          /> */}
           <View style={styles.buttonContainer}>
-          {/* <AppleButton
-        style={styles.appleButton}
-        cornerRadius={5}
-        buttonStyle={AppleButton.Style.WHITE_OUTLINE}
-        buttonType={AppleButton.Type.SIGN_IN}
-       //onPress={() => onAppleButtonPress(updateCredentialStateForUser)}
-      /> */}
             <LinkButton>Connect With Google</LinkButton>
             <LinkButton>Connect With Apple</LinkButton>
             <LinkButton>Connect With Facebook</LinkButton>
