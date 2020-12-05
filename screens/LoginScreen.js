@@ -1,5 +1,5 @@
 /*jshint esversion: 6 */
-/*jshint esversion: 8 */
+
 import React, { useState, useContext } from "react";
 import {
   Text,
@@ -10,8 +10,6 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
 } from "react-native";
-import { appleAuth, AppleButton } from '@invertase/react-native-apple-authentication';
-import {GoogleSignin, GoogleSigninButton, statusCodes} from '@react-native-community/google-signin';
 import firebase from "../database/firebase";
 import TitleText from "../components/TitleText";
 import MainButton from "../components/MainButton";
@@ -25,10 +23,6 @@ let DUMMY_NAME = "Joe";
 let DUMMY_IMAGE = "https://bootdey.com/img/Content/avatar/avatar6.png";
 let DUMMY_TOKEN = "123456abcdef";
 
-GoogleSignin.configure({
-  webClientId: '1074331299510-f18o8s4svec20sp75t2g0fl08sl1aen3.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
-  
-});
 
 const LoginScreen = (props) => {
   const auth = useContext(AuthContext);
@@ -53,42 +47,7 @@ const LoginScreen = (props) => {
     setEnteredEmail("");
     setEnteredPassword("");
   };
-  const signIn = () => {
-    var provider = new firebase.auth.GoogleAuthProvider();
-  firebase.auth().signInWithPopup(provider).then(function(result) {
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    var token = result.credential.accessToken;
-    // The signed-in user info.
-    var user = result.user;
-    // ...
-  }).catch(function(error) {
-    // Handle Errors here.
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    // The email of the user's account used.
-    var email = error.email;
-    // The firebase.auth.AuthCredential type that was used.
-    var credential = error.credential;
-    // ...
-  });
-  };
-  var provider = new firebase.auth.GoogleAuthProvider();
-  firebase.auth().signInWithPopup(provider).then(function(result) {
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    var token = result.credential.accessToken;
-    // The signed-in user info.
-    var user = result.user;
-    // ...
-  }).catch(function(error) {
-    // Handle Errors here.
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    // The email of the user's account used.
-    var email = error.email;
-    // The firebase.auth.AuthCredential type that was used.
-    var credential = error.credential;
-    // ...
-  });
+  
   
   const checkIfLoggedIn = () => {
     firebase.auth().onAuthStateChanged(function(user)
