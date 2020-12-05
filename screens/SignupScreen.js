@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 import React, { useState } from "react";
 import {
   Text,
@@ -10,13 +11,13 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
-import * as firebase from "firebase";
+import firebase from "../database/firebase";
 import Colors from "../constants/colors";
 import TitleText from "../components/TitleText";
 import MainButton from "../components/MainButton";
 import { LinearGradient } from "expo-linear-gradient";
 
-const SignupScreen = (props) => {
+  const SignupScreen = (props) => {
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
   const [enteredVerify, setEnteredVerify] = useState("");
@@ -92,6 +93,7 @@ const SignupScreen = (props) => {
       );
       return;
     }
+    
     // If nothing has failed yet,
     setIsLoading(true);
     // Call the authentication function to create an account
@@ -103,6 +105,7 @@ const SignupScreen = (props) => {
           email: enteredEmail,
         });
         console.log("User registered successfully!");
+        Alert.alert("Thank you " + email + " for sign up");
         resetInputHandler();
         props.navigation.navigate("LoginStack");
       })
@@ -136,9 +139,11 @@ const SignupScreen = (props) => {
             onChangeText={emailInputHandler}
             value={enteredEmail}
           />
+         
           <TextInput
             style={styles.input}
-            blurOnSubmit
+            blurOnSubmit={false}
+            onSubmitEditing={() => Keyboard.dismiss()}
             placeholder={"password"}
             placeholderTextColor="#8e9eab"
             autoCapitalize="none"
@@ -150,9 +155,10 @@ const SignupScreen = (props) => {
           />
           <TextInput
             style={styles.input}
-            blurOnSubmit
-            placeholder={"retype password"}
-            placeholderTextColor="#8e9eab"
+            blurOnSubmit={false}
+            onSubmitEditing={() => Keyboard.dismiss()}
+            placeholder={'cofirm password'}
+            placeholderTextColor= '#8e9eab'
             autoCapitalize="none"
             autoCorrect={false}
             keyboardType="default"
@@ -160,7 +166,10 @@ const SignupScreen = (props) => {
             onChangeText={verifyInputHandler}
             value={enteredVerify}
           />
-          <MainButton onPress={signupHandler} color={Colors.primary}>
+          <MainButton onPress={signupHandler} 
+          color={Colors.primary}
+          style={styles.loginButton}
+          >
             Sign Up
           </MainButton>
           <Text
