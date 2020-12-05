@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Geocode from "react-geocode";
-import * as firebase from "firebase";
 import * as Location from "expo-location";
 import { StyleSheet } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 
 import Colors from "../constants/colors";
-import Keys from "../constants/api-keys";
+import keys from "../constants/api-keys";
 import MarkerTooltip from "./MarkerTooltip";
-import { getLocations } from "../functions/getLocations";
+import { LOCATIONS } from "../data/dummy-locations";
 
 /* A component which renders a map using Google API.
    Usage: <MapOverlay style={styles.map} coordinates={coordinates}/>
@@ -24,9 +23,8 @@ const MapOverlay = (props) => {
     longitude: -122.335167,
     longitudeDelta: 0.07,
   });
-  const [locations, setLocations] = useState([]);
 
-  Geocode.setApiKey(Keys.GOOGLE_KEY);
+  Geocode.setApiKey(keys.GOOGLE_KEY);
 
   // Get user location
   const fetchUserLocation = async () => {
@@ -43,23 +41,16 @@ const MapOverlay = (props) => {
     });
   };
 
-  // Grab the locations from getLocations
-  const fetchLocations = async () => {
-    let locations = await getLocations();
-    setLocations(locations);
-  };
-
   // Run once on startup
   useEffect(() => {
     if (props.coordinates === "") {
       fetchUserLocation();
     }
-    fetchLocations();
   }, []);
 
   // Run when props.coordinates is changed
   useEffect(() => {
-    if (props.coordinates && props.coordinates !== "") {
+    if (props.coordinates !== "") {
       setCurrentRegion({
         latitude: props.coordinates.latitude,
         latitudeDelta: 0.07,
@@ -67,7 +58,6 @@ const MapOverlay = (props) => {
         longitudeDelta: 0.07,
       });
     }
-    fetchLocations();
   }, [props.coordinates]);
 
   return (
@@ -77,15 +67,17 @@ const MapOverlay = (props) => {
       zoomControlEnabled={true}
       style={styles.mapView}
       provider={PROVIDER_GOOGLE}
-      region={currentRegion}>
-      {locations.map((location) => (
+      region={currentRegion}
+    >
+      {LOCATIONS.map((location) => (
         <Marker
           key={location.id}
           pinColor={Colors.accent}
           coordinate={{
             latitude: location.coordinates.latitude,
             longitude: location.coordinates.longitude,
-          }}>
+          }}
+        >
           <MarkerTooltip location={location} navigation={props.navigation} />
         </Marker>
       ))}
