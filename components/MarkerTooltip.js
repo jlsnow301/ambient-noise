@@ -7,12 +7,15 @@ import Card from "./Card";
 import Colors from "../constants/colors";
 import BodyText from "../components/BodyText";
 
+/* Displays a card component over a marker. 
+  Usage: <MarkerTooltip location={locationObject} navigation={props.navigation}/> 
+  Needs the props navigation object from a screen so that it can link on click.
+*/
 const MarkerTooltip = (props) => {
   return (
     <Callout
       tooltip={true}
-      onPress={() => props.navigation.navigate("DetailsStack", props.location)}
-    >
+      onPress={() => props.navigation.navigate("DetailsStack", props.location)}>
       <Card style={styles.card}>
         <View style={styles.header}>
           <Text style={styles.titleText}>{props.location.title}</Text>
@@ -52,7 +55,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   lineStyle: {
-    alignSelf:'stretch',
+    alignSelf: "stretch",
     borderWidth: 1,
     borderColor: "#808080",
     marginTop: 5,

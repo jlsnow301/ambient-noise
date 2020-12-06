@@ -3,6 +3,15 @@ import { StyleSheet, Text, View } from "react-native";
 
 import DrawStars from "../components/DrawStars";
 
+/* A small component that shows "loudness rating: <STARS> <number>"
+  Usage: <LoudnessRating ratings={Object of objects}/>
+  Data format: Standard firebase object
+    objectname: {
+      uniquekeyjfoidshaf: {
+        "username" : ratingNum
+      }
+    }
+*/
 const LoudnessRating = (props) => {
   const [averageRating, setAverageRating] = useState(null);
 

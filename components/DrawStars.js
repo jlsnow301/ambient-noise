@@ -4,6 +4,9 @@ import { StyleSheet, Text, View } from "react-native";
 
 import Colors from "../constants/colors";
 
+/* Draws stars based on a rating it receives. Current max is 6.
+  Usage: <DrawStars stars={number}/> 
+*/
 const DrawStars = (props) => {
   let fullRating = [];
   for (let i = 0; i < 6; i++) {

@@ -12,6 +12,9 @@ if (!firebase.apps.length) {
   firebase.initializeApp(Keys.FIREBASE_CONFIG);
 }
 
+/* An individual component which lets user rate places.
+  Usage: <SoundScore locationId={locationObj.Id}/>
+*/
 const SoundScore = (props) => {
   const auth = useContext(AuthContext);
   const [userCanRate, setUserCanRate] = useState(true);

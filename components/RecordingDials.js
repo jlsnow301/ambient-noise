@@ -17,7 +17,11 @@ import IconButton from "./IconButton";
 import Colors from "../constants/colors";
 import { AuthContext } from "../functions/auth-context";
 
-
+/* A recording component. Displays four buttons, a slider, and a save button.
+  Usage: <RecordingDials/>
+  TODO: Get locationId as props. Save it to the location's list of recordings.
+  <RecordingDials location={locationObj.id}/>
+*/
 const RecordingDials = (props) => {
   const auth = useContext(AuthContext);
   const [volume, setVolume] = useState(4);
@@ -105,8 +109,8 @@ const RecordingDials = (props) => {
     const info = await FileSystem.getInfoAsync(recording.getURI());
     const options = {
       from: recording.getURI(),
-      to: FileSystem.documentDirectory + 'a.m4a'
-    }
+      to: FileSystem.documentDirectory + "a.m4a",
+    };
     FileSystem.moveAsync(options);
   };
 
