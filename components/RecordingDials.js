@@ -3,6 +3,8 @@ import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system";
 import Slider from "@react-native-community/slider";
 import { Text, View, StyleSheet } from "react-native";
+import * as firebase from "firebase";
+import keys from "../constants/api-keys";
 import {
   Entypo,
   Feather,
@@ -14,6 +16,7 @@ import TitleText from "./TitleText";
 import IconButton from "./IconButton";
 import Colors from "../constants/colors";
 import { AuthContext } from "../functions/auth-context";
+
 
 const RecordingDials = (props) => {
   const auth = useContext(AuthContext);
@@ -94,11 +97,18 @@ const RecordingDials = (props) => {
   };
 
   const resetRecordingHandler = () => {
-    deleteRecordingFile();
+    deleteRecordingHandler();
     setRecording(null);
   };
 
-  const saveRecordingHandler = async () => {};
+  const saveRecordingHandler = async () => {
+    const info = await FileSystem.getInfoAsync(recording.getURI());
+    const options = {
+      from: recording.getURI(),
+      to: FileSystem.documentDirectory + 'a.m4a'
+    }
+    FileSystem.moveAsync(options);
+  };
 
   const playRecordingHandler = async () => {
     setIsFetching(true);
@@ -117,12 +127,12 @@ const RecordingDials = (props) => {
       });
       const { sound, status } = await recording.createNewLoadedSoundAsync();
       setSound(sound);
-      if (isplaying) {
+      if (isPlaying) {
         await sound.unloadAsync();
-      }
-      if (!isplaying) {
-        sound.playAsync();
         setIsPlaying(false);
+      }
+      if (!isPlaying) {
+        sound.playAsync();
       }
     } catch (error) {
       console.log("There was an error reading file", error);
