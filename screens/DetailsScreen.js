@@ -55,7 +55,7 @@ const DetailsScreen = (props) => {
         <Card>
           <View style={styles.header}>
             <TitleText style={styles.titleText}>
-              {props.route.params?.title}
+              {props.route.params.title}
             </TitleText>
             <Ionicons name="ios-pin" size={25} color={Colors.accent} />
           </View>
