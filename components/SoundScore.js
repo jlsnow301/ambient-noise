@@ -14,7 +14,7 @@ if (!firebase.apps.length) {
 
 const SoundScore = (props) => {
   const auth = useContext(AuthContext);
-  const [userCanRate, setUserCanRate] = useState(false);
+  const [userCanRate, setUserCanRate] = useState(true);
   const [userRating, setUserRating] = useState(0);
 
   // This is the test part.
@@ -43,8 +43,8 @@ const SoundScore = (props) => {
           else {
             // If the user has not rated this location, they can
             snapshot.forEach((rating) => {
-              if (!Object.keys(rating.val()).includes(testUser)) {
-                setUserCanRate(true);
+              if (Object.keys(rating.val()).includes(testUser)) {
+                setUserCanRate(false);
               }
             });
           }
