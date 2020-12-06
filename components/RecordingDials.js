@@ -4,7 +4,6 @@ import * as FileSystem from "expo-file-system";
 import Slider from "@react-native-community/slider";
 import { Text, View, StyleSheet } from "react-native";
 import * as firebase from "firebase";
-import keys from "../constants/api-keys";
 import {
   Entypo,
   Feather,
@@ -83,7 +82,7 @@ const RecordingDials = (props) => {
     try {
       await recording.stopAndUnloadAsync();
       console.log("recording stopped");
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const deleteRecordingHandler = async () => {
@@ -127,9 +126,9 @@ const RecordingDials = (props) => {
         firebase
           .storage()
           .ref()
-          .child(`recording1` + `.${fileType}`)
+          .child(`recording1` + `.m4a`)
           .put(blob, {
-            contentType: `audio/${fileType}`,
+            contentType: `audio/m4a`,
           })
           .then(() => {
             console.log("Sent to storage!");
@@ -187,16 +186,22 @@ const RecordingDials = (props) => {
         </FontAwesome5>
       )}
       <View style={styles.buttons}>
-        <IconButton
-          icon={<FontAwesome5 name="microphone" size={40} color="#006AFF" />}
-          onPress={startRecordingHandler}
-          text="RECORD"
-        />
-        <IconButton
-          icon={<Entypo name="controller-stop" size={40} color="#006AFF" />}
-          onPress={stopRecordingHandler}
-          text="STOP"
-        />
+        <TouchableOpacity activeOpacity={0.8} onPress={() => playAudio()}>
+          {!isRecording && (
+            <IconButton
+              icon={<FontAwesome5 name="microphone" size={40} color="#006AFF" />}
+              onPress={startRecordingHandler}
+              text="RECORD"
+            />
+          )}
+          {isRecording && (
+            <IconButton
+              icon={<Entypo name="controller-stop" size={40} color="#006AFF" />}
+              onPress={stopRecordingHandler}
+              text="STOP"
+            />
+          )}
+        </TouchableOpacity>
         <IconButton
           icon={<Entypo name="controller-play" size={40} color="#006AFF" />}
           onPress={playRecordingHandler}
