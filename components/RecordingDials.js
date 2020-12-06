@@ -102,12 +102,45 @@ const RecordingDials = (props) => {
   };
 
   const saveRecordingHandler = async () => {
-    const info = await FileSystem.getInfoAsync(recording.getURI());
-    const options = {
-      from: recording.getURI(),
-      to: FileSystem.documentDirectory + 'a.m4a'
+    const uri = recording.getURI();
+    try {
+      const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = () => {
+          try {
+            resolve(xhr.response);
+          } catch (error) {
+            console.log("error:", error);
+          }
+        };
+        xhr.onerror = (e) => {
+          console.log(e);
+          reject(new TypeError("Network request failed"));
+        };
+        xhr.responseType = "blob";
+        xhr.open("GET", uri, true);
+        xhr.send(null);
+      });
+      if (blob != null) {
+        const uriParts = uri.split(".");
+        const fileType = uriParts[uriParts.length - 1];
+        firebase
+          .storage()
+          .ref()
+          .child(`recording1` + `.${fileType}`)
+          .put(blob, {
+            contentType: `audio/${fileType}`,
+          })
+          .then(() => {
+            console.log("Sent to storage!");
+          })
+          .catch((e) => console.log("error:", e));
+      } else {
+        console.log("erroor with blob");
+      }
+    } catch (error) {
+      console.log("error:", error);
     }
-    FileSystem.moveAsync(options);
   };
 
   const playRecordingHandler = async () => {

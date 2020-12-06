@@ -3,7 +3,7 @@ import { Audio } from "expo-av";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-
+import * as firebase from "firebase";
 import IconButton from "../components/IconButton";
 
 const soundObject = new Audio.Sound();
@@ -12,13 +12,23 @@ const PlayButton = (props) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const playAudioHandler = async () => {
-    if (!isPlaying) {
-      setIsPlaying(true);
-      soundObject.unloadAsync();
-      await soundObject.loadAsync(require("../assets/sound/freeway-1.mp3"), {
+    console.log("start to play")
+    const uri = await firebase
+      .storage()
+      .ref("recording1.m4a")
+      .getDownloadURL();
+
+    console.log("uri:", uri);
+
+    setIsPlaying(true);
+    soundObject.unloadAsync();
+    try {
+      await soundObject.loadAsync({ uri }, {
         shouldPlay: true,
       });
       await soundObject.playAsync();
+    } catch (error) {
+      console.log("error:", error);
     }
   };
 
