@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system";
 import Slider from "@react-native-community/slider";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import * as firebase from "firebase";
 import {
   Entypo,
@@ -180,11 +180,6 @@ const RecordingDials = (props) => {
 
   return (
     <View style={styles.container}>
-      {isRecording && (
-        <FontAwesome5 name="microphone" size={20} color="#DE1C22">
-          Recording...Press Stop Button
-        </FontAwesome5>
-      )}
       <View style={styles.buttons}>
         <TouchableOpacity activeOpacity={0.8} onPress={() => playAudio()}>
           {!isRecording && (
@@ -251,7 +246,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignSelf: "center",
-    marginVertical: 10,
+    marginVertical: 15,
   },
   slider: {
     width: 200,
