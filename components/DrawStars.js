@@ -6,7 +6,6 @@ import Colors from "../constants/colors";
 
 const DrawStars = (props) => {
   let fullRating = [];
-  console.log(props.stars);
   for (let i = 0; i < 6; i++) {
     if (i < Math.floor(props.stars)) {
       fullRating.push(
