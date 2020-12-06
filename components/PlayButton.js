@@ -12,6 +12,7 @@ const PlayButton = (props) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const playAudioHandler = async () => {
+    soundObject.unloadAsync();
     console.log("start to play")
     const uri = await firebase
       .storage()
@@ -21,7 +22,7 @@ const PlayButton = (props) => {
     console.log("uri:", uri);
 
     setIsPlaying(true);
-    soundObject.unloadAsync();
+    
     try {
       await soundObject.loadAsync({ uri }, {
         shouldPlay: true,

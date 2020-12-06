@@ -2,8 +2,9 @@ import React, { useState, useEffect, useContext } from "react";
 import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system";
 import Slider from "@react-native-community/slider";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Picker, Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import * as firebase from "firebase";
+
 import {
   Entypo,
   Feather,
@@ -25,6 +26,7 @@ const RecordingDials = (props) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+  const [select, setSelect] = useState("deck");
 
   const recordingSettings = {
     android: {
@@ -129,6 +131,8 @@ const RecordingDials = (props) => {
           .child(`recording1` + `.m4a`)
           .put(blob, {
             contentType: `audio/m4a`,
+
+
           })
           .then(() => {
             console.log("Sent to storage!");
@@ -184,14 +188,14 @@ const RecordingDials = (props) => {
         <TouchableOpacity activeOpacity={0.8} onPress={() => playAudio()}>
           {!isRecording && (
             <IconButton
-              icon={<FontAwesome5 name="microphone" size={40} color="#006AFF" />}
+              icon={<FontAwesome5 name="microphone" size={40} color="#0000FF" />}
               onPress={startRecordingHandler}
               text="RECORD"
             />
           )}
           {isRecording && (
             <IconButton
-              icon={<Entypo name="controller-stop" size={40} color="#006AFF" />}
+              icon={<Entypo name="controller-stop" size={40} color="#FF0000" />}
               onPress={stopRecordingHandler}
               text="STOP"
             />
@@ -203,7 +207,7 @@ const RecordingDials = (props) => {
           text="PLAYBACK"
         />
         <IconButton
-          icon={<MaterialIcons name="delete" size={40} color="#006AFF" />}
+          icon={<MaterialIcons name="delete" size={40} color="#A9A9A9" />}
           onPress={deleteRecordingHandler}
           text="DELETE"
         />
@@ -223,12 +227,28 @@ const RecordingDials = (props) => {
         />
         <FontAwesome5 name="volume-up" size={25} color={Colors.primary} />
       </View>
+      <View style={styles.picker}>
+        <Picker
+          selectedValue={select}
+          onValueChange={select => setSelect(select)}
+          style={{ width: 160, height:90, postion: 'absolute', fontSize: 10 }}
+          mode="dropdown"
+          itemStyle={{ color:"#228B22", fontWeight: '900', fontSize: 18, padding: 30 }}>
+          <Picker.Item label="on the deck" value="deck" />
+          <Picker.Item label="on the second floor" value="2fl" />
+          <Picker.Item label="on the first floor" value="1fl" />
+          <Picker.Item label="in the garage" value="garage" />
+          <Picker.Item label="on curbside" value="cubside" />
+          <Picker.Item label="other" value="other" />
+        </Picker>
+      </View>
       <View style={styles.saveButton}>
         <IconButton
           icon={<Feather name="save" size={30} color="#006AFF" />}
           onPress={saveRecordingHandler}
           text="SAVE"
         />
+
       </View>
     </View>
   );
@@ -255,4 +275,10 @@ const styles = StyleSheet.create({
   saveButton: {
     alignSelf: "flex-end",
   },
+  picker: {
+    alignSelf: "flex-start",
+  },
+  container: {
+    alignSelf:"stretch",
+  }
 });
