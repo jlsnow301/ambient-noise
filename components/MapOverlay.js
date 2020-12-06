@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Geocode from "react-geocode";
-import * as firebase from "firebase";
 import * as Location from "expo-location";
 import { StyleSheet } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
