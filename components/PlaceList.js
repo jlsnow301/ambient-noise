@@ -26,7 +26,7 @@ const PlaceList = (props) => {
       renderItem={(location) => (
         <TouchableOpacity
           onPress={() =>
-            props.navigation.navigate("DetailsStack", locations.item)
+            props.navigation.navigate("DetailsStack", location.item)
           }>
           <PlaceItem
             id={location.item.id}

@@ -3,13 +3,13 @@ import * as firebase from "firebase";
 import { Text, View, StyleSheet, Button } from "react-native";
 import { Rating, AirbnbRating } from "react-native-elements";
 
-import keys from "../constants/api-keys";
+import Keys from "../constants/api-keys";
 import Colors from "../constants/colors";
 import { AuthContext } from "../functions/auth-context";
 
 // Initialize Firebase
 if (!firebase.apps.length) {
-  firebase.initializeApp(keys.FIREBASE_CONFIG);
+  firebase.initializeApp(Keys.FIREBASE_CONFIG);
 }
 
 const SoundScore = (props) => {
@@ -17,7 +17,10 @@ const SoundScore = (props) => {
   const [userCanRate, setUserCanRate] = useState(false);
   const [userRating, setUserRating] = useState(0);
 
+  // This is the test part.
   let testUser = "jerm";
+  // So when we for sure have a user ID (we shouldn't make it to ratings if we aren't logged in)
+  // We can use auth.userId instead of this
 
   const submitRatingHandler = async () => {
     if (!userCanRate) return;
