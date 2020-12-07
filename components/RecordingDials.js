@@ -200,14 +200,13 @@ const RecordingDials = (props) => {
     <View style={styles.container}>
       <View style={styles.buttons}>
         <TouchableOpacity activeOpacity={0.8} onPress={() => playAudio()}>
-          {!isRecording && (
+          {!isRecording ? (
             <IconButton
               icon={<FontAwesome5 name="microphone" size={40} color="#0000FF" />}
               onPress={startRecordingHandler}
               text="RECORD"
             />
-          )}
-          {isRecording && (
+          ) : (
             <IconButton
               icon={<Entypo name="controller-stop" size={40} color="#FF0000" />}
               onPress={stopRecordingHandler}
