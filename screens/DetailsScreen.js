@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
 import Card from "../components/Card";
 import Colors from "../constants/colors";
@@ -68,9 +68,9 @@ const DetailsScreen = (props) => {
           <BodyText style={styles.bodyText}>{props.route.params.date}</BodyText>
           <LoudnessRating ratings={props.route.params.ratings} />
           <View style={styles.buttonContainer}>
-            <TouchableWithoutFeedback onPress={() => clearOptionsHandler()}>
+            <TouchableOpacity onPress={() => clearOptionsHandler()}>
               <PlayButton soundId={props.route.params.id} />
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
             <IconButton
               icon={
                 <FontAwesome5

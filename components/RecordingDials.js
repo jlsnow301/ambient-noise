@@ -2,9 +2,16 @@ import React, { useState, useEffect, useContext } from "react";
 import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system";
 import Slider from "@react-native-community/slider";
-import { Text, View, StyleSheet } from "react-native";
+import {
+  Picker,
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import * as firebase from "firebase";
-import keys from "../constants/api-keys";
+
 import {
   Entypo,
   Feather,
@@ -30,6 +37,7 @@ const RecordingDials = (props) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+  const [select, setSelect] = useState("deck");
 
   const recordingSettings = {
     android: {
@@ -106,12 +114,58 @@ const RecordingDials = (props) => {
   };
 
   const saveRecordingHandler = async () => {
-    const info = await FileSystem.getInfoAsync(recording.getURI());
-    const options = {
-      from: recording.getURI(),
-      to: FileSystem.documentDirectory + "a.m4a",
-    };
-    FileSystem.moveAsync(options);
+    const uri = recording.getURI();
+    try {
+      const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = () => {
+          try {
+            resolve(xhr.response);
+          } catch (error) {
+            console.log("error:", error);
+          }
+        };
+        xhr.onerror = (e) => {
+          console.log(e);
+          reject(new TypeError("Network request failed"));
+        };
+        xhr.responseType = "blob";
+        xhr.open("GET", uri, true);
+        xhr.send(null);
+      });
+      if (blob != null) {
+        const uriParts = uri.split(".");
+        const fileType = uriParts[uriParts.length - 1];
+        firebase
+          .storage()
+          .ref()
+          .child(`recording1` + `.m4a`)
+          .put(blob, {
+            contentType: `audio/m4a`,
+          })
+          .then(() => {
+            console.log("Sent to storage!");
+          })
+          .catch((e) => console.log("error:", e));
+      } else {
+        console.log("erroor with blob");
+      }
+    } catch (error) {
+      console.log("error:", error);
+    }
+  };
+
+  const saveAlert = () => {
+    Alert.alert(
+      "Recording Saved",
+      "sent!"[{ text: "OK", onPress: () => console.log("Sent") }],
+      { cancelable: false }
+    );
+  };
+
+  const saveHandler = () => {
+    saveRecordingHandler();
+    saveAlert();
   };
 
   const playRecordingHandler = async () => {
@@ -119,7 +173,6 @@ const RecordingDials = (props) => {
     try {
       const info = await FileSystem.getInfoAsync(recording.getURI() || "");
       console.log(`FILE INFO: ${JSON.stringify(info)}`);
-      setIsPlaying(true);
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: false,
         interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
@@ -137,6 +190,7 @@ const RecordingDials = (props) => {
       }
       if (!isPlaying) {
         sound.playAsync();
+        setIsPlaying(true);
       }
     } catch (error) {
       console.log("There was an error reading file", error);
@@ -152,29 +206,31 @@ const RecordingDials = (props) => {
 
   return (
     <View style={styles.container}>
-      {isRecording && (
-        <FontAwesome5 name="microphone" size={20} color="#DE1C22">
-          Recording...Press Stop Button
-        </FontAwesome5>
-      )}
       <View style={styles.buttons}>
-        <IconButton
-          icon={<FontAwesome5 name="microphone" size={40} color="#006AFF" />}
-          onPress={startRecordingHandler}
-          text="RECORD"
-        />
-        <IconButton
-          icon={<Entypo name="controller-stop" size={40} color="#006AFF" />}
-          onPress={stopRecordingHandler}
-          text="STOP"
-        />
+        <TouchableOpacity activeOpacity={0.8} onPress={() => playAudio()}>
+          {!isRecording ? (
+            <IconButton
+              icon={
+                <FontAwesome5 name="microphone" size={40} color="#0000FF" />
+              }
+              onPress={startRecordingHandler}
+              text="RECORD"
+            />
+          ) : (
+            <IconButton
+              icon={<Entypo name="controller-stop" size={40} color="#FF0000" />}
+              onPress={stopRecordingHandler}
+              text="STOP"
+            />
+          )}
+        </TouchableOpacity>
         <IconButton
           icon={<Entypo name="controller-play" size={40} color="#006AFF" />}
           onPress={playRecordingHandler}
           text="PLAYBACK"
         />
         <IconButton
-          icon={<MaterialIcons name="delete" size={40} color="#006AFF" />}
+          icon={<MaterialIcons name="delete" size={40} color="#A9A9A9" />}
           onPress={deleteRecordingHandler}
           text="DELETE"
         />
@@ -194,10 +250,30 @@ const RecordingDials = (props) => {
         />
         <FontAwesome5 name="volume-up" size={25} color={Colors.primary} />
       </View>
+      <View style={styles.picker}>
+        <Picker
+          selectedValue={select}
+          onValueChange={(select) => setSelect(select)}
+          style={{ width: 160, height: 90, postion: "absolute", fontSize: 10 }}
+          mode="dropdown"
+          itemStyle={{
+            color: "#228B22",
+            fontWeight: "900",
+            fontSize: 18,
+            padding: 30,
+          }}>
+          <Picker.Item label="on the deck" value="deck" />
+          <Picker.Item label="on the second floor" value="2fl" />
+          <Picker.Item label="on the first floor" value="1fl" />
+          <Picker.Item label="in the garage" value="garage" />
+          <Picker.Item label="on curbside" value="cubside" />
+          <Picker.Item label="other" value="other" />
+        </Picker>
+      </View>
       <View style={styles.saveButton}>
         <IconButton
           icon={<Feather name="save" size={30} color="#006AFF" />}
-          onPress={saveRecordingHandler}
+          onPress={saveHandler}
           text="SAVE"
         />
       </View>
@@ -217,7 +293,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignSelf: "center",
-    marginVertical: 10,
+    marginVertical: 15,
   },
   slider: {
     width: 200,
@@ -225,5 +301,11 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     alignSelf: "flex-end",
+  },
+  picker: {
+    alignSelf: "flex-start",
+  },
+  container: {
+    alignSelf: "stretch",
   },
 });
