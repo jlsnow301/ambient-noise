@@ -160,9 +160,8 @@ const RecordingDials = (props) => {
       "Recording Saved",
       "sent!"
       [
-        { text: "OK", onPress:() => console.log("Sent")}
-      ],
-      { cancelable: false }
+        { text: "OK"}
+      ]
     );
   }
 
@@ -172,8 +171,8 @@ const RecordingDials = (props) => {
   }
 
   const saveHandler = () => {
-    saveRecordingHandler();
     saveAlert();
+    saveRecordingHandler();
   }
 
   const playRecordingHandler = async () => {
