@@ -149,7 +149,7 @@ const RecordingDials = (props) => {
       "Recording Deleted",
       "Deleted!"
       [
-        { text: "OK", onPress:() => console.log("deleted")}
+        { text: "OK"}
       ],
       { cancelable: false }
     );
