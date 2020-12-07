@@ -1,25 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Audio } from "expo-av";
-import * as FileSystem from "expo-file-system";
-import Slider from "@react-native-community/slider";
-import {
-  Picker,
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
-import * as firebase from "firebase";
-
 import {
   Entypo,
   Feather,
   FontAwesome5,
   MaterialIcons,
 } from "@expo/vector-icons";
+import { Audio } from "expo-av";
+import * as firebase from "firebase";
+import * as FileSystem from "expo-file-system";
+import Slider from "@react-native-community/slider";
+import { Picker } from "@react-native-picker/picker";
+import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
 
-import TitleText from "./TitleText";
 import IconButton from "./IconButton";
 import Colors from "../constants/colors";
 import { AuthContext } from "../functions/auth-context";
