@@ -9,8 +9,13 @@ import { Audio } from "expo-av";
 import * as firebase from "firebase";
 import * as FileSystem from "expo-file-system";
 import Slider from "@react-native-community/slider";
-import { Picker } from "@react-native-picker/picker";
-import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  Alert,
+  Picker,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 
 import IconButton from "./IconButton";
 import Colors from "../constants/colors";
