@@ -144,6 +144,17 @@ const RecordingDials = (props) => {
     }
   };
 
+  const deleteAlert =() => {
+    Alert.alert(
+      "Recording Deleted",
+      "Deleted!"
+      [
+        { text: "OK", onPress:() => console.log("deleted")}
+      ],
+      { cancelable: false }
+    );
+  }
+
   const saveAlert = () => {
     Alert.alert(
       "Recording Saved",
@@ -153,6 +164,11 @@ const RecordingDials = (props) => {
       ],
       { cancelable: false }
     );
+  }
+
+  const deleteHandler = () => {
+    deleteRecordingHandler();
+    deleteAlert();
   }
 
   const saveHandler = () => {
@@ -176,14 +192,9 @@ const RecordingDials = (props) => {
       });
       const { sound, status } = await recording.createNewLoadedSoundAsync();
       setSound(sound);
-      if (isPlaying) {
-        await sound.unloadAsync();
-        setIsPlaying(false);
-      }
-      if (!isPlaying) {
+
         sound.playAsync();
         setIsPlaying(true);
-      }
     } catch (error) {
       console.log("There was an error reading file", error);
       stopRecordingHandler();
@@ -221,7 +232,7 @@ const RecordingDials = (props) => {
         />
         <IconButton
           icon={<MaterialIcons name="delete" size={40} color="#A9A9A9" />}
-          onPress={deleteRecordingHandler}
+          onPress={deleteHandler}
           text="DELETE"
         />
       </View>
