@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Audio } from "expo-av";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View} from "react-native";
 import * as firebase from "firebase";
 import IconButton from "../components/IconButton";
 

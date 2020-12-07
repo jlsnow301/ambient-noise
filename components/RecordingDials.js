@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system";
 import Slider from "@react-native-community/slider";
-import { Picker, Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Picker, Text, View, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import * as firebase from "firebase";
 
 import {
@@ -131,8 +131,6 @@ const RecordingDials = (props) => {
           .child(`recording1` + `.m4a`)
           .put(blob, {
             contentType: `audio/m4a`,
-
-
           })
           .then(() => {
             console.log("Sent to storage!");
@@ -146,12 +144,27 @@ const RecordingDials = (props) => {
     }
   };
 
+  const saveAlert = () => {
+    Alert.alert(
+      "Recording Saved",
+      "sent!"
+      [
+        { text: "OK", onPress:() => console.log("Sent")}
+      ],
+      { cancelable: false }
+    );
+  }
+
+  const saveHandler = () => {
+    saveRecordingHandler();
+    saveAlert();
+  }
+
   const playRecordingHandler = async () => {
     setIsFetching(true);
     try {
       const info = await FileSystem.getInfoAsync(recording.getURI() || "");
       console.log(`FILE INFO: ${JSON.stringify(info)}`);
-      setIsPlaying(true);
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: false,
         interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
@@ -169,6 +182,7 @@ const RecordingDials = (props) => {
       }
       if (!isPlaying) {
         sound.playAsync();
+        setIsPlaying(true);
       }
     } catch (error) {
       console.log("There was an error reading file", error);
@@ -245,7 +259,7 @@ const RecordingDials = (props) => {
       <View style={styles.saveButton}>
         <IconButton
           icon={<Feather name="save" size={30} color="#006AFF" />}
-          onPress={saveRecordingHandler}
+          onPress={saveHandler}
           text="SAVE"
         />
 
