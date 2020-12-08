@@ -12,8 +12,8 @@ import IconButton from "../components/IconButton";
 import PlayButton from "../components/PlayButton";
 import SoundScore from "../components/SoundScore";
 import { AuthContext } from "../functions/auth-context";
+import LoudnessRating from "../components/LoudnessRating";
 import RecordingDials from "../components/RecordingDials";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 const DetailsScreen = (props) => {
   const auth = useContext(AuthContext);
@@ -34,7 +34,7 @@ const DetailsScreen = (props) => {
       setCardVisible(true);
       setCurrentOption("record");
     } else if (option === "rate") {
-      setCardContent(<SoundScore />);
+      setCardContent(<SoundScore locationId={props.route.params.id} />);
       setCardVisible(true);
       setCurrentOption("rate");
     }
@@ -66,6 +66,7 @@ const DetailsScreen = (props) => {
           </BodyText>
           <Text style={styles.attributeText}>Date Added:</Text>
           <BodyText style={styles.bodyText}>{props.route.params.date}</BodyText>
+          <LoudnessRating ratings={props.route.params.ratings} />
           <View style={styles.buttonContainer}>
             <TouchableOpacity onPress={() => clearOptionsHandler()}>
               <PlayButton soundId={props.route.params.id} />
@@ -159,6 +160,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    marginTop: 10,
     paddingHorizontal: 15,
   },
   card: {

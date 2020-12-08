@@ -1,72 +1,45 @@
 import React, { useState, useEffect } from "react";
-import * as firebase from "firebase";
 import { StyleSheet, FlatList, TouchableOpacity, LogBox } from "react-native";
 
 import PlaceIcon from "./PlaceIcon";
 import PlaceItem from "./PlaceItem";
-import keys from "../constants/api-keys";
-import Location from "../models/location";
-
-// Testing only
-// import { LOCATIONS } from "../data/dummy-locations";
-// Initialize Firebase
-if (!firebase.apps.length) {
-  firebase.initializeApp(keys.FIREBASE_CONFIG);
-}
+import { getLocations } from "../functions/getLocations";
 
 LogBox.ignoreLogs(["Setting a timer"]);
 
+/* Generates a list based on locations fetched.
+  Usage: <PlaceList/>
+  TODO: Get a specific list from props. Pass this to fetch only that list.
+    <PlaceList listMode="recent"/>
+    getLocations(props.listMode);
+*/
 const PlaceList = (props) => {
-  const [placeData, setPlaceData] = useState({});
-  // Sets what icons display and what database is grabbed.
+  const [locations, setLocations] = useState({});
 
-  // Initially retrieves the database. Currently grabbing dummy data.
   useEffect(() => {
-    const getPlaceData = async () => {
-      let locations = [];
-      await firebase
-        .database()
-        // .ref(props.listMode) for when we have different dbs for recent/saved
-        .ref("locations")
-        .once("value", (snapshot) => {
-          snapshot.forEach((location) => {
-            locations.push(
-              new Location(
-                location.val().id,
-                location.val().coordinates,
-                location.val().title,
-                location.val().description,
-                location.val().date,
-                location.val().soundId
-              )
-            );
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      setPlaceData(locations);
+    // Grab the locations from getLocations
+    const fetchLocations = async () => {
+      let locations = await getLocations();
+      setLocations(locations);
     };
-    getPlaceData();
+    fetchLocations();
   }, []);
 
   return (
     <FlatList
-      keyExtractor={(placeData, item) => item.toString()}
-      // keyExtractor={(item) => item.toString()}
-      data={placeData}
-      renderItem={(placeData) => (
+      keyExtractor={(location, item) => item.toString()}
+      data={locations}
+      renderItem={(location) => (
         <TouchableOpacity
           onPress={() =>
-            props.navigation.navigate("DetailsStack", placeData.item)
-          }
-        >
+            props.navigation.navigate("DetailsStack", location.item)
+          }>
           <PlaceItem
-            id={placeData.item.id}
-            title={placeData.item.title}
-            date={placeData.item.date}
+            id={location.item.id}
+            title={location.item.title}
+            date={location.item.date}
             icon={
-              <PlaceIcon listMode={props.listMode} date={placeData.item.date} />
+              <PlaceIcon listMode={props.listMode} date={location.item.date} />
             }
           />
         </TouchableOpacity>

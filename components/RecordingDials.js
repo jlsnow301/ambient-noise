@@ -1,23 +1,31 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Audio } from "expo-av";
-import * as FileSystem from "expo-file-system";
-import Slider from "@react-native-community/slider";
-import { Picker, Text, View, StyleSheet, TouchableOpacity, Alert } from "react-native";
-import * as firebase from "firebase";
-
 import {
   Entypo,
   Feather,
   FontAwesome5,
   MaterialIcons,
 } from "@expo/vector-icons";
+import { Audio } from "expo-av";
+import * as firebase from "firebase";
+import * as FileSystem from "expo-file-system";
+import Slider from "@react-native-community/slider";
+import {
+  View,
+  Alert,
+  Picker,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 
-import TitleText from "./TitleText";
 import IconButton from "./IconButton";
 import Colors from "../constants/colors";
 import { AuthContext } from "../functions/auth-context";
 
-
+/* A recording component. Displays four buttons, a slider, and a save button.
+  Usage: <RecordingDials/>
+  TODO: Get locationId as props. Save it to the location's list of recordings.
+  <RecordingDials location={locationObj.id}/>
+*/
 const RecordingDials = (props) => {
   const auth = useContext(AuthContext);
   const [volume, setVolume] = useState(4);
@@ -84,7 +92,7 @@ const RecordingDials = (props) => {
     try {
       await recording.stopAndUnloadAsync();
       console.log("recording stopped");
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const deleteRecordingHandler = async () => {
@@ -147,18 +155,15 @@ const RecordingDials = (props) => {
   const saveAlert = () => {
     Alert.alert(
       "Recording Saved",
-      "sent!"
-      [
-        { text: "OK", onPress:() => console.log("Sent")}
-      ],
+      "sent!"[{ text: "OK", onPress: () => console.log("Sent") }],
       { cancelable: false }
     );
-  }
+  };
 
   const saveHandler = () => {
     saveRecordingHandler();
     saveAlert();
-  }
+  };
 
   const playRecordingHandler = async () => {
     setIsFetching(true);
@@ -202,7 +207,9 @@ const RecordingDials = (props) => {
         <TouchableOpacity activeOpacity={0.8} onPress={() => playAudio()}>
           {!isRecording ? (
             <IconButton
-              icon={<FontAwesome5 name="microphone" size={40} color="#0000FF" />}
+              icon={
+                <FontAwesome5 name="microphone" size={40} color="#0000FF" />
+              }
               onPress={startRecordingHandler}
               text="RECORD"
             />
@@ -243,10 +250,15 @@ const RecordingDials = (props) => {
       <View style={styles.picker}>
         <Picker
           selectedValue={select}
-          onValueChange={select => setSelect(select)}
-          style={{ width: 160, height:90, postion: 'absolute', fontSize: 10 }}
+          onValueChange={(select) => setSelect(select)}
+          style={{ width: 160, height: 90, postion: "absolute", fontSize: 10 }}
           mode="dropdown"
-          itemStyle={{ color:"#228B22", fontWeight: '900', fontSize: 18, padding: 30 }}>
+          itemStyle={{
+            color: "#228B22",
+            fontWeight: "900",
+            fontSize: 18,
+            padding: 30,
+          }}>
           <Picker.Item label="on the deck" value="deck" />
           <Picker.Item label="on the second floor" value="2fl" />
           <Picker.Item label="on the first floor" value="1fl" />
@@ -261,7 +273,6 @@ const RecordingDials = (props) => {
           onPress={saveHandler}
           text="SAVE"
         />
-
       </View>
     </View>
   );
@@ -292,6 +303,6 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
   container: {
-    alignSelf:"stretch",
-  }
+    alignSelf: "stretch",
+  },
 });
