@@ -8,6 +8,12 @@ import IconButton from "../components/IconButton";
 
 const soundObject = new Audio.Sound();
 
+/* Currently plays a static sound but it's getting there
+  Usage: <PlayButton/>
+  Todo: Pass the soundId into props.
+    <PlayButton soundId={location.soundId}/>
+    await soundObject.loadAsync(require(props.soundId), {
+*/
 const PlayButton = (props) => {
   const [isPlaying, setIsPlaying] = useState(false);
 

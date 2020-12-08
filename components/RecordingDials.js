@@ -11,14 +11,28 @@ import {
   FontAwesome5,
   MaterialIcons,
 } from "@expo/vector-icons";
+import { Audio } from "expo-av";
+import * as firebase from "firebase";
+import * as FileSystem from "expo-file-system";
+import Slider from "@react-native-community/slider";
+import {
+  View,
+  Alert,
+  Picker,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 
-import TitleText from "./TitleText";
 import IconButton from "./IconButton";
 import Colors from "../constants/colors";
 import { AuthContext } from "../functions/auth-context";
 import { Button } from "antd-mobile";
 
-
+/* A recording component. Displays four buttons, a slider, and a save button.
+  Usage: <RecordingDials/>
+  TODO: Get locationId as props. Save it to the location's list of recordings.
+  <RecordingDials location={locationObj.id}/>
+*/
 const RecordingDials = (props) => {
   const auth = useContext(AuthContext);
   const [volume, setVolume] = useState(4);
@@ -88,7 +102,7 @@ const RecordingDials = (props) => {
     try {
       await recording.stopAndUnloadAsync();
       console.log("recording stopped");
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const deleteRecordingHandler = async () => {
@@ -165,7 +179,7 @@ const RecordingDials = (props) => {
       { text: "OK" }
       ]
     );
-  }
+  };
 
   const deleteHandler = () => {
     deleteRecordingHandler();
@@ -223,7 +237,9 @@ const RecordingDials = (props) => {
         <TouchableOpacity activeOpacity={0.8} onPress={() => playAudio()}>
           {!isRecording ? (
             <IconButton
-              icon={<FontAwesome5 name="microphone" size={40} color="#0000FF" />}
+              icon={
+                <FontAwesome5 name="microphone" size={40} color="#0000FF" />
+              }
               onPress={startRecordingHandler}
               text="RECORD"
             />
@@ -303,7 +319,6 @@ const RecordingDials = (props) => {
           onPress={saveHandler}
           text="SAVE"
         />
-
       </View>
     </View>
   );

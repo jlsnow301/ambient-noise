@@ -4,7 +4,11 @@ import { Entypo } from "@expo/vector-icons";
 
 import Colors from "../constants/colors";
 
-const PlaceIcon = props => {
+/* Draws an icon for a list item. Has logic to determine if
+  the icon is older than three days, or a favorited place.
+  Usage: <PlaceIcon listMode="recent/saved"/>
+*/
+const PlaceIcon = (props) => {
   // Is this for the saved list?
   if (props.listMode === "saved") {
     return <Entypo name="heart" size={20} color={Colors.secondary} />;
