@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Audio } from "expo-av";
-import * as FileSystem from "expo-file-system";
-import Slider from "@react-native-community/slider";
-import { Picker, Modal, TouchableHighlight, Text, View, StyleSheet, TouchableOpacity, Alert } from "react-native";
-import * as firebase from "firebase";
-
+import {
+  Text,
+  View,
+  Alert,
+  Modal,
+  Picker,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableHighlight,
+} from "react-native";
 import {
   Entypo,
   Feather,
@@ -15,18 +19,10 @@ import { Audio } from "expo-av";
 import * as firebase from "firebase";
 import * as FileSystem from "expo-file-system";
 import Slider from "@react-native-community/slider";
-import {
-  View,
-  Alert,
-  Picker,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
 
 import IconButton from "./IconButton";
 import Colors from "../constants/colors";
 import { AuthContext } from "../functions/auth-context";
-import { Button } from "antd-mobile";
 
 /* A recording component. Displays four buttons, a slider, and a save button.
   Usage: <RecordingDials/>
@@ -161,37 +157,26 @@ const RecordingDials = (props) => {
   };
 
   const deleteAlert = () => {
-    Alert.alert(
-      "Recording Deleted",
-      "Deleted!"
-      [
-      { text: "OK" }
-      ],
-      { cancelable: false }
-    );
-  }
+    Alert.alert("Recording Deleted", "Deleted!"[{ text: "OK" }], {
+      cancelable: false,
+    });
+  };
 
   const saveAlert = () => {
-    Alert.alert(
-      "Recording Saved",
-      "sent!"
-      [
-      { text: "OK" }
-      ]
-    );
+    Alert.alert("Recording Saved", "sent!"[{ text: "OK" }]);
   };
 
   const deleteHandler = () => {
     deleteRecordingHandler();
     deleteAlert();
-  }
+  };
 
   const saveHandler = () => {
     //saveAlert();
     setModalVisible(true);
     saveRecordingHandler();
     submitUserRecordingLocationHandler();
-  }
+  };
 
   const playRecordingHandler = async () => {
     setIsFetching(true);
@@ -229,7 +214,7 @@ const RecordingDials = (props) => {
       .database()
       .ref(`locations/loc1/recordingLocations`)
       .push({ [testUser]: select });
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -244,12 +229,12 @@ const RecordingDials = (props) => {
               text="RECORD"
             />
           ) : (
-              <IconButton
-                icon={<Entypo name="controller-stop" size={40} color="#FF0000" />}
-                onPress={stopRecordingHandler}
-                text="STOP"
-              />
-            )}
+            <IconButton
+              icon={<Entypo name="controller-stop" size={40} color="#FF0000" />}
+              onPress={stopRecordingHandler}
+              text="STOP"
+            />
+          )}
         </TouchableOpacity>
         <IconButton
           icon={<Entypo name="controller-play" size={40} color="#006AFF" />}
@@ -280,12 +265,20 @@ const RecordingDials = (props) => {
       <View style={styles.picker}>
         <Picker
           selectedValue={select}
-          onValueChange={select => setSelect(select)}
-          style={{ width: 160, height: 90, postion: 'absolute', fontSize: 10 }}
+          onValueChange={(select) => setSelect(select)}
+          style={{ width: 160, height: 90, postion: "absolute", fontSize: 10 }}
           mode="dropdown"
-          itemStyle={{ color: "#228B22", fontWeight: '900', fontSize: 18, padding: 30 }}>
+          itemStyle={{
+            color: "#228B22",
+            fontWeight: "900",
+            fontSize: 18,
+            padding: 30,
+          }}>
           <Picker.Item label="on the deck" value="on the deck" />
-          <Picker.Item label="on the second floor" value="on the second floor" />
+          <Picker.Item
+            label="on the second floor"
+            value="on the second floor"
+          />
           <Picker.Item label="on the first floor" value="on the first floor" />
           <Picker.Item label="in the garage" value="in the garage" />
           <Picker.Item label="on curbside" value="on curbside" />
@@ -298,14 +291,14 @@ const RecordingDials = (props) => {
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
-            Alert.alert('Recording has been saved');
+            Alert.alert("Recording has been saved");
           }}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalText}>Recording Saved</Text>
 
               <TouchableHighlight
-                style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
                 onPress={() => {
                   setModalVisible(!modalVisible);
                 }}>
@@ -353,17 +346,17 @@ const styles = StyleSheet.create({
   },
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 22,
   },
   modalView: {
     margin: 20,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -373,20 +366,19 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   openButton: {
-    backgroundColor: '#F194FF',
+    backgroundColor: "#F194FF",
     borderRadius: 20,
     padding: 10,
     elevation: 2,
   },
   textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
   modalText: {
     marginBottom: 15,
-    textAlign: 'center',
+    textAlign: "center",
     color: "red",
   },
-
 });
