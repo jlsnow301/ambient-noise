@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import * as firebase from "firebase";
-import { View, StyleSheet, Button } from "react-native";
 import { AirbnbRating } from "react-native-elements";
+import { View, StyleSheet, Button } from "react-native";
 
 import Keys from "../constants/api-keys";
-import Colors from "../constants/colors";
 import { AuthContext } from "../functions/auth-context";
 
 // Initialize Firebase

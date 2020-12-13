@@ -21,7 +21,6 @@ const MarkerTooltip = (props) => {
           <Text style={styles.titleText}>{props.location.title}</Text>
           <Ionicons name="ios-pin" size={25} color={Colors.accent} />
         </View>
-
         <View style={styles.lineStyle} />
         <Text style={styles.attributeText}>Description:</Text>
         <BodyText style={styles.bodyText}>
@@ -41,18 +40,17 @@ export default MarkerTooltip;
 
 const styles = StyleSheet.create({
   card: {
-    width: 200,
-    maxWidth: "100%",
+    width: "100%",
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginHorizontal: 10,
   },
   titleText: {
     fontSize: 18,
     textAlign: "center",
     fontWeight: "bold",
+    marginRight: 20,
   },
   lineStyle: {
     alignSelf: "stretch",

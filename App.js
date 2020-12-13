@@ -1,18 +1,10 @@
-import React, { useState } from "react";
-import * as Font from "expo-font";
-import { StyleSheet, View, Text, Image } from "react-native";
+import React from "react";
+import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 
-import * as firebase from "firebase";
-import Keys from "./constants/api-keys";
 import { useAuth } from "./hooks/auth-hook";
 import TabNavigator from "./navigation/TabNavigator";
 import { AuthContext } from "./functions/auth-context";
-
-// Initialize Firebase
-if (!firebase.apps.length) {
-  firebase.initializeApp(Keys.FIREBASE_CONFIG);
-}
 
 function App() {
   const { token, login, logout, userId, name, image } = useAuth();
@@ -27,8 +19,7 @@ function App() {
         userId: userId,
         login: login,
         logout: logout,
-      }}
-    >
+      }}>
       <NavigationContainer>
         <TabNavigator />
       </NavigationContainer>
@@ -36,25 +27,6 @@ function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  imageContainer: {
-    width: 300,
-    height: 300,
-    borderRadius: 150,
-    borderWidth: 3,
-    borderColor: "black",
-    overflow: "hidden",
-    marginVertical: 30,
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-  },
-});
+const styles = StyleSheet.create({});
 
 export default App;
