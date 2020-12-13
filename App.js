@@ -1,49 +1,21 @@
 import React, { useState } from "react";
 import * as Font from "expo-font";
-import { AppLoading } from "expo";
 import { StyleSheet, View, Text, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 
 import * as firebase from "firebase";
-import keys from "./constants/api-keys";
-import { useAuth } from "./hooks/auth-hook";
+import Keys from "./constants/api-keys";
+import { useAuth } from "./hooks/auth-hook";c
 import TabNavigator from "./navigation/TabNavigator";
 import { AuthContext } from "./functions/auth-context";
 
 // Initialize Firebase
 if (!firebase.apps.length) {
-  firebase.initializeApp(keys.FIREBASE_CONFIG);
+  firebase.initializeApp(Keys.FIREBASE_CONFIG);
 }
 
-const fetchFonts = () => {
-  Font.loadAsync({
-    "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
-    "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
-  });
-};
-
 function App() {
-  const [fontsLoaded, setFontsLoaded] = useState(false);
   const { token, login, logout, userId, name, image } = useAuth();
-
-  if (!fontsLoaded) {
-    return (
-      <View style={styles.screen}>
-        <View style={styles.imageContainer}>
-          <Image
-            source={require("./assets/logo.png")}
-            style={styles.image}
-            resizeMode="cover"
-          />
-          <Text>Loading...</Text>
-          <AppLoading
-            startAsync={fetchFonts}
-            onFinish={() => setFontsLoaded(true)}
-          />
-        </View>
-      </View>
-    );
-  }
 
   return (
     <AuthContext.Provider
