@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import * as firebase from "firebase";
 import Keys from "./constants/api-keys";
-import { useAuth } from "./hooks/auth-hook";c
+import { useAuth } from "./hooks/auth-hook";
 import TabNavigator from "./navigation/TabNavigator";
 import { AuthContext } from "./functions/auth-context";
 
