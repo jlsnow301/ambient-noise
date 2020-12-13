@@ -53,7 +53,7 @@ const LoginScreen = (props) => {
     firebase.auth().onAuthStateChanged(function(user)
     {
       if(user) {
-        this.props.navigation.navigate('ProfileStack');
+        this.props.navigation.navigate('HomeStack');
       } else {
         this.props.navigation.navigate('LoginStack');
       }
