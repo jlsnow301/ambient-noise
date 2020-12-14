@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
 import Card from "../components/Card";
 import Colors from "../constants/colors";
@@ -12,6 +12,7 @@ import IconButton from "../components/IconButton";
 import PlayButton from "../components/PlayButton";
 import SoundScore from "../components/SoundScore";
 import { AuthContext } from "../functions/auth-context";
+import LoudnessRating from "../components/LoudnessRating";
 import RecordingDials from "../components/RecordingDials";
 
 const DetailsScreen = (props) => {
@@ -19,7 +20,6 @@ const DetailsScreen = (props) => {
   const [cardVisible, setCardVisible] = useState(false);
   const [cardContent, setCardContent] = useState(null);
   const [currentOption, setCurrentOption] = useState("");
-  const [loadedRatings, setLoadedRatings] = useState();
 
   const showOptionsHandler = (option) => {
     // This is kind of dumb that I do it in a state. But this
@@ -46,20 +46,6 @@ const DetailsScreen = (props) => {
     setCurrentOption("");
   };
 
-  useEffect(() => {
-    // ALL THIS JUST TO STOP SOME UNDEFINES AAAAAAA
-    if (!props.route.params.ratings || !props.route.params.ratings.length) {
-      setLoadedRatings("Loading...");
-      return;
-    }
-    // Get the average ratings
-    let ratings = Object.values(props.route.params.ratings);
-    let averageRating =
-      ratings.reduce((previous, current) => (current += previous)) /
-      ratings.length;
-    setLoadedRatings(averageRating);
-  }, []);
-
   return (
     <LinearGradient
       // Background Linear Gradient
@@ -69,7 +55,7 @@ const DetailsScreen = (props) => {
         <Card>
           <View style={styles.header}>
             <TitleText style={styles.titleText}>
-              {props.route.params?.title}
+              {props.route.params.title}
             </TitleText>
             <Ionicons name="ios-pin" size={25} color={Colors.accent} />
           </View>
@@ -80,12 +66,11 @@ const DetailsScreen = (props) => {
           </BodyText>
           <Text style={styles.attributeText}>Date Added:</Text>
           <BodyText style={styles.bodyText}>{props.route.params.date}</BodyText>
-          <Text style={styles.attributeText}>Average Loudness Rating:</Text>
-          <BodyText style={styles.bodyText}>{loadedRatings}</BodyText>
+          <LoudnessRating ratings={props.route.params.ratings} />
           <View style={styles.buttonContainer}>
-            <TouchableWithoutFeedback onPress={() => clearOptionsHandler()}>
+            <TouchableOpacity onPress={() => clearOptionsHandler()}>
               <PlayButton soundId={props.route.params.id} />
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
             <IconButton
               icon={
                 <FontAwesome5
@@ -175,6 +160,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    marginTop: 10,
     paddingHorizontal: 15,
   },
   card: {

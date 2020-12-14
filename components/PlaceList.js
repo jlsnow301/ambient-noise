@@ -7,6 +7,12 @@ import { getLocations } from "../functions/getLocations";
 
 LogBox.ignoreLogs(["Setting a timer"]);
 
+/* Generates a list based on locations fetched.
+  Usage: <PlaceList/>
+  TODO: Get a specific list from props. Pass this to fetch only that list.
+    <PlaceList listMode="recent"/>
+    getLocations(props.listMode);
+*/
 const PlaceList = (props) => {
   const [locations, setLocations] = useState({});
 
@@ -26,7 +32,7 @@ const PlaceList = (props) => {
       renderItem={(location) => (
         <TouchableOpacity
           onPress={() =>
-            props.navigation.navigate("DetailsStack", locations.item)
+            props.navigation.navigate("DetailsStack", location.item)
           }>
           <PlaceItem
             id={location.item.id}

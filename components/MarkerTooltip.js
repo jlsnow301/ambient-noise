@@ -7,18 +7,20 @@ import Card from "./Card";
 import Colors from "../constants/colors";
 import BodyText from "../components/BodyText";
 
+/* Displays a card component over a marker. 
+  Usage: <MarkerTooltip location={locationObject} navigation={props.navigation}/> 
+  Needs the props navigation object from a screen so that it can link on click.
+*/
 const MarkerTooltip = (props) => {
   return (
     <Callout
       tooltip={true}
-      onPress={() => props.navigation.navigate("DetailsStack", props.location)}
-    >
+      onPress={() => props.navigation.navigate("DetailsStack", props.location)}>
       <Card style={styles.card}>
         <View style={styles.header}>
           <Text style={styles.titleText}>{props.location.title}</Text>
           <Ionicons name="ios-pin" size={25} color={Colors.accent} />
         </View>
-
         <View style={styles.lineStyle} />
         <Text style={styles.attributeText}>Description:</Text>
         <BodyText style={styles.bodyText}>
@@ -38,21 +40,20 @@ export default MarkerTooltip;
 
 const styles = StyleSheet.create({
   card: {
-    width: 200,
-    maxWidth: "100%",
+    width: "100%",
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginHorizontal: 10,
   },
   titleText: {
     fontSize: 18,
     textAlign: "center",
     fontWeight: "bold",
+    marginRight: 20,
   },
   lineStyle: {
-    alignSelf:'stretch',
+    alignSelf: "stretch",
     borderWidth: 1,
     borderColor: "#808080",
     marginTop: 5,

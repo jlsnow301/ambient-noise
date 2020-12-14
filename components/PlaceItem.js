@@ -5,8 +5,7 @@ import { StyleSheet, Text, View } from "react-native";
    Usage: <PlaceItem OPTIONAL PROPS title={title} date={date} icon={icon}/>
    Where OPTIONAL PROPS: You can add in anything else you'd like to pass on.
    */
-
-const PlaceItem = props => {
+const PlaceItem = (props) => {
   return (
     <View style={styles.container}>
       {props.icon}

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*jshint esversion: 6 */
 import React, { useState, Component } from "react";
 import * as Font from "expo-font";
@@ -5,6 +6,12 @@ import { AppLoading } from "expo";
 import { StyleSheet, View, Text, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import {createStackNavigator} from '@react-navigation/stack';
+=======
+import React from "react";
+import { StyleSheet } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+
+>>>>>>> master
 import { useAuth } from "./hooks/auth-hook";
 import TabNavigator from "./navigation/TabNavigator";
 import { AuthContext } from "./functions/auth-context";
@@ -15,6 +22,7 @@ import keys from "./constants/api-keys";
 
 
 
+<<<<<<< HEAD
 
 const fetchFonts = () => {
   Font.loadAsync({
@@ -23,28 +31,10 @@ const fetchFonts = () => {
   });
 };
 
+=======
+>>>>>>> master
 function App() {
-  const [fontsLoaded, setFontsLoaded] = useState(false);
   const { token, login, logout, userId, name, image } = useAuth();
-
-  if (!fontsLoaded) {
-    return (
-      <View style={styles.screen}>
-        <View style={styles.imageContainer}>
-          <Image
-            source={require("./assets/logo.png")}
-            style={styles.image}
-            resizeMode="cover"
-          />
-          <Text>Loading...</Text>
-          <AppLoading
-            startAsync={fetchFonts}
-            onFinish={() => setFontsLoaded(true)}
-          />
-        </View>
-      </View>
-    );
-  }
 
   return (
     
@@ -57,9 +47,13 @@ function App() {
         userId: userId,
         login: login,
         logout: logout,
+<<<<<<< HEAD
       }}
     >
       
+=======
+      }}>
+>>>>>>> master
       <NavigationContainer>
         <TabNavigator />
       </NavigationContainer>
@@ -67,25 +61,6 @@ function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  imageContainer: {
-    width: 300,
-    height: 300,
-    borderRadius: 150,
-    borderWidth: 3,
-    borderColor: "black",
-    overflow: "hidden",
-    marginVertical: 30,
-  },
-  image: {
-    width: "100%",
-    height: "100%",
-  },
-});
+const styles = StyleSheet.create({});
 
 export default App;
