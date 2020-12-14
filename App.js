@@ -10,8 +10,6 @@ import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import keys from "./constants/api-keys";
 
-
-
 function App() {
   const { token, login, logout, userId, name, image } = useAuth();
 

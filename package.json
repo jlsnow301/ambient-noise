@@ -23,11 +23,15 @@
     "antd-mobile": "^2.3.4",
     "asyncStorage": "^0.1.0",
     "expo": "^40.0.0",
-<<<<<<< HEAD
+
     "expo-av": "~8.7.0",
     "expo-file-system": "~9.3.0",
     "expo-google-sign-in": "~8.4.0",
-=======
+
+    "expo-app-loading": "^1.0.1",
+    "expo-av": "~8.7.0",
+    "expo-file-system": "~9.3.0",
+
     "expo-app-loading": "^1.0.1",
     "expo-av": "~8.7.0",
     "expo-file-system": "~9.3.0",
