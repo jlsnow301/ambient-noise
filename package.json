@@ -54,7 +54,7 @@
     "react-navigation": "^4.4.3"
   },
   "devDependencies": {
-    "@babel/core": "~7.9.0"
+    "@babel/core": "^7.9.6"
   },
   "private": true,
   "name": "ambient-noise"
