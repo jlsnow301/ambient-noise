@@ -207,9 +207,4 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "center",
   },
-  // appleButton: {
-  //   width: 200,
-  //   height: 60,
-  //   margin: 10,
-  // },
 });
