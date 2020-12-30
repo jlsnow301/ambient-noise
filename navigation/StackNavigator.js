@@ -2,24 +2,25 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
+import NewScreen from "../screens/NewScreen";
 import HomeScreen from "../screens/HomeScreen";
+import MoreScreen from "../screens/MoreScreen";
 import LoginScreen from "../screens/LoginScreen";
 import SavedScreen from "../screens/SavedScreen";
 import RecentScreen from "../screens/RecentScreen";
 import SignupScreen from "../screens/SignupScreen";
 import DetailsScreen from "../screens/DetailsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
-import MoreScreen from "../screens/MoreScreen";
 
 import Colors from "../constants/colors";
 
 const HomeStack = createStackNavigator();
+const MoreStack = createStackNavigator();
 const LoginStack = createStackNavigator();
 const SavedStack = createStackNavigator();
 const RecentStack = createStackNavigator();
 const SignupStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
-const MoreStack = createStackNavigator();
 
 const defaultStyling = (route) => {
   return {
@@ -43,6 +44,11 @@ export const HomeStackNavigator = () => {
       <HomeStack.Screen
         name="DetailsStack"
         component={DetailsScreen}
+        options={({ route }) => defaultStyling(route)}
+      />
+      <HomeStack.Screen
+        name="NewStack"
+        component={NewScreen}
         options={({ route }) => defaultStyling(route)}
       />
     </HomeStack.Navigator>

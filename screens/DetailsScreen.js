@@ -13,7 +13,6 @@ import PlayButton from "../components/PlayButton";
 import SoundScore from "../components/SoundScore";
 import { AuthContext } from "../functions/auth-context";
 import LoudnessRating from "../components/LoudnessRating";
-import RecordingDials from "../components/RecordingDials";
 
 const DetailsScreen = (props) => {
   const auth = useContext(AuthContext);
