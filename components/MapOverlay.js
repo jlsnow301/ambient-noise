@@ -40,6 +40,7 @@ const MapOverlay = (props) => {
       longitude: location.coords.longitude,
       longitudeDelta: 0.07,
     });
+    props.updateUserLocation(currentRegion);
   };
 
   // Grab the locations from getLocations

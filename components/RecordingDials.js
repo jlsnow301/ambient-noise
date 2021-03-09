@@ -176,6 +176,7 @@ const RecordingDials = (props) => {
     setModalVisible(true);
     saveRecordingHandler();
     submitUserRecordingLocationHandler();
+    props.onSave(true);
   };
 
   const playRecordingHandler = async () => {
